@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: Dockerfile-db
+    container_name: db
+    networks:
+      - chi101-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=chi101
+    tty: true
+    stdin_open: true
+    restart: always
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile-app
+    container_name: app
+    networks:
+      - chi101-net
+    volumes:
+      - ./app/:/app/
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+    restart: always
+networks:
+  chi101-net:
+    driver: bridge

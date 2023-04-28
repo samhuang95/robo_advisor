@@ -1,0 +1,12 @@
+FROM python:3.9.16-bullseye
+
+ADD requirements.txt ./
+ADD ./app /app
+WORKDIR /app
+
+RUN pip install --upgrade pip
+RUN pip install -r $pwd/requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
