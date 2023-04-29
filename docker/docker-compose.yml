@@ -8,9 +8,6 @@ services:
     container_name: db
     networks:
       - chi101-net
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=chi101
     tty: true
     stdin_open: true
     restart: always

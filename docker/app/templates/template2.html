@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>機器顧問儀表板</title>
+  </head>
+  <body>
+    <div class="main">
+    </div>
+    <div class="sidebar">
+      <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
+      <h2>Our Team Name</h2>
+      <ul>
+        <li><a href="/1">賣場成效總攬</a></li>
+        <li>商品銷售總攬</li>
+        <li><a href="/3">商品執行策略</a></li>
+        <li><a href="/4">競品數據監測</a></li>
+        <li><a href="/5">Facebook數據資料</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

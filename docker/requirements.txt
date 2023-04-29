@@ -1,4 +1,4 @@
-Flask
-pymysql
-matplotlib
 cryptography
+Flask
+matplotlib
+pymysql

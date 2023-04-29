@@ -1,53 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-tw">
   <head>
-    <meta charset='UTF-8'>
-    <title>Flask HTML Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>機器顧問儀表板</title>
   </head>
   <body>
-    <h1>{{ message }}</h1>
-    <form action='{{ url_for("submit") }}' method='POST' style='display: inline-block;'>
-      <button type='submit' name='button' value='5'>資料庫前五筆資料</button>
-      <button type='submit' name='button' value='10'>資料庫前十筆資料</button>
-      <button type='submit' name='button' value='line'>每年發文數折線圖</button>
-      <button type='submit' name='button' value='bar'>每年發文數長條圖</button>
-    </form>
-    <form id='select-form' action='{{ url_for("submit") }}' method='POST'>
-      {% set selected_value = selected_value | default('0') %}
-      <select name='options' onchange='document.querySelector("#select-form").submit()'>
-        <option value='0' {% if selected_value == '0' %} selected {% endif %} disabled>請選擇月份</option>
-        <option value='1' {% if selected_value == '1' %} selected {% endif %}>2023年1月</option>
-        <option value='2' {% if selected_value == '2' %} selected {% endif %}>2023年2月</option>
-        <option value='3' {% if selected_value == '3' %} selected {% endif %}>2023年3月</option>
-        <option value='4' {% if selected_value == '4' %} selected {% endif %}>2023年4月</option>
-      </select>
-    </form>
-    <br>
-    {% set chart = chart | default(None) %}
-    {% if chart != None %}
-    <h1>{{ chart.title() }} Chart</h1>
-    <img src="{{ url_for('static', filename='images/chart.png') }}" />
-    {% endif %}
-    {% set data = data | default(None) %}
-    {% if data != None %}
-    <table style='border-collapse: collapse;'>
-      <thead>
-        <tr>
-          {% for key in data[0].keys() %}
-          <th style='border: 1px solid black;'>{{ key }}</th>
+    <div class="main">
+      <h1>{{ message }}</h1>
+      <form action='{{ url_for("submit") }}' method='POST' style='display: inline-block;'>
+        <button type='submit' name='button' value='5'>資料庫前五筆資料</button>
+        <button type='submit' name='button' value='10'>資料庫前十筆資料</button>
+        <button type='submit' name='button' value='line'>每年發文數折線圖</button>
+        <button type='submit' name='button' value='bar'>每年發文數長條圖</button>
+      </form>
+      <form id='select-form' action='{{ url_for("submit") }}' method='POST'>
+        {% set selected_value = selected_value | default('0') %}
+        <select name='options' onchange='document.querySelector("#select-form").submit()'>
+          <option value='0' {% if selected_value == '0' %} selected {% endif %} disabled>請選擇月份</option>
+          <option value='1' {% if selected_value == '1' %} selected {% endif %}>2023年1月</option>
+          <option value='2' {% if selected_value == '2' %} selected {% endif %}>2023年2月</option>
+          <option value='3' {% if selected_value == '3' %} selected {% endif %}>2023年3月</option>
+          <option value='4' {% if selected_value == '4' %} selected {% endif %}>2023年4月</option>
+        </select>
+      </form>
+      <br>
+      {% set chart = chart | default(None) %}
+      {% if chart != None %}
+      <h1>{{ chart.title() }} Chart</h1>
+      <img src="{{ url_for('static', filename='images/chart.png') }}" />
+      {% endif %}
+      {% set data = data | default(None) %}
+      {% if data != None %}
+      <table style='border-collapse: collapse;'>
+        <thead>
+          <tr>
+            {% for key in data[0].keys() %}
+            <th style='border: 1px solid black;'>{{ key }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          <tr>
+            {% for key in item.keys() %}
+            <td style='border: 1px solid black;'>{{ item[key] }}</td>
+            {% endfor %}
+          </tr>
           {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in data %}
-        <tr>
-          {% for key in item.keys() %}
-          <td style='border: 1px solid black;'>{{ item[key] }}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% endif %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+    <div class="sidebar">
+      <img src="{{ url_for('static', filename='images/logo.png') }}">
+      <h2>Our Team Name</h2>
+      <ul>
+        <li><a href="/1">賣場成效總攬</a></li>
+        <li><a href="/2">商品銷售總攬</a></li>
+        <li><a href="/3">商品執行策略</a></li>
+        <li><a href="/4">競品數據監測</a></li>
+        <li><a href="/5">Facebook數據資料</a></li>
+      </ul>
+    </div>
   </body>
 </html>
