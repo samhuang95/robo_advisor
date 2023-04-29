@@ -4,7 +4,6 @@ from draw_chart import DrawChart
 
 app = Flask(__name__)
 app.debug = True
-app.config
 
 @app.route('/')
 def index():
@@ -41,14 +40,14 @@ def submit():
   if request.form.get('button') == 'line':
     table = sql_command('SELECT DATE_FORMAT(time, "%Y") AS year, COUNT(*) FROM posts GROUP BY year ORDER BY year')
     x, y = [element[0] for element in table], [element[1] for element in table]
-    DrawChart().line(x, y, app.root_path)
-    return render_template('index.html', chart='line')
+    chart_html = DrawChart().line('Posts of Year', 'Year', 'Posts', x, y)
+    return render_template('index.html', chart_html=chart_html)
   
   if request.form.get('button') == 'bar':
     table = sql_command('SELECT DATE_FORMAT(time, "%Y") AS year, COUNT(*) FROM posts GROUP BY year ORDER BY year')
     x, y = [element[0] for element in table], [element[1] for element in table]
-    DrawChart().bar(x, y, app.root_path)
-    return render_template('index.html', chart='bar')
+    chart_html = DrawChart().bar('Posts of Year', 'Year', 'Posts', x, y)
+    return render_template('index.html', chart_html=chart_html)
 
   value = request.form.get('button')
   table = sql_command(f'SELECT time, likes, reactions, shares, comments FROM posts ORDER BY time DESC LIMIT {value}')

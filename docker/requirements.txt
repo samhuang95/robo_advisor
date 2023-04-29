@@ -1,4 +1,4 @@
 cryptography
 Flask
-matplotlib
+pyecharts
 pymysql

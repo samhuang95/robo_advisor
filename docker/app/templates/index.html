@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>機器顧問儀表板</title>
   </head>
   <body>
@@ -26,11 +26,7 @@
         </select>
       </form>
       <br>
-      {% set chart = chart | default(None) %}
-      {% if chart != None %}
-      <h1>{{ chart.title() }} Chart</h1>
-      <img src="{{ url_for('static', filename='images/chart.png') }}" />
-      {% endif %}
+      <div id="chart-container">{{ chart_html|safe }}</div>
       {% set data = data | default(None) %}
       {% if data != None %}
       <table style='border-collapse: collapse;'>
@@ -54,7 +50,7 @@
       {% endif %}
     </div>
     <div class="sidebar">
-      <img src="{{ url_for('static', filename='images/logo.png') }}">
+      <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
       <h2>Our Team Name</h2>
       <ul>
         <li><a href="/1">賣場成效總攬</a></li>
