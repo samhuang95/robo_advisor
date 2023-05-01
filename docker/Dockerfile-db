@@ -4,3 +4,5 @@ COPY ./mysql_data/. /docker-entrypoint-initdb.d/
 
 ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=chi101
+ENV MYSQL_USER=chi101
+ENV MYSQL_PASSWORD=chi101

@@ -4,8 +4,8 @@ def sql_command(sql: str) -> tuple:
   conn = pymysql.connect(
     host = 'db',
     database = 'chi101',
-    user = 'root',
-    password = 'root',
+    user = 'chi101',
+    password = 'chi101',
     charset = 'utf8mb4'
   )
 
