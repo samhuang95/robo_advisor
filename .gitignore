@@ -2,4 +2,7 @@ docker/**/__pycache__
 docker/data/auto.cnf
 docker/data/ib_buffer_pool
 docker/data/mysql.sock
-docker/test
+docker/data/#innodb_temp
+docker/data/*.dblwr
+docker/data/undo_*
+docker/data/binlog.*
