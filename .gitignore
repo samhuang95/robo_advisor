@@ -5,4 +5,16 @@ docker/data/mysql.sock
 docker/data/#innodb_temp
 docker/data/*.dblwr
 docker/data/undo_*
+docker/data/binlog.index
 docker/data/binlog.*
+docker/data/ca-key.pem
+docker/data/ca.pem
+docker/data/server-cert.pem
+docker/data/server-key.pem
+docker/data/client-key.pem
+docker/data/client-cert.pem
+docker/data/public_key.pem
+docker/data/private_key.pem
+docker/data/ibtmp1
+docker/data/#innodb_redo/*_tmp
+docker/data/mysql/general_log.CSV
