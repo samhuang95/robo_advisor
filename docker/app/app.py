@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from functions.connect_to_db import SQLcommand
-from draw_chart import DrawChart
+from functions.draw_chart import DrawChart
 
 app = Flask(__name__)
 app.debug = True
