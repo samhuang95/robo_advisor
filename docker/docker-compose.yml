@@ -8,11 +8,6 @@ services:
       - chi101-net
     volumes:
       - ./data:/var/lib/mysql
-    # environment:
-    #   - MYSQL_ROOT_PASSWORD=root
-    #   - MYSQL_DATABASE=chi101
-    #   - MYSQL_USER=chi101
-    #   - MYSQL_PASSWORD=chi101
     restart: always
   app:
     build: ./
