@@ -3,7 +3,5 @@ docker/data/*
 !docker/data/ibdata1
 !docker/data/mysql.ibd
 !docker/data/chi101
-!docker/data/#innodb_redo
-docker/data/#innodb_redo/*
-!docker/data/mysql
-docker/data/mysql/*
+!docker/data/#innodb_redo/dummy
+!docker/data/mysql/dummy
