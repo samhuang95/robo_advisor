@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
   db:
-    build:
-      context: ./
-      dockerfile: Dockerfile-db
+    image: mysql
     container_name: db
     networks:
       - chi101-net
-    tty: true
-    stdin_open: true
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=chi101
+      - MYSQL_PASSWORD=chi101
     restart: always
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile-app
+    build: ./
     container_name: app
     networks:
       - chi101-net
@@ -22,10 +22,10 @@ services:
       - ./app/:/app/
     ports:
       - 5000:5000
+    env_file:
+      - ./.env
     depends_on:
       - db
-    tty: true
-    stdin_open: true
     restart: always
 networks:
   chi101-net:

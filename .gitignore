@@ -1,1 +1,2 @@
-docker/app/__pycache__
+docker/**/__pycache__
+docker/data
