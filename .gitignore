@@ -1,2 +1,5 @@
 docker/**/__pycache__
-docker/data
+docker/data/auto.cnf
+docker/data/ib_buffer_pool
+docker/data/mysql.sock
+docker/test
