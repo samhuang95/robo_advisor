@@ -4,14 +4,15 @@ services:
   db:
     image: mysql
     container_name: chi101-db
+    restart: always
     networks:
       - chi101-net
     volumes:
       - ./data:/var/lib/mysql
-    restart: always
   app:
     build: ./
     container_name: chi101-app
+    restart: always
     networks:
       - chi101-net
     volumes:
@@ -22,7 +23,6 @@ services:
       - ./.env
     depends_on:
       - db
-    restart: always
 networks:
   chi101-net:
     driver: bridge

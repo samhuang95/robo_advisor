@@ -9,13 +9,13 @@
   <body>
     <div class="main">
       <h1>{{ message }}</h1>
-      <form action='{{ url_for("submit") }}' method='POST' style='display: inline-block;'>
+      <form action='{{ url_for("index") }}' method='POST' style='display: inline-block;'>
         <button type='submit' name='button' value='5'>資料庫前五筆資料</button>
         <button type='submit' name='button' value='10'>資料庫前十筆資料</button>
         <button type='submit' name='button' value='line'>每年發文數折線圖</button>
         <button type='submit' name='button' value='bar'>每年發文數長條圖</button>
       </form>
-      <form id='select-form' action='{{ url_for("submit") }}' method='POST'>
+      <form id='select-form' action='{{ url_for("index") }}' method='POST'>
         {% set selected_value = selected_value | default('0') %}
         <select name='options' onchange='document.querySelector("#select-form").submit()'>
           <option value='0' {% if selected_value == '0' %} selected {% endif %} disabled>請選擇月份</option>
