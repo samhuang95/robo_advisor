@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from functions.connect_to_db import SQLcommand
 from functions.draw_chart import DrawChart
+from datetime import datetime
 
 app = Flask(__name__)
 app.debug = True
@@ -27,6 +28,21 @@ def index():
     x, y = [element[0] for element in dataset], [element[1] for element in dataset]
     chart_html = DrawChart().bar('Posts of Year', 'Year', 'Posts', x, y)
     return render_template('index.html', chart_html=chart_html)
+  
+  if request.form.get('button') == 'date':
+    start = request.form.get('start')
+    end = request.form.get('end')
+    start_date = datetime.strptime(start, '%Y-%m-%d')
+    end_date = datetime.strptime(end, '%Y-%m-%d')
+    if start_date < end_date:
+      return render_template('test.html', start=start, end=end)
+    else:
+      return render_template('index.html', message='結束日期不能早於開始日期！')
+  
+  if request.form.get('button') == 'login':
+    account = request.form.get('account')
+    password = request.form.get('password')
+    return render_template('test.html', start=account, end=password)
 
   value = request.form.get('button')
   dataset = SQLcommand().get(f'SELECT time, likes, reactions, shares, comments FROM facebook_posts ORDER BY time DESC LIMIT {value}')

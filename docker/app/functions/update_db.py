@@ -46,19 +46,12 @@ def get_post_data(fanpage_access_token: str) -> None:
 
   for post_data in data['data']:
     post_id = post_data['id'].split('_')[1]
-    if SQLcommand().get(f'SELECT id FROM posts WHERE id = {post_id}'): continue
+    if SQLcommand().get(f'SELECT id FROM facebook_posts WHERE id = {post_id}'): continue
 
     post_time = post_data['created_time'].replace('T', ' ').split('+')[0]
     if (datetime.utcnow() - datetime.strptime(post_time, '%Y-%m-%d %H:%M:%S')).days < 7: continue
 
-    tag = False
     post_text = post_data['message'] if 'message' in post_data else ''
-    for text in ['中獎', '得獎', '獲獎', '抽獎', '徵才', '報名', '名額', '活動']:
-      if text in post_text:
-        tag = True
-        break
-    if tag: continue
-
     post_likes = post_data['likes']['summary']['total_count']
     post_reactions = post_data['reactions']['summary']['total_count']
     post_shares = post_data['shares']['count'] if 'shares' in post_data else 0
@@ -66,7 +59,7 @@ def get_post_data(fanpage_access_token: str) -> None:
     post_popular = post_data['is_popular']
     
     values_string = str(tuple([post_id, post_time, post_text, post_likes, post_reactions, post_shares, post_comments, post_popular] + get_insights(post_data['insights']['data'])))
-    SQLcommand().modify(f'INSERT INTO posts (id, time, text, likes, reactions, shares, comments, popular, post_impressions, post_impressions_unique, post_impressions_fan, post_impressions_fan_unique, post_impressions_viral, post_impressions_viral_unique, post_impressions_nonviral, post_impressions_nonviral_unique, post_engaged_users, post_negative_feedback, post_negative_feedback_unique, post_engaged_fan, post_clicks, post_clicks_unique, post_negative_feedback_by_type_hide_all_clicks, post_negative_feedback_by_type_hide_clicks, post_negative_feedback_by_type_unique_hide_all_clicks, post_negative_feedback_by_type_unique_hide_clicks, post_clicks_by_type_other_clicks, post_clicks_by_type_photo_view, post_clicks_by_type_link_clicks, post_clicks_by_type_unique_other_clicks, post_clicks_by_type_unique_photo_view, post_clicks_by_type_unique_link_clicks, post_reactions_by_type_total_like, post_reactions_by_type_total_love, post_reactions_by_type_total_wow, post_reactions_by_type_total_haha, post_reactions_by_type_total_sorry, post_reactions_by_type_total_anger) VALUES {values_string}')
+    SQLcommand().modify(f'INSERT INTO facebook_posts (id, time, text, likes, reactions, shares, comments, popular, post_impressions, post_impressions_unique, post_impressions_fan, post_impressions_fan_unique, post_impressions_viral, post_impressions_viral_unique, post_impressions_nonviral, post_impressions_nonviral_unique, post_engaged_users, post_negative_feedback, post_negative_feedback_unique, post_engaged_fan, post_clicks, post_clicks_unique, post_negative_feedback_by_type_hide_all_clicks, post_negative_feedback_by_type_hide_clicks, post_negative_feedback_by_type_unique_hide_all_clicks, post_negative_feedback_by_type_unique_hide_clicks, post_clicks_by_type_other_clicks, post_clicks_by_type_photo_view, post_clicks_by_type_link_clicks, post_clicks_by_type_unique_other_clicks, post_clicks_by_type_unique_photo_view, post_clicks_by_type_unique_link_clicks, post_reactions_by_type_total_like, post_reactions_by_type_total_love, post_reactions_by_type_total_wow, post_reactions_by_type_total_haha, post_reactions_by_type_total_sorry, post_reactions_by_type_total_anger) VALUES {values_string}')
 
 
 if __name__ == '__main__':

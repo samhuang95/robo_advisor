@@ -8,7 +8,6 @@ services:
     networks:
       - net
     volumes:
-      - ./database:/database
       - ./data:/var/lib/mysql
   app:
     build: ./
