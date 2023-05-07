@@ -2,7 +2,7 @@ import pymysql
 
 class SQLcommand:
   conn = pymysql.connect(
-    host = 'chi101-db',
+    host = 'db',
     database = 'chi101',
     user = 'chi101',
     password = 'chi101',

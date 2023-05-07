@@ -3,18 +3,19 @@ version: '3.8'
 services:
   db:
     image: mysql
-    container_name: chi101-db
+    container_name: db
     restart: always
     networks:
-      - chi101-net
+      - net
     volumes:
+      - ./database:/database
       - ./data:/var/lib/mysql
   app:
     build: ./
-    container_name: chi101-app
+    container_name: app
     restart: always
     networks:
-      - chi101-net
+      - net
     volumes:
       - ./app:/app
     ports:
@@ -24,5 +25,5 @@ services:
     depends_on:
       - db
 networks:
-  chi101-net:
+  net:
     driver: bridge
