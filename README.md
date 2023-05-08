@@ -18,3 +18,15 @@
 * 數據資料夾
 > 環境建構<br>
 * 可以使用 docker-composed 安裝完成
+
+# 環境建置說明
+1. 將檔案拉至本地端
+    ```
+    git clone https://github.com/samhuang95/robo_advisor.git
+    ```
+2. 建立docker環境
+    ```
+    cd ./docker
+    docker compose up -d
+    ```
+3. 建置完畢 http://localhost:5000/

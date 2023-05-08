@@ -2,31 +2,27 @@ version: '3.8'
 
 services:
   db:
-    build:
-      context: ./
-      dockerfile: Dockerfile-db
+    image: mysql
     container_name: db
-    networks:
-      - chi101-net
-    tty: true
-    stdin_open: true
     restart: always
-  app:
-    build:
-      context: ./
-      dockerfile: Dockerfile-app
-    container_name: app
     networks:
-      - chi101-net
+      - net
     volumes:
-      - ./app/:/app/
+      - ./data:/var/lib/mysql
+  app:
+    build: ./
+    container_name: app
+    restart: always
+    networks:
+      - net
+    volumes:
+      - ./app:/app
     ports:
       - 5000:5000
+    env_file:
+      - ./.env
     depends_on:
       - db
-    tty: true
-    stdin_open: true
-    restart: always
 networks:
-  chi101-net:
+  net:
     driver: bridge

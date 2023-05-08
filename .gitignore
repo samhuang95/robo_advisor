@@ -1,1 +1,7 @@
-docker/app/__pycache__
+docker/**/__pycache__
+docker/data/*
+!docker/data/ibdata1
+!docker/data/mysql.ibd
+!docker/data/chi101
+!docker/data/#innodb_redo/dummy
+!docker/data/mysql/dummy

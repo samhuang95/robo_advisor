@@ -2,3 +2,4 @@ cryptography
 Flask
 pyecharts
 pymysql
+requests
