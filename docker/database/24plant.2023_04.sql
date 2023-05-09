@@ -1,1 +1,0 @@
-SELECT * FROM shopee_plants_etldata.plants;
