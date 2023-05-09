@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `shopee_plants_etldata` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `shopee_plants_etldata`;
+CREATE DATABASE  IF NOT EXISTS `chi101` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `chi101`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: shopee_plants_etldata
+-- Host: 127.0.0.1    Database: chi101
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
