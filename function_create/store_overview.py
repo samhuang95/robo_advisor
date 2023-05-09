@@ -43,9 +43,9 @@ def daily_data():
     return_visitors = "SELECT return_visitors FROM product_detail WHERE date_time = CURDATE()-1;"
     return return_visitors
     product_page_views = "SELECT product_page_views FROM product_detail WHERE date_time = CURDATE()-1;"
-    return product_page_views
+    # return product_page_views
     search_clicks = "SELECT search_clicks FROM product_detail WHERE date_time = CURDATE()-1;"
-    return search_clicks
+    return search_clicks, product_page_views
 
 
 
@@ -55,6 +55,7 @@ def daily_data():
 
 
 def daily_report():
+    data , data2= daily_data()
     if yday_event == 1:
         step_times = step_times / 82 * 56
         new_visitors = new_visitors / 221 * 20
@@ -107,6 +108,7 @@ def daily_insight():
         if search_clicks < 36:
             search_clicks = 36 - search_clicks
             return f"搜尋點擊低於平均{search_clicks}次"
+        # LIST
 
 
 
