@@ -2,6 +2,33 @@ import pandas as pd
 import configparser
 import mysql.connector
 
+# download data from shopee's background
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 讀取 CSV 檔案
 data = pd.read_csv(f'export_report.parentskudetail.{today()}_{}.csv')
 # export_report.parentskudetail.20210430_20210430
