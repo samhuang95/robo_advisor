@@ -3,3 +3,7 @@ Flask
 pyecharts
 pymysql
 requests
+selenium-wire
+pandas 
+webdriver_manager
+python-time
