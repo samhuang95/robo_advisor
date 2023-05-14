@@ -1,4 +1,5 @@
 # 登入蝦皮流程
+from pandas import options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from seleniumwire import webdriver
 from selenium.webdriver import Chrome
@@ -17,7 +18,7 @@ password = 'Qqaz0911'
 # 商品表現網頁
 url = 'https://shopee.tw/seller/login?next=https%3A%2F%2Fseller.shopee.tw%2Fdatacenter%2Fproducts%2Fanalysis%2Fperformance'
 
-service = ChromeService(executable_path='./')
+service = ChromeService(executable_path='./chromedriver.exe')
 
 # 避免 chrome 跳出要求權限的顯示通知
 # 創建 Preferences 物件
@@ -28,12 +29,11 @@ prefs = {
     'profile.default_content_setting_values.notifications': 2,
     'profile.default_content_settings.popups': 0,
     'download.default_directory': '/path/to/download/directory',
-    'profile.content_settings.automatic_downloads': 1
+    'profile.default_content_setting_values.automatic_downloads': 1
 }
 
 option.add_experimental_option('prefs', prefs)
 
-driver = webdriver.Chrome(service=service, options = option)
 
 driver = webdriver.Chrome(service=service, options = option)
 driver.get(url)
@@ -49,7 +49,7 @@ driver.find_elements(By.CSS_SELECTOR, 'button')[2].click()
 # -----------------------------------------------
 ## update product_detail data
 # 進到商品>商品表現
-time.sleep(random.randint(3., 6.))
+time.sleep(random.randint(20., 30.))
 # 選擇日期
 element = driver.find_element(By.CLASS_NAME ,'bi-date-input')
 driver.execute_script("arguments[0].click();", element)
@@ -59,7 +59,7 @@ time.sleep(random.randint(3., 6.))
 element = driver.find_elements(By.CLASS_NAME ,'shopee-date-shortcut-item')[1]
 driver.execute_script("arguments[0].click();", element)
 
-time.sleep(random.randint(3., 6.))
+time.sleep(random.randint(40., 50.))
 # 點擊下載
 element = driver.find_elements(By.CLASS_NAME ,'shopee-button')[2]
 driver.execute_script("arguments[0].click();", element)
@@ -92,7 +92,7 @@ time.sleep(random.randint(3., 6.))
 element = driver.find_elements(By.CLASS_NAME ,'shopee-date-shortcut-item')[1]
 driver.execute_script("arguments[0].click();", element)
 
-time.sleep(random.randint(3., 6.))
+time.sleep(random.randint(40., 50.))
 # 點擊下載
 element = driver.find_elements(By.CLASS_NAME ,'track-click-normal-export')[0]
 driver.execute_script("arguments[0].click();", element)
@@ -115,7 +115,7 @@ time.sleep(random.randint(3., 6.))
 element = driver.find_elements(By.CLASS_NAME ,'shopee-date-shortcut-item')[1]
 driver.execute_script("arguments[0].click();", element)
 
-time.sleep(random.randint(3., 6.))
+time.sleep(random.randint(40., 50.))
 # 點擊下載
 element = driver.find_elements(By.CLASS_NAME ,'track-click-normal-export')[0]
 driver.execute_script("arguments[0].click();", element)
@@ -130,35 +130,26 @@ driver.execute_script("arguments[0].click();", element)
 
 time.sleep(random.randint(3., 6.))
 # 點掉更新公告、歡迎頁
-try:
-    element = driver.find_elements(By.CLASS_NAME ,'shopee-button')[9]
-    driver.execute_script("arguments[0].click();", element)
-except:
-    pass
+
+element = driver.find_elements(By.CLASS_NAME ,'shopee-button')[9]
+driver.execute_script("arguments[0].click();", element)
+
 
 time.sleep(random.randint(3., 6.))
 # 選擇日期
-try:
-    element = driver.find_element(By.CLASS_NAME ,'bi-date-input')
-    driver.execute_script("arguments[0].click();", element)
-except:
-    pass
+element = driver.find_element(By.CLASS_NAME ,'bi-date-input')
+driver.execute_script("arguments[0].click();", element)
 
 time.sleep(random.randint(3., 6.))
 # 點掉教學蓋板
-try:
-    element = driver.find_elements(By.CLASS_NAME ,'shopee-button')[4]
-    driver.execute_script("arguments[0].click();", element)
-except:
-    pass
+element = driver.find_elements(By.CLASS_NAME ,'shopee-button')[4]
+driver.execute_script("arguments[0].click();", element)
 
 time.sleep(random.randint(3., 6.))
 # 選擇日期
-try:
-    element = driver.find_element(By.CLASS_NAME ,'bi-date-input')
-    driver.execute_script("arguments[0].click();", element)
-except:
-    pass
+element = driver.find_element(By.CLASS_NAME ,'bi-date-input')
+driver.execute_script("arguments[0].click();", element)
+
 
 time.sleep(random.randint(3., 6.))
 # 選擇昨天
@@ -166,7 +157,7 @@ element = driver.find_elements(By.CLASS_NAME ,'shopee-date-shortcut-item')[1]
 driver.execute_script("arguments[0].click();", element)
 
 
-time.sleep(random.randint(3., 6.))
+time.sleep(random.randint(40., 50.))
 # 點擊下載
 element = driver.find_elements(By.CLASS_NAME ,'track-click-normal-export')[0]
 driver.execute_script("arguments[0].click();", element)
