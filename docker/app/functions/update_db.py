@@ -1,6 +1,6 @@
-import requests, os
-from datetime import datetime
 from connect_to_db import SQLcommand
+from datetime import datetime
+import requests, os
 
 def get_insights(data: dict) -> list:
   insights_dict = {insights_data['name']: insights_data['values'][0]['value'] for insights_data in data}
@@ -63,6 +63,6 @@ def get_post_data(fanpage_access_token: str) -> None:
 
 
 if __name__ == '__main__':
-  fanpage_access_token = os.environ.get('FANPAGE_ACCESS_TOKEN')
+  fanpage_access_token = os.getenv('FANPAGE_ACCESS_TOKEN')
   get_post_data(fanpage_access_token)
   print('已完成資料庫更新！')

@@ -1,0 +1,219 @@
++------------------+
+| Tables_in_chi101 |
++------------------+
+| facebook_posts   |
+| offical_data     |
+| plants           |
+| product_detail   |
+| product_overview |
+| products_info    |
+| project_stats    |
+| traffic_overview |
+| user_data        |
++------------------+
+
+DESCRIBE facebook_posts
++-------------------------------------------------------+------------+------+-----+---------+-------+
+| Field                                                 | Type       | Null | Key | Default | Extra |
++-------------------------------------------------------+------------+------+-----+---------+-------+
+| id                                                    | bigint     | NO   | PRI | NULL    |       |
+| time                                                  | datetime   | YES  |     | NULL    |       |
+| text                                                  | text       | YES  |     | NULL    |       |
+| likes                                                 | int        | YES  |     | NULL    |       |
+| reactions                                             | int        | YES  |     | NULL    |       |
+| shares                                                | int        | YES  |     | NULL    |       |
+| comments                                              | int        | YES  |     | NULL    |       |
+| popular                                               | tinyint(1) | YES  |     | NULL    |       |
+| post_impressions                                      | int        | YES  |     | NULL    |       |
+| post_impressions_unique                               | int        | YES  |     | NULL    |       |
+| post_impressions_fan                                  | int        | YES  |     | NULL    |       |
+| post_impressions_fan_unique                           | int        | YES  |     | NULL    |       |
+| post_impressions_viral                                | int        | YES  |     | NULL    |       |
+| post_impressions_viral_unique                         | int        | YES  |     | NULL    |       |
+| post_impressions_nonviral                             | int        | YES  |     | NULL    |       |
+| post_impressions_nonviral_unique                      | int        | YES  |     | NULL    |       |
+| post_engaged_users                                    | int        | YES  |     | NULL    |       |
+| post_negative_feedback                                | int        | YES  |     | NULL    |       |
+| post_negative_feedback_unique                         | int        | YES  |     | NULL    |       |
+| post_engaged_fan                                      | int        | YES  |     | NULL    |       |
+| post_clicks                                           | int        | YES  |     | NULL    |       |
+| post_clicks_unique                                    | int        | YES  |     | NULL    |       |
+| post_negative_feedback_by_type_hide_all_clicks        | int        | YES  |     | NULL    |       |
+| post_negative_feedback_by_type_hide_clicks            | int        | YES  |     | NULL    |       |
+| post_negative_feedback_by_type_unique_hide_all_clicks | int        | YES  |     | NULL    |       |
+| post_negative_feedback_by_type_unique_hide_clicks     | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_other_clicks                      | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_photo_view                        | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_link_clicks                       | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_unique_other_clicks               | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_unique_photo_view                 | int        | YES  |     | NULL    |       |
+| post_clicks_by_type_unique_link_clicks                | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_like                     | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_love                     | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_wow                      | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_haha                     | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_sorry                    | int        | YES  |     | NULL    |       |
+| post_reactions_by_type_total_anger                    | int        | YES  |     | NULL    |       |
++-------------------------------------------------------+------------+------+-----+---------+-------+
+
+DESCRIBE offical_data
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| date           | date         | NO   | PRI | NULL    |       |
+| shop_id        | int          | NO   | PRI | NULL    |       |
+| shop_name      | varchar(100) | NO   |     | NULL    |       |
+| fans_count     | int          | NO   |     | NULL    |       |
+| products_count | int          | NO   |     | NULL    |       |
+| followers      | int          | NO   |     | NULL    |       |
+| rating         | float        | NO   |     | NULL    |       |
+| rating_counts  | int          | NO   |     | NULL    |       |
+| response_rate  | float        | NO   |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+
+DESCRIBE plants
++-----------------+---------------+------+-----+---------+-------+
+| Field           | Type          | Null | Key | Default | Extra |
++-----------------+---------------+------+-----+---------+-------+
+| item_id         | bigint        | NO   | PRI | NULL    |       |
+| shop_id         | bigint        | NO   |     | NULL    |       |
+| name            | text          | NO   |     | NULL    |       |
+| link            | text          | NO   |     | NULL    |       |
+| stock           | int           | YES  |     | NULL    |       |
+| price           | decimal(10,2) | NO   |     | NULL    |       |
+| description     | text          | YES  |     | NULL    |       |
+| historical_sold | int           | YES  |     | NULL    |       |
+| liked_count     | int           | YES  |     | NULL    |       |
+| shop_location   | text          | YES  |     | NULL    |       |
+| cmt_count       | int           | YES  |     | NULL    |       |
+| five_star       | int           | YES  |     | NULL    |       |
+| four_star       | int           | YES  |     | NULL    |       |
+| three_star      | int           | YES  |     | NULL    |       |
+| two_star        | int           | YES  |     | NULL    |       |
+| one_star        | int           | YES  |     | NULL    |       |
+| rating_star     | decimal(5,2)  | YES  |     | NULL    |       |
+| moulty_sales    | varchar(255)  | YES  |     | NULL    |       |
+| plant_type      | text          | NO   |     | NULL    |       |
+| ETL_DATE        | datetime      | YES  |     | NULL    |       |
++-----------------+---------------+------+-----+---------+-------+
+
+DESCRIBE product_detail
++-------------------------------------+--------------+------+-----+---------+-------+
+| Field                               | Type         | Null | Key | Default | Extra |
++-------------------------------------+--------------+------+-----+---------+-------+
+| date_time                           | datetime     | NO   | PRI | NULL    |       |
+| product_name                        | text         | NO   |     | NULL    |       |
+| product_id                          | varchar(20)  | NO   | PRI | NULL    |       |
+| product_visitors                    | int          | NO   |     | 0       |       |
+| product_page_views                  | int          | NO   |     | 0       |       |
+| product_page_bounce_unique_visitors | int          | NO   |     | 0       |       |
+| product_page_bounce_rate            | decimal(5,4) | NO   |     | 0.0000  |       |
+| search_clicks                       | int          | NO   |     | 0       |       |
+| product_likes                       | int          | NO   |     | 0       |       |
+| product_page_visitors(add_to_cart)  | int          | NO   |     | 0       |       |
+| add_to_cart(pcs)                    | int          | NO   |     | 0       |       |
+| add_to_cart_conversion_rate         | decimal(5,4) | NO   |     | 0.0000  |       |
+| total_buyers                        | int          | NO   |     | 0       |       |
+| sale_products                       | int          | NO   |     | 0       |       |
+| total_sales                         | int          | NO   |     | 0       |       |
+| sales_conversion_rate               | decimal(5,4) | NO   |     | 0.0000  |       |
+| ??(?????)                           | int          | NO   |     | 0       |       |
+| ??(?????)                           | int          | NO   |     | 0       |       |
+| ???(?????) (TWD)                    | int          | NO   |     | 0       |       |
+| ???(?????)                          | int          | NO   |     | 0       |       |
+| ??????????????                      | decimal(5,4) | NO   |     | 0.0000  |       |
++-------------------------------------+--------------+------+-----+---------+-------+
+
+DESCRIBE product_overview
++-------------------------------------+--------------+------+-----+---------+-------+
+| Field                               | Type         | Null | Key | Default | Extra |
++-------------------------------------+--------------+------+-----+---------+-------+
+| date_time                           | date         | NO   | PRI | NULL    |       |
+| product_visitors                    | int          | NO   |     | NULL    |       |
+| product_page_views                  | int          | NO   |     | NULL    |       |
+| view_products                       | int          | NO   |     | NULL    |       |
+| product_page_bounce_unique_visitors | int          | NO   |     | NULL    |       |
+| product_page_bounce_rate            | decimal(5,4) | NO   |     | NULL    |       |
+| search_clicks                       | int          | NO   |     | NULL    |       |
+| product_likes                       | int          | NO   |     | NULL    |       |
+| product_page_visitors(add_to_cart)  | int          | YES  |     | NULL    |       |
+| add_to_cart(pcs)                    | int          | NO   |     | NULL    |       |
+| add_to_cart_conversion_rate         | decimal(5,4) | NO   |     | NULL    |       |
+| total_buyers                        | int          | NO   |     | NULL    |       |
+| sale_products                       | int          | NO   |     | NULL    |       |
+| ??????                              | int          | NO   |     | NULL    |       |
+| total_sales                         | int          | NO   |     | NULL    |       |
+| sales_conversion_rate               | decimal(5,4) | NO   |     | NULL    |       |
+| ??(?????)                           | int          | NO   |     | NULL    |       |
+| ??(?????)                           | int          | NO   |     | NULL    |       |
+| ???????                             | int          | NO   |     | NULL    |       |
+| ???(?????) (TWD)                    | int          | NO   |     | NULL    |       |
+| ???(?????)                          | decimal(5,4) | NO   |     | NULL    |       |
+| ?????????                           | decimal(5,4) | NO   |     | NULL    |       |
++-------------------------------------+--------------+------+-----+---------+-------+
+
+DESCRIBE products_info
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| date             | date         | NO   | PRI | NULL    |       |
+| product_id       | varchar(45)  | NO   | PRI | NULL    |       |
+| product_name     | varchar(100) | NO   |     | NULL    |       |
+| shop_id          | varchar(20)  | NO   |     | NULL    |       |
+| shop_name        | varchar(20)  | NO   |     | NULL    |       |
+| price            | int          | NO   |     | NULL    |       |
+| monthly_sales    | int          | NO   |     | NULL    |       |
+| historical_sales | int          | NO   |     | NULL    |       |
+| five_stars       | int          | NO   |     | NULL    |       |
+| four_stars       | int          | NO   |     | NULL    |       |
+| three_stars      | int          | NO   |     | NULL    |       |
+| two_stars        | int          | NO   |     | NULL    |       |
+| one_star         | int          | NO   |     | NULL    |       |
+| rating           | float        | NO   |     | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+
+DESCRIBE project_stats
++----------------------+--------------+------+-----+---------+-------+
+| Field                | Type         | Null | Key | Default | Extra |
++----------------------+--------------+------+-----+---------+-------+
+| date_time            | datetime     | NO   | PRI | NULL    |       |
+| total_sales          | int          | NO   |     | NULL    |       |
+| total_orders         | int          | NO   |     | NULL    |       |
+| avg_order_values     | decimal(5,2) | NO   |     | NULL    |       |
+| page_views           | int          | NO   |     | NULL    |       |
+| visitors             | int          | NO   |     | NULL    |       |
+| paid_conversion_rate | decimal(5,4) | NO   |     | NULL    |       |
+| invalid_order        | int          | NO   |     | NULL    |       |
+| invalid_order_values | int          | NO   |     | NULL    |       |
+| return_orders        | int          | NO   |     | NULL    |       |
+| return_order_values  | int          | NO   |     | NULL    |       |
+| buyers               | int          | NO   |     | NULL    |       |
+| new_buyers           | int          | NO   |     | NULL    |       |
+| return_buyers        | int          | NO   |     | NULL    |       |
+| prospect_buyers      | int          | NO   |     | NULL    |       |
+| repurchase_rate      | decimal(5,4) | NO   |     | NULL    |       |
++----------------------+--------------+------+-----+---------+-------+
+
+DESCRIBE traffic_overview
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| date_time       | datetime     | NO   | PRI | NULL    |       |
+| page_views      | int          | NO   |     | NULL    |       |
+| avg_page_views  | decimal(5,2) | NO   |     | NULL    |       |
+| time_on_page    | time         | NO   |     | NULL    |       |
+| bounce_rate     | decimal(5,4) | NO   |     | NULL    |       |
+| unique_visitors | int          | NO   |     | NULL    |       |
+| new_visitors    | int          | NO   |     | NULL    |       |
+| return_visitors | int          | NO   |     | NULL    |       |
+| new_fans        | int          | NO   |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+
+DESCRIBE user_data
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| id       | int         | NO   | PRI | NULL    | auto_increment |
+| account  | varchar(50) | NO   | UNI | NULL    |                |
+| password | varchar(50) | NO   |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
