@@ -5,17 +5,17 @@ services:
     image: mysql
     container_name: db
     restart: always
-    networks:
-      - net
     volumes:
-      - ./database:/database
-      - ./data:/var/lib/mysql
+      - ./backup:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=chi101
+      - MYSQL_USER=chi101
+      - MYSQL_PASSWORD=chi101
   app:
     build: ./
     container_name: app
     restart: always
-    networks:
-      - net
     volumes:
       - ./app:/app
     ports:
@@ -24,6 +24,3 @@ services:
       - ./.env
     depends_on:
       - db
-networks:
-  net:
-    driver: bridge

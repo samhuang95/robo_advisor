@@ -1,5 +1,9 @@
 cryptography
 Flask
+numpy
+Pillow
 pyecharts
 pymysql
 requests
+# selenium-wire
+# tensorflow
