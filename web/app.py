@@ -87,60 +87,52 @@ def singup():
 # 做一個登入的路由
 @app.route("/singin", methods=["POST"])
 def singin():
-    # try:
         user_email = request.form['user_email']
         user_name = request.form['user_name']
         user_password = request.form['user_password']
         
         member = Member.query.filter_by(user_email=user_email, user_name=user_name, user_password=user_password).first()
-        print(member)
+        print(member.user_name)
         if member == None:
             return "請註冊"
         
         return render_template("a.html")
     
 # 點擊載入a功能頁面
-@app.route("/a", methods=["GET"])
+@app.route("/a", methods=["GET", 'POST'])
 def a():
-        return render_template("a.html")
-
-    
-
-# a頁面功能
-@app.route('/plot', methods=['GET', 'POST'])   # 路由定義為 /plot，支援 GET 和 POST 方法
-def plot():
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date']   # 從 request.form 取得 start_date 參數
         end_date_str = request.form['end_date']   # 從 request.form 取得 end_date 參數
-    else:   # 如果是 GET 請求
-        start_date_str = request.args.get('start_date')   # 從 request.args 取得 start_date 參數
-        end_date_str = request.args.get('end_date')   # 從 request.args 取得 end_date 參數
-    start_date = datetime.strptime(start_date_str, '%Y-%m-%d')   # 將 start_date_str 字串轉為 datetime 物件
-    end_date = datetime.strptime(end_date_str, '%Y-%m-%d')   # 將 end_date_str 字串轉為 datetime 物件
-    delta = end_date - start_date   # 計算日期區間
-    x = [start_date + timedelta(days=i) for i in range(delta.days + 1)]   # 產生日期區間內每一天的日期
-    y = [random.randint(0, 100) for _ in range(delta.days + 1)]   # 產生一個數值列表，該列表長度與日期區間相同
-    fig = go.Figure()   # 建立一個 plotly 的 Figure 物件
-    fig.add_trace(go.Scatter(x=x, y=y, mode='lines+markers'))   # 在 Figure 物件中添加一個 Scatter 圖形
-    fig.update_layout(title=f'日期區間: {start_date_str} - {end_date_str}', xaxis_title='日期', yaxis_title='Value')   # 更新 Figure 物件的布
-     # 将图表转换为HTML文件
-    div = opy.plot(fig, auto_open=False, output_type='div')
-    # 銷售額,成交量,商品瀏覽數,訪客數
-    a = {
-            "sales" : "銷售額",
-            "turnover": "成交量",
-            "Product_Views": "商品瀏覽數",
-            "number_of_visitors": "訪客數",
-            "a_highlight": "a_highlight",
-            "b_highlight": "b_highlight",
-            "c_highlight": "c_highlight",
-            "d_highlight": "d_highlight",
-            "e_highlight": "e_highlight",
-        }
-    
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d')   # 將 start_date_str 字串轉為 datetime 物件
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d')   # 將 end_date_str 字串轉為 datetime 物件
+        delta = end_date - start_date   # 計算日期區間
+        x = [start_date + timedelta(days=i) for i in range(delta.days + 1)]   # 產生日期區間內每一天的日期
+        y = [random.randint(0, 100) for _ in range(delta.days + 1)]   # 產生一個數值列表，該列表長度與日期區間相同
+        fig = go.Figure()   # 建立一個 plotly 的 Figure 物件
+        fig.add_trace(go.Scatter(x=x, y=y, mode='lines+markers'))   # 在 Figure 物件中添加一個 Scatter 圖形
+        fig.update_layout(title=f'日期區間: {start_date_str} - {end_date_str}', xaxis_title='日期', yaxis_title='Value')   # 更新 Figure 物件的布
+        # 将图表转换为HTML文件
+        div = opy.plot(fig, auto_open=False, output_type='div')
+        # 銷售額,成交量,商品瀏覽數,訪客數
+        a = {
+                "sales" : "銷售額",
+                "turnover": "成交量",
+                "Product_Views": "商品瀏覽數",
+                "number_of_visitors": "訪客數",
+                "a_highlight": "a_highlight",
+                "b_highlight": "b_highlight",
+                "c_highlight": "c_highlight",
+                "d_highlight": "d_highlight",
+                "e_highlight": "e_highlight",
+            }
+        
 
-    # 回傳 a頁面                         # 這個是圖像介面
-    return render_template ("a.html" ,div_placeholder=div, a = a)
+        # 回傳 a頁面                         # 這個是圖像介面
+        return render_template ("a.html" ,div_placeholder=div, a = a) 
+     # 如果是 GET 請求
+    else:  
+        return render_template("a.html")
 
 # 點擊載入b功能頁面
 @app.route("/b", methods=["GET"])
