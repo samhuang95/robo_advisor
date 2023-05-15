@@ -11,6 +11,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.common.exceptions import NoSuchElementException
+
 username = 'flychenjack01'
 password = 'Qqaz0911'
 # username = 'samhuangworkshop'
@@ -18,31 +20,33 @@ password = 'Qqaz0911'
 # 商品表現網頁
 url = 'https://shopee.tw/seller/login?next=https%3A%2F%2Fseller.shopee.tw%2Fdatacenter%2Fproducts%2Fanalysis%2Fperformance'
 
-service = ChromeService(executable_path='./chromedriver.exe')
-
 # 避免 chrome 跳出要求權限的顯示通知
 # 創建 Preferences 物件
 option = webdriver.ChromeOptions()
 option.add_experimental_option("detach", True)
 
-prefs = {
-    'profile.default_content_setting_values.notifications': 2,
-    'profile.default_content_settings.popups': 0,
-    'download.default_directory': '/path/to/download/directory',
-    'profile.default_content_setting_values.automatic_downloads': 1
-}
+#設定Chrome選項-啟動headless模式
+option.add_argument('--headless')
+option.add_argument('--no-sandbox')
 
-option.add_experimental_option('prefs', prefs)
+# prefs = {
+#     'profile.default_content_setting_values.notifications': 2,
+#     'profile.default_content_settings.popups': 0,
+#     'download.default_directory': '/path/to/download/directory',
+#     'profile.default_content_setting_values.automatic_downloads': 1
+# }
 
+# option.add_experimental_option('prefs', prefs)
 
-driver = webdriver.Chrome(service=service, options = option)
+driver = webdriver.Chrome(chrome_options = option)
 driver.get(url)
 
 # 登入結果會直接進入到商品 > 商品表現
+time.sleep(random.randint(15, 20))
 driver.find_element(By.CSS_SELECTOR, 'input[name="loginKey"]').send_keys(username)
 time.sleep(random.randint(2, 4))
 driver.find_element(By.CSS_SELECTOR, 'input[name="password"]').send_keys(password)
-time.sleep(random.randint(1,3))
+time.sleep(random.randint(2, 4))
 driver.find_elements(By.CSS_SELECTOR, 'button')[2].click()
 
 # 自動化抓取資料
