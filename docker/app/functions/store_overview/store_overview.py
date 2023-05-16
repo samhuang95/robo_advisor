@@ -190,6 +190,9 @@ def daily_report():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
+    a = daily_data()
+    b = feature_mean()
+    c = noevent_training_weight()
     if month == day and day == 18:
         # data / mean * weight%
         return {

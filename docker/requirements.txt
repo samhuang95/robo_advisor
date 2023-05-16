@@ -5,5 +5,12 @@ Pillow
 pyecharts
 pymysql
 requests
-# selenium-wire
+selenium-wire
+selenium
 # tensorflow
+mysql-connector-python
+pandas
+openpyxl
+
+
+

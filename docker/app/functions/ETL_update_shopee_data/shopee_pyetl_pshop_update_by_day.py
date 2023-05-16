@@ -7,11 +7,14 @@ from selenium.webdriver.common.by import By
 import time
 import random
 from selenium.webdriver.chrome.options import Options
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
 from selenium.common.exceptions import NoSuchElementException
+import os
+
+chromedriver_path = "/usr/local/bin/chromedriver"  # 設置 Chromedriver 的路徑
+os.environ["webdriver.chrome.driver"] = chromedriver_path
+
 
 username = 'flychenjack01'
 password = 'Qqaz0911'
@@ -38,7 +41,7 @@ option.add_argument('--no-sandbox')
 
 # option.add_experimental_option('prefs', prefs)
 
-driver = webdriver.Chrome(chrome_options = option)
+driver = webdriver.Chrome(chromedriver_path, options=options)
 driver.get(url)
 
 # 登入結果會直接進入到商品 > 商品表現
