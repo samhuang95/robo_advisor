@@ -1,8 +1,6 @@
 # (V)1. 監控賣場經營分數(權重*當前數值，計算分數)
-
 # (V)3. 銷售額、商品瀏覽數、訪客數、成交量   daily_report()
 # (V)4. 當日 highlight
-
 
 import configparser
 import mysql.connector
@@ -10,25 +8,6 @@ from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date
 import csv
-
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-# 設定連線資訊
-config = {
-    'user': config.get('store_overview', 'user'),
-    'password': config.get('store_overview', 'password'),
-    'host': config.get('store_overview', 'host'),
-    'database': config.get('store_overview', 'database'),
-    # 'ports': 
-}
-
-# 建立連線
-cnx = mysql.connector.connect(**config)
-
-# 建立 cursor
-cursor = cnx.cursor()
-
 # ----------------------------------------------------
 def daily_data():
     now = datetime.now()
@@ -102,8 +81,7 @@ def event_training_weight():
         'prop_event_search_clicks' : event_search_clicks / event_SUM * 100,
         'prop_event_product_likes' : event_product_likes / event_SUM * 100}
 
-# event_training_weight_TT = event_training_weight()
-# print(event_training_weight_TT)
+
 
 # ----------------------------------------------------
 
@@ -141,11 +119,9 @@ def noevent_training_weight():
         'prop_noevent_return_visitors' : noevent_return_visitors / noevent_SUM * 100,
         'prop_noevent_new_fans' : noevent_new_fans / noevent_SUM * 100,
         'prop_noevent_search_clicks' : noevent_search_clicks / noevent_SUM * 100,
-        'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100}
-    
- 
-# noevent_training_weight_TT = noevent_training_weight()
-# print(noevent_training_weight_TT)
+        'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100
+        }
+
 
 # ----------------------------------------------------
 def feature_mean():
@@ -190,33 +166,33 @@ def daily_report():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    a = daily_data()
-    b = feature_mean()
-    c = noevent_training_weight()
+    dd = daily_data()
+    fm = feature_mean()
+    ntw = noevent_training_weight()
     if month == day and day == 18:
         # data / mean * weight%
         return {
-        'product_page_views' : daily_data()['product_page_views'] / feature_mean()['AVG_product_page_views'] * noevent_training_weight()['prop_noevent_product_page_views'],
-        'step_times' : daily_data()['step_times'] / feature_mean()['AVG_step_times'] * noevent_training_weight()['prop_noevent_step_times'],
-        'product_page_bounce_rate' : daily_data()['product_page_bounce_rate'] / feature_mean()['AVG_product_page_bounce_rate'] * noevent_training_weight()['prop_noevent_product_page_bounce_rate'],
-        'unique_visitors' : daily_data()['unique_visitors'] / feature_mean()['AVG_unique_visitors'] * noevent_training_weight()['prop_noevent_unique_visitors'],
-        'new_visitors' : daily_data()['new_visitors'] / feature_mean()['AVG_new_visitors'] * noevent_training_weight()['prop_noevent_new_visitors'],
-        'return_visitors' : daily_data()['return_visitors'] / feature_mean()['AVG_return_visitors'] * noevent_training_weight()['prop_noevent_return_visitors'],
-        'new_fans' : daily_data()['new_fans'] / feature_mean()['AVG_new_fans'] * noevent_training_weight()['prop_noevent_new_fans'],
-        'search_clicks' : daily_data()['search_clicks'] / feature_mean()['AVG_search_clicks'] * noevent_training_weight()['prop_noevent_search_clicks'],
-        'product_likes' : daily_data()['product_likes'] / feature_mean()['AVG_product_likes'] * noevent_training_weight()['prop_noevent_product_likes'],
+        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * ntw['prop_noevent_product_page_views'],
+        'step_times' : dd['step_times'] / fm['AVG_step_times'] * ntw['prop_noevent_step_times'],
+        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * ntw['prop_noevent_product_page_bounce_rate'],
+        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * ntw['prop_noevent_unique_visitors'],
+        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * ntw['prop_noevent_new_visitors'],
+        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * ntw['prop_noevent_return_visitors'],
+        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * ntw['prop_noevent_new_fans'],
+        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * ntw['prop_noevent_search_clicks'],
+        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * ntw['prop_noevent_product_likes'],
         }
     else:
         return {
-        'product_page_views' : daily_data()['product_page_views'] / feature_mean()['AVG_product_page_views'] * noevent_training_weight()['prop_noevent_product_page_views'],
-        'step_times' : daily_data()['step_times'] / feature_mean()['AVG_step_times'] * noevent_training_weight()['prop_noevent_step_times'],
-        'product_page_bounce_rate' : daily_data()['product_page_bounce_rate'] / feature_mean()['AVG_product_page_bounce_rate'] * noevent_training_weight()['prop_noevent_product_page_bounce_rate'],
-        'unique_visitors' : daily_data()['unique_visitors'] / feature_mean()['AVG_unique_visitors'] * noevent_training_weight()['prop_noevent_unique_visitors'],
-        'new_visitors' : daily_data()['new_visitors'] / feature_mean()['AVG_new_visitors'] * noevent_training_weight()['prop_noevent_new_visitors'],
-        'return_visitors' : daily_data()['return_visitors'] / feature_mean()['AVG_return_visitors'] * noevent_training_weight()['prop_noevent_return_visitors'],
-        'new_fans' : daily_data()['new_fans'] / feature_mean()['AVG_new_fans'] * noevent_training_weight()['prop_noevent_new_fans'],
-        'search_clicks' : daily_data()['search_clicks'] / feature_mean()['AVG_search_clicks'] * noevent_training_weight()['prop_noevent_search_clicks'],
-        'product_likes' : daily_data()['product_likes'] / feature_mean()['AVG_product_likes'] * noevent_training_weight()['prop_noevent_product_likes'],
+        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * ntw['prop_noevent_product_page_views'],
+        'step_times' : dd['step_times'] / fm['AVG_step_times'] * ntw['prop_noevent_step_times'],
+        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * ntw['prop_noevent_product_page_bounce_rate'],
+        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * ntw['prop_noevent_unique_visitors'],
+        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * ntw['prop_noevent_new_visitors'],
+        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * ntw['prop_noevent_return_visitors'],
+        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * ntw['prop_noevent_new_fans'],
+        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * ntw['prop_noevent_search_clicks'],
+        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * ntw['prop_noevent_product_likes'],
         }        
 
 # ----------------------------------------------------
@@ -224,44 +200,48 @@ def daily_insight():
     # shopee events
     # 讀取有活動參與的數據
     insight_message = {}
-    if daily_report()['product_page_views'] < feature_mean()['AVG_product_page_views']:
-        product_page_views = feature_mean()['AVG_product_page_views'] - daily_report()['product_page_views']
+    dr = daily_report()
+    fm = feature_mean()
+    if dr['product_page_views'] < fm['AVG_product_page_views']:
+        product_page_views = fm['AVG_product_page_views'] - dr['product_page_views']
         insight_message['product_page_views'] = f"商品頁面瀏覽數低於每日平均{product_page_views}次"
     
-    if daily_report()['step_times'] < feature_mean()['AVG_step_times']:
-        step_times = feature_mean()['AVG_step_times'] - daily_report()['step_times']
+    if dr['step_times'] < fm['AVG_step_times']:
+        step_times = fm['AVG_step_times'] - dr['step_times']
         insight_message['step_times'] = f"用戶停留時間低於每日平均{step_times}秒"
         
-    if daily_report()['product_page_bounce_rate'] > feature_mean()['AVG_product_page_bounce_rate']:
-        product_page_bounce_rate = feature_mean()['AVG_product_page_bounce_rate'] - daily_report()['product_page_bounce_rate']
+    if dr['product_page_bounce_rate'] > fm['AVG_product_page_bounce_rate']:
+        product_page_bounce_rate = fm['AVG_product_page_bounce_rate'] - dr['product_page_bounce_rate']
         insight_message['product_page_bounce_rate'] = f"用戶跳出率高於每日平均{product_page_bounce_rate}%"
 
-    if daily_report()['unique_visitors'] < feature_mean()['AVG_unique_visitors']:
-        unique_visitors = feature_mean()['AVG_unique_visitors'] - daily_report()['unique_visitors']
+    if dr['unique_visitors'] < fm['AVG_unique_visitors']:
+        unique_visitors = fm['AVG_unique_visitors'] - dr['unique_visitors']
         insight_message['unique_visitors'] = f"不重複拜訪用戶低於每日平均{unique_visitors}人次"
 
-    if daily_report()['new_visitors'] < feature_mean()['AVG_new_visitors']:
-        new_visitors = feature_mean()['AVG_new_visitors'] - daily_report()['new_visitors']
+    if dr['new_visitors'] < fm['AVG_new_visitors']:
+        new_visitors = fm['AVG_new_visitors'] - dr['new_visitors']
         insight_message['new_visitors'] = f"新拜訪用戶低於每日平均{new_visitors}人次"
 
-    if daily_report()['return_visitors'] < feature_mean()['AVG_return_visitors']:
-        return_visitors = feature_mean()['AVG_return_visitors'] - daily_report()['return_visitors']
+    if dr['return_visitors'] < fm['AVG_return_visitors']:
+        return_visitors = fm['AVG_return_visitors'] - dr['return_visitors']
         insight_message['return_visitors'] = f"回訪用戶低於每日平均{return_visitors}人次"
 
-    if daily_report()['new_fans'] < feature_mean()['AVG_new_fans']:
-        new_fans = feature_mean()['AVG_new_fans'] - daily_report()['new_fans']
+    if dr['new_fans'] < fm['AVG_new_fans']:
+        new_fans = fm['AVG_new_fans'] - dr['new_fans']
         insight_message['new_fans'] = f"新加入粉絲低於每日平均{new_fans}人次"
 
-    if daily_report()['search_clicks'] < feature_mean()['AVG_search_clicks']:
-        search_clicks = feature_mean()['AVG_search_clicks'] - daily_report()['search_clicks']
+    if dr['search_clicks'] < fm['AVG_search_clicks']:
+        search_clicks = fm['AVG_search_clicks'] - dr['search_clicks']
         insight_message['search_clicks'] = f"搜尋點擊低於每日平均{search_clicks}次"
 
-    if daily_report()['product_likes'] < feature_mean()['AVG_product_likes']:
-        product_likes = feature_mean()['AVG_product_likes'] - daily_report()['product_likes']
+    if dr['product_likes'] < fm['AVG_product_likes']:
+        product_likes = fm['AVG_product_likes'] - dr['product_likes']
         insight_message['product_likes'] = f"收藏點擊次數低於每日平均{product_likes}次"
     
-    return insight_message 
+    return insight_message
 
-# 關閉 cursor 和連線
-cursor.close()
-cnx.close()
+
+print(insight_message)
+
+
+

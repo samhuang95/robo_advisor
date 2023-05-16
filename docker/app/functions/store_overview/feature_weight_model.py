@@ -92,7 +92,8 @@ now = datetime.now()
 yesterday = (now - timedelta(days=1)).date()
 df.to_csv(f'./dataset/noevent_data{yesterday}.csv', index=False)
 
-# 關閉資料庫連線
+# 關閉 cursor 和連線
+cursor.close()
 cnx.close()
 
 # ---------------------------------------------
@@ -126,6 +127,7 @@ with open(f'./dataset/noevent_weight{yesterday}.csv', mode='w', newline='') as f
         writer.writerow([feature, importance])
         print(f'{feature}: {importance}')
 
+print(f'完成匯出 noevent_weight {yesterday}數據')
 # ---------------------------------------------
 # 讀取有活動參與的數據
 now = datetime.now()
@@ -154,4 +156,5 @@ with open(f'./dataset/event_weight{yesterday}.csv', mode='w', newline='') as fil
     for feature, importance in zip(X.columns, importances):
         writer.writerow([feature, importance])
         print(f'{feature}: {importance}')
-    
+
+print(f'完成匯出 event_weight {yesterday}數據')
