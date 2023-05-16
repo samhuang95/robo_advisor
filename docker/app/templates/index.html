@@ -1,78 +1,92 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>機器顧問儀表板</title>
-  </head>
-  <body>
-    <div class="main">
-      <h1>{{ message }}</h1>
-      <form action="{{ url_for('index') }}" method="POST">
-        <label for="account">帳號: </label>
-        <input type="text" name="account" id="account" pattern="[a-zA-Z0-9@-_]{5, 20}" required>
-        <label for="password">密碼: </label>
-        <input type="password" name="password" id="password" pattern="[a-zA-Z0-9@-_]{5, 20}" required>
-        <button type="submit" name="button" value="login">登入</button>
-      </form>
-      <form action="{{ url_for('index') }}" method="POST">
-        <label for="start">開始日期: </label>
-        <input type="date" name="start" id="start" required>
-        <label for="end">結束日期: </label>
-        <input type="date" name="end" id="end" min="{{ start }}" required>
-        <button type="submit" name="button" value="date">跳轉到新頁面</button>
-      </form>
-      <form action="{{ url_for('index') }}" method="POST" style="display: inline-block;">
-        <button type="submit" name="button" value="5">資料庫前五筆資料</button>
-        <button type="submit" name="button" value="10">資料庫前十筆資料</button>
-        <button type="submit" name="button" value="line">每年發文數折線圖</button>
-        <button type="submit" name="button" value="bar">每年發文數長條圖</button>
-      </form>
-      <form id="select-form" action="{{ url_for('index') }}" method="POST">
-        {% set selected_value = selected_value | default("0") %}
-        <select name="options" onchange="document.querySelector('#select-form').submit()">
-          <option value="0" {% if selected_value == "0" %} selected {% endif %} disabled>請選擇月份</option>
-          <option value="1" {% if selected_value == "1" %} selected {% endif %}>2023年1月</option>
-          <option value="2" {% if selected_value == "2" %} selected {% endif %}>2023年2月</option>
-          <option value="3" {% if selected_value == "3" %} selected {% endif %}>2023年3月</option>
-          <option value="4" {% if selected_value == "4" %} selected {% endif %}>2023年4月</option>
-        </select>
-      </form>
-      <br>
-      <div id="chart-container">{{ chart_html|safe }}</div>
-      {% set data = data | default(None) %}
-      {% if data != None %}
-      <table style="border-collapse: collapse;">
-        <thead>
-          <tr>
-            {% for key in data[0].keys() %}
-            <th style="border: 1px solid black;">{{ key }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in data %}
-          <tr>
-            {% for key in item.keys() %}
-            <td style="border: 1px solid black;">{{ item[key] }}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
-    </div>
-    <div class="sidebar">
-      <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
-      <h2>Our Team Name</h2>
-      <ul>
-        <li><a href="/1">賣場成效總覽</a></li>
-        <li><a href="/2">商品銷售總覽</a></li>
-        <li><a href="/3">商品執行策略</a></li>
-        <li><a href="/4">競品數據監測</a></li>
-        <li><a href="/5">Facebook數據資料</a></li>
-      </ul>
-    </div>
-  </body>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>機器人顧問首頁</title>   
+        <!-- Bootstrap CSS 使用前要先貼此功能-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">                  
+     
+    <style type="text/css">
+        .front_page{
+            background-color: gold ;color: black; font-family: Comic Sans MS, cursive, sans-serif;font-weight: bold; font-size:50px;
+                text-align:center; 
+        }
+        .head1{
+            text-align:center;
+        }
+        .button1{
+            background-color: gold;
+            border-color: gold;
+            border-radius: 0.5rem;
+            color: green; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 16px; /* 字号 */
+            font-weight: 500; /* 字体粗细 */
+            letter-spacing: 1px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 20px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            }
+
+            .button1:hover {
+            background-color: #ffcc00; /* 鼠标移上去时的背景颜色 */
+            border-color: #ffcc00; /* 鼠标移上去时的边框颜色 */
+            color: black; /* 鼠标移上去时的字体颜色 */
+            }
+
+    </style>    
+    
+    </head>
+    <body>
+        <div class="front_page">歡迎宅摘</div>
+        <br/>
+        <br/>
+        <div class="num1">
+            <form action="/a" method="GET">
+                <button class="button1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="GREEN" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    賣場成效總覽
+                </button>
+            </form>
+            <br/>
+            <br/>
+            <form action="/b" method="GET">
+                <button class="button1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="GREEN" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    商品銷售總覽
+                </button>
+            </form>
+            <br/>
+            <br/>
+            <form action="/c" method="GET">
+                <button class="button1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="GREEN" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    商品執行策略
+                </button>
+            </form>
+            <br/>
+            <br/>
+            <form action="/d" method="GET">
+                <button class="button1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="GREEN" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    競品數據監測
+                </button>
+            </form>
+            <br/>
+            <br/>
+            <form action="/d" method="GET">
+                <button class="button1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="GREEN" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-feather"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    臉書數據資料
+                </button>
+            </form>
+        </div>
+
+        
+        <div class="head1"><a href="http://127.0.0.1:3000/head">回登入頁面</a></div>
+
+         <!-- Bootstrap js 用法 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
 </html>
