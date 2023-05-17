@@ -1,7 +1,3 @@
-# (V)1. 監控賣場經營分數(權重*當前數值，計算分數)
-# (V)3. 銷售額、商品瀏覽數、訪客數、成交量   daily_report()
-# (V)4. 當日 highlight
-
 import configparser
 import mysql.connector
 from datetime import datetime, timedelta
@@ -16,7 +12,7 @@ def daily_data():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day and day == 18 and yesterday.weekday() == 2 and yesterday.weekday() == 2:
+    if month == day and day == 18 and yesterday.weekday() == 2:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
         return {   
         'product_page_views' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_views'].values[0],
@@ -29,7 +25,8 @@ def daily_data():
         'search_clicks' : df.loc[df['date_time'] == f'{yesterday}', 'search_clicks'].values[0],
         'product_likes' : df.loc[df['date_time'] == f'{yesterday}', 'product_likes'].values[0],
         'sale_products' : df.loc[df['date_time'] == f'{yesterday}', 'sale_products'].values[0],
-        'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]}
+        'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]
+        }
     else:
         df = pd.read_csv(f'./dataset/noevent_data{yesterday}.csv', sep=',')     
         return {   
@@ -43,7 +40,8 @@ def daily_data():
         'search_clicks' : df.loc[df['date_time'] == f'{yesterday}', 'search_clicks'].values[0],
         'product_likes' : df.loc[df['date_time'] == f'{yesterday}', 'product_likes'].values[0],
         'sale_products' : df.loc[df['date_time'] == f'{yesterday}', 'sale_products'].values[0],
-        'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]}
+        'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]
+        }
 
 # ----------------------------------------------------
 def event_training_weight():
@@ -52,7 +50,7 @@ def event_training_weight():
     # 讀取有活動的權重
     with open(f'./dataset/event_weight{yesterday}.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        print(reader)
+
         weight_dict = {}
         for event_weight in reader:
         # 將每一筆資料轉換成 dictionary
@@ -72,17 +70,16 @@ def event_training_weight():
     event_SUM = event_product_page_views + event_step_times + event_product_page_bounce_rate + event_unique_visitors + event_new_visitors + event_return_visitors + event_new_fans + event_search_clicks + event_product_likes
     
     return {
-    'prop_event_product_page_views' : event_product_page_views / event_SUM * 100,
-    'prop_event_step_times' : event_step_times / event_SUM * 100,
-    'prop_event_product_page_bounce_rate' : event_product_page_bounce_rate / event_SUM * 100,
-    'prop_event_unique_visitors' : event_unique_visitors / event_SUM * 100,
-    'prop_event_new_visitors' : event_new_visitors / event_SUM * 100,
-    'prop_event_return_visitors' : event_return_visitors / event_SUM * 100,
-    'prop_event_new_fans' : event_new_fans / event_SUM * 100,
-    'prop_event_search_clicks' : event_search_clicks / event_SUM * 100,
-    'prop_event_product_likes' : event_product_likes / event_SUM * 100}
-
-
+        'prop_event_product_page_views' : event_product_page_views / event_SUM * 100,
+        'prop_event_step_times' : event_step_times / event_SUM * 100,
+        'prop_event_product_page_bounce_rate' : event_product_page_bounce_rate / event_SUM * 100,
+        'prop_event_unique_visitors' : event_unique_visitors / event_SUM * 100,
+        'prop_event_new_visitors' : event_new_visitors / event_SUM * 100,
+        'prop_event_return_visitors' : event_return_visitors / event_SUM * 100,
+        'prop_event_new_fans' : event_new_fans / event_SUM * 100,
+        'prop_event_search_clicks' : event_search_clicks / event_SUM * 100,
+        'prop_event_product_likes' : event_product_likes / event_SUM * 100
+        }
 
 # ----------------------------------------------------
 
@@ -104,7 +101,7 @@ def noevent_training_weight():
         
         # 獲取資料變數
     noevent_product_page_views = float(weight_dict['product_page_views'])
-    # print(noevent_product_page_views)
+
     noevent_step_times = float(weight_dict['step_times'])
     noevent_product_page_bounce_rate = float(weight_dict['product_page_bounce_rate'])
     noevent_unique_visitors = float(weight_dict['unique_visitors'])
@@ -117,16 +114,17 @@ def noevent_training_weight():
     noevent_SUM = noevent_product_page_views + noevent_step_times + noevent_product_page_bounce_rate + noevent_unique_visitors + noevent_new_visitors + noevent_return_visitors + noevent_new_fans + noevent_search_clicks + noevent_product_likes
     
     return {
-    'prop_noevent_product_page_views' : noevent_product_page_views / noevent_SUM * 100,
-    'prop_noevent_step_times' : noevent_step_times / noevent_SUM * 100,
-    'prop_noevent_product_page_bounce_rate' : noevent_product_page_bounce_rate / noevent_SUM * 100,
-    'prop_noevent_unique_visitors' : noevent_unique_visitors / noevent_SUM * 100,
-    'prop_noevent_new_visitors' : noevent_new_visitors / noevent_SUM * 100,
-    'prop_noevent_return_visitors' : noevent_return_visitors / noevent_SUM * 100,
-    'prop_noevent_new_fans' : noevent_new_fans / noevent_SUM * 100,
-    'prop_noevent_search_clicks' : noevent_search_clicks / noevent_SUM * 100,
-    'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100
-    }
+        'prop_noevent_product_page_views' : noevent_product_page_views / noevent_SUM * 100,
+        'prop_noevent_step_times' : noevent_step_times / noevent_SUM * 100,
+        'prop_noevent_product_page_bounce_rate' : noevent_product_page_bounce_rate / noevent_SUM * 100,
+        'prop_noevent_unique_visitors' : noevent_unique_visitors / noevent_SUM * 100,
+        'prop_noevent_new_visitors' : noevent_new_visitors / noevent_SUM * 100,
+        'prop_noevent_return_visitors' : noevent_return_visitors / noevent_SUM * 100,
+        'prop_noevent_new_fans' : noevent_new_fans / noevent_SUM * 100,
+        'prop_noevent_search_clicks' : noevent_search_clicks / noevent_SUM * 100,
+        'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100
+        }
+
 
 # ----------------------------------------------------
 def feature_mean():
@@ -148,7 +146,7 @@ def feature_mean():
             'AVG_search_clicks' : df['search_clicks'].mean(),
             'AVG_product_page_views' : df['product_page_views'].mean(),
             'AVG_product_likes' : df['product_likes'].mean()
-        }
+            }
     else:
         df = pd.read_csv(f'./dataset/noevent_data{yesterday}.csv', sep=',')
         return {
@@ -161,46 +159,8 @@ def feature_mean():
             'AVG_search_clicks' : df['search_clicks'].mean(),
             'AVG_product_page_views' : df['product_page_views'].mean(),
             'AVG_product_likes' : df['product_likes'].mean()
-        }
-
-# ----------------------------------------------------
-def daily_report():
-    now = datetime.now()
-    yesterday = (now - timedelta(days=1)).date()
-    month = yesterday.strftime("%m")
-    day = yesterday.strftime("%d")
-    # shopee events
-    # 讀取有活動參與的數據
-    dd = daily_data()
-    fm = feature_mean()
-    ntw = noevent_training_weight()
-    etw = event_training_weight()
-    if month == day and day == 18 and yesterday.weekday() == 2:
-        # data / mean * weight%
-        return {
-        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * etw['prop_event_product_page_views'],
-        'step_times' : dd['step_times'] / fm['AVG_step_times'] * etw['prop_event_step_times'],
-        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * etw['prop_event_product_page_bounce_rate'],
-        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * etw['prop_event_unique_visitors'],
-        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * etw['prop_event_new_visitors'],
-        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * etw['prop_event_return_visitors'],
-        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * etw['prop_event_new_fans'],
-        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * etw['prop_event_search_clicks'],
-        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * etw['prop_event_product_likes'],
-        }
-    else:
-        return {
-        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * ntw['prop_noevent_product_page_views'],
-        'step_times' : dd['step_times'] / fm['AVG_step_times'] * ntw['prop_noevent_step_times'],
-        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * ntw['prop_noevent_product_page_bounce_rate'],
-        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * ntw['prop_noevent_unique_visitors'],
-        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * ntw['prop_noevent_new_visitors'],
-        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * ntw['prop_noevent_return_visitors'],
-        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * ntw['prop_noevent_new_fans'],
-        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * ntw['prop_noevent_search_clicks'],
-        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * ntw['prop_noevent_product_likes'],
-        }        
-
+            }
+    
 # ----------------------------------------------------
 def daily_insight():
     # shopee events
@@ -283,11 +243,6 @@ def daily_insight():
     
     return insight_message
 
-insights = daily_insight()
-print(insights['step_times'])
-print('='*30)
-print(insights)
-
 
 # ----------------------------------------------------
 def daily_score():
@@ -295,37 +250,51 @@ def daily_score():
     yesterday = (now - timedelta(days=1)).date()
     month = yesterday.strftime("%m")
     day = yesterday.strftime("%d")
-    # shopee events
-    # 讀取有活動參與的數據
-    # if month == day and day == 18 and yesterday.weekday() == 2:
-    df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')      
-    step_times_score = df['step_times'].sort_values(ascending=False)[:3].mean()
-        # product_page_bounce_rate_score = df['product_page_bounce_rate'].mean()
-        # unique_visitors_score = df['unique_visitors'].mean()
-        # new_visitors_score = df['new_visitors'].mean()
-        # return_visitors_score = df['return_visitors'].mean()
-        # new_fans_score = df['new_fans'].mean()
-        # search_clicks_score = df['search_clicks'].mean()
-        # product_page_views_score = df['product_page_views'].mean()
-        # product_likes_score = df['product_likes'].mean()
+    year = now.strftime("%Y")
 
+    dd = daily_data()
+    etw = event_training_weight()
+    ntw = noevent_training_weight()
 
-print('\n=====================')
-dr = daily_report()
-print(sum(dr.values()))
-print('\n=====================')
-print(dr['product_page_views'])
+    if month == day and day == 18 and yesterday.weekday() == 2:
+        
+        with open(f'./dataset/{year}_event_score_std.csv') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=',')
+            max_data = {}
+            for row in reader:
+                for key, value in row.items():
+                    max_data[key] = int(value)
+        # 將數值縮放至 0~100 範圍內，然後 * weight %
+        return {
+            'product_page_views' : round(((dd['product_page_views']) / (max_data['product_page_views_score'])) * etw['prop_event_product_page_views']),
+            'step_times' : round(((dd['step_times']) / (max_data['step_times_score'])) * etw['prop_event_step_times']),
+            'product_page_bounce_rate' : round(((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * etw['prop_event_product_page_bounce_rate']),
+            'unique_visitors' : round(((dd['unique_visitors']) / (max_data['unique_visitors_score'])) * etw['prop_event_unique_visitors']),
+            'new_visitors' : round(((dd['new_visitors']) / (max_data['new_visitors_score'])) * etw['prop_event_new_visitors']),
+            'return_visitors' : round(((dd['return_visitors']) / (max_data['return_visitors_score'])) * etw['prop_event_return_visitors']),
+            'new_fans' : round(((dd['new_fans']) / (max_data['new_fans_score'])) * etw['prop_event_new_fans']),
+            'search_clicks' : round(((dd['search_clicks']) / (max_data['search_clicks_score'])) * etw['prop_event_search_clicks']),
+            'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * etw['prop_event_product_likes'])
+            }
+    else:
+        
+        with open(f'./dataset/{year}_noevent_score_std.csv') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=',')
+            max_data = {}
+            for row in reader:
+                for key, value in row.items():
+                    max_data[key] = int(value)
 
-
-
-# 先找出何謂 100，標準應該要固定 
-# 帶來最高業績那一天？
-# 
-
-
-# dr = daily_report()
-# fm = feature_mean()
-
-# print(dr['step_times'])
-# print(fm['AVG_step_times'])
+        # 將數值縮放至 0~100 範圍內，然後 * weight %
+        return {
+            'product_page_views' : round(((dd['product_page_views']) / (max_data['product_page_views_score'])) * ntw['prop_noevent_product_page_views']),
+            'step_times' : round(((dd['step_times']) / (max_data['step_times_score'])) * ntw['prop_noevent_step_times']),
+            'product_page_bounce_rate' : round(((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * ntw['prop_noevent_product_page_bounce_rate']),
+            'unique_visitors' : round(((dd['unique_visitors']) / (max_data['unique_visitors_score'])) * ntw['prop_noevent_unique_visitors']),
+            'new_visitors' : round(((dd['new_visitors']) / (max_data['new_visitors_score'])) * ntw['prop_noevent_new_visitors']),
+            'return_visitors' : round(((dd['return_visitors']) / (max_data['return_visitors_score'])) * ntw['prop_noevent_return_visitors']),
+            'new_fans' : round(((dd['new_fans']) / (max_data['new_fans_score'])) * ntw['prop_noevent_new_fans']),
+            'search_clicks' : round(((dd['search_clicks']) / (max_data['search_clicks_score'])) * ntw['prop_noevent_search_clicks']),
+            'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * ntw['prop_noevent_product_likes'])
+            }
 
