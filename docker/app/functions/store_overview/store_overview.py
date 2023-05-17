@@ -16,7 +16,7 @@ def daily_data():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day and day == 18:
+    if month == day and day == 18 and yesterday.weekday() == 2 and yesterday.weekday() == 2:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
         return {   
         'product_page_views' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_views'].values[0],
@@ -136,7 +136,7 @@ def feature_mean():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day and day == 18:
+    if month == day and day == 18 and yesterday.weekday() == 2:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
         return {
             'AVG_step_times' : df['step_times'].mean(),
@@ -175,7 +175,7 @@ def daily_report():
     fm = feature_mean()
     ntw = noevent_training_weight()
     etw = event_training_weight()
-    if month == day and day == 18:
+    if month == day and day == 18 and yesterday.weekday() == 2:
         # data / mean * weight%
         return {
         'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * etw['prop_event_product_page_views'],
@@ -297,9 +297,9 @@ def daily_score():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    # if month == day and day == 18:
+    # if month == day and day == 18 and yesterday.weekday() == 2:
     df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')      
-    step_times_score = df['step_times'].sort_values(ascending=False)[:3]
+    step_times_score = df['step_times'].sort_values(ascending=False)[:3].mean()
         # product_page_bounce_rate_score = df['product_page_bounce_rate'].mean()
         # unique_visitors_score = df['unique_visitors'].mean()
         # new_visitors_score = df['new_visitors'].mean()
@@ -308,7 +308,6 @@ def daily_score():
         # search_clicks_score = df['search_clicks'].mean()
         # product_page_views_score = df['product_page_views'].mean()
         # product_likes_score = df['product_likes'].mean()
-
 
 
 print('\n=====================')

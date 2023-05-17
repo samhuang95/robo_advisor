@@ -95,7 +95,6 @@ df.to_csv(f'./dataset/noevent_data{yesterday}.csv', index=False)
 # 關閉 cursor 和連線
 cursor.close()
 cnx.close()
-
 # ---------------------------------------------
 # 【start to run the model and grap the weight values】
 
