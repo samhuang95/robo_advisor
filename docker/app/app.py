@@ -6,12 +6,6 @@ from functions.clear_folder import clear_folder
 
 app=Flask(__name__)
 
-
-# 做一個有登入跟去註冊網頁的畫面 路由
-@app.route("/")
-def project01():
-    return render_template("project01.html")
-
 # 做一個註冊的路由
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -26,20 +20,23 @@ def signup():
     
     SQLcommand().modify(f'INSERT INTO user_data (account, password) VALUES ("{user_name}", "{user_password}")')
 
-    return render_template("project01.html")
+    return render_template("signin.html")
 
 
 # 做一個登入的路由
-@app.route("/signin", methods=["POST"])
+@app.route("/", methods=["GET", "POST"])
 def signin():
+    if request.method == 'GET':
+        return render_template("signin.html")
+
     user_name = request.form['user_name']
     user_password = request.form['user_password']
 
     data = SQLcommand().get(f'SELECT * FROM user_data WHERE account = "{user_name}"')
     if not data:
-        return '請註冊'
+        return render_template("signin.html", warning='請註冊帳號')
     elif data[0][1] == user_name and data[0][2] != user_password:
-        return '密碼錯誤'
+        return render_template("signin.html", warning='密碼錯誤')
     elif data[0][1] == user_name and data[0][2] == user_password:
         return render_template("a.html")
 
@@ -128,11 +125,6 @@ def e():
             text.append({'picture': f'static/photos/{file.filename}', 'score': evaluate})
     else: warning = '請選擇4張圖片'
     return render_template('e.html', scores=text, warning=warning)
-
-
-@app.route("/head")
-def head():
-    return render_template("project01.html")
 
 # 讓程式跑起來
 if __name__ == '__main__':

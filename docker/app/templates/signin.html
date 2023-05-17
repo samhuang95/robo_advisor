@@ -21,6 +21,10 @@
             .signup{
                 text-align:center; 
             }
+            .warning {
+                font-size: 30px;
+                color: red;
+            }
             /* .img1 img[src="/messageImage_1681269807392.jpg"]{
                 width: 200px;
                 position: fixed;
@@ -34,21 +38,22 @@
         </style>
     </head>
     <body style="margin:0px; background-color:#eeeeee;">
-        <div class="head">宅摘</div>
+        <div class="head">宅栽</div>
         <div class="content"></div>
         <div class="signin">
             <br/>
             <br/>
             </form>
             <h3>會員登入</h3>
-            <form action="/signin" method="POST">
-                信箱<input type="text" name="user_email" /><br/>
-                暱名<input type="text" name="user_name" /><br/>
+            <form action="/" method="POST">
+                帳號<input type="text" name="user_name" /><br/>
                 密碼<input type="password" name="user_password" /><br/>
-                <br/>
-                <br/>
                 <button>登入</button>
             </form>
+            {% set warning = warning | default('') %}
+            {% if warning %}
+            <p class="warning">{{ warning }}</p>
+            {% endif %}
         </div>
         <div class="signup">
             <p>尚未註冊可由這裡註冊</p>
@@ -60,7 +65,7 @@
             <!-- <img src="/messageImage_1681269807392.jpg" /> -->
         </div>
         <div class="font01">
-            <p>歡迎來到宅摘</p>
+            <p>歡迎來到宅栽</p>
         </div>
     </body> 
 </html>
