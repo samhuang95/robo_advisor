@@ -52,34 +52,35 @@ def event_training_weight():
     # 讀取有活動的權重
     with open(f'./dataset/event_weight{yesterday}.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
+        print(reader)
         weight_dict = {}
         for event_weight in reader:
         # 將每一筆資料轉換成 dictionary
             feature = event_weight['feature']
             importance = event_weight['importance']
             weight_dict[feature] = importance
-        event_product_page_views = float(weight_dict['product_page_views'])
-        event_step_times = float(weight_dict['step_times'])
-        event_product_page_bounce_rate = float(weight_dict['product_page_bounce_rate'])
-        event_unique_visitors = float(weight_dict['unique_visitors'])
-        event_new_visitors = float(weight_dict['new_visitors'])
-        event_return_visitors = float(weight_dict['return_visitors'])
-        event_new_fans = float(weight_dict['new_fans'])
-        event_search_clicks = float(weight_dict['search_clicks'])
-        event_product_likes = float(weight_dict['product_likes'])
-        
-        event_SUM = event_product_page_views + event_step_times + event_product_page_bounce_rate + event_unique_visitors + event_new_visitors + event_return_visitors + event_new_fans + event_search_clicks + event_product_likes
-        
-        return {
-        'prop_event_product_page_views' : event_product_page_views / event_SUM * 100,
-        'prop_event_step_times' : event_step_times / event_SUM * 100,
-        'prop_event_product_page_bounce_rate' : event_product_page_bounce_rate / event_SUM * 100,
-        'prop_event_unique_visitors' : event_unique_visitors / event_SUM * 100,
-        'prop_event_new_visitors' : event_new_visitors / event_SUM * 100,
-        'prop_event_return_visitors' : event_return_visitors / event_SUM * 100,
-        'prop_event_new_fans' : event_new_fans / event_SUM * 100,
-        'prop_event_search_clicks' : event_search_clicks / event_SUM * 100,
-        'prop_event_product_likes' : event_product_likes / event_SUM * 100}
+    event_product_page_views = float(weight_dict['product_page_views'])
+    event_step_times = float(weight_dict['step_times'])
+    event_product_page_bounce_rate = float(weight_dict['product_page_bounce_rate'])
+    event_unique_visitors = float(weight_dict['unique_visitors'])
+    event_new_visitors = float(weight_dict['new_visitors'])
+    event_return_visitors = float(weight_dict['return_visitors'])
+    event_new_fans = float(weight_dict['new_fans'])
+    event_search_clicks = float(weight_dict['search_clicks'])
+    event_product_likes = float(weight_dict['product_likes'])
+    
+    event_SUM = event_product_page_views + event_step_times + event_product_page_bounce_rate + event_unique_visitors + event_new_visitors + event_return_visitors + event_new_fans + event_search_clicks + event_product_likes
+    
+    return {
+    'prop_event_product_page_views' : event_product_page_views / event_SUM * 100,
+    'prop_event_step_times' : event_step_times / event_SUM * 100,
+    'prop_event_product_page_bounce_rate' : event_product_page_bounce_rate / event_SUM * 100,
+    'prop_event_unique_visitors' : event_unique_visitors / event_SUM * 100,
+    'prop_event_new_visitors' : event_new_visitors / event_SUM * 100,
+    'prop_event_return_visitors' : event_return_visitors / event_SUM * 100,
+    'prop_event_new_fans' : event_new_fans / event_SUM * 100,
+    'prop_event_search_clicks' : event_search_clicks / event_SUM * 100,
+    'prop_event_product_likes' : event_product_likes / event_SUM * 100}
 
 
 
@@ -88,40 +89,44 @@ def event_training_weight():
 def noevent_training_weight():
     now = datetime.now()
     yesterday = (now - timedelta(days=1)).date()
+    
     # 讀取沒有活動的權重
     with open(f'./dataset/noevent_weight{yesterday}.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
+        reader = csv.DictReader(csvfile)        
         weight_dict = {}
-        for event_weight in reader:
+        for noevent_weight in reader:
         # 將每一筆資料轉換成 dictionary
-            feature = event_weight['feature']
-            importance = event_weight['importance']
+            feature = noevent_weight['feature']
+            
+            importance = noevent_weight['importance']
+            
             weight_dict[feature] = importance
-        # 獲取資料變數
-        noevent_product_page_views = float(weight_dict['product_page_views'])
-        noevent_step_times = float(weight_dict['step_times'])
-        noevent_product_page_bounce_rate = float(weight_dict['product_page_bounce_rate'])
-        noevent_unique_visitors = float(weight_dict['unique_visitors'])
-        noevent_new_visitors = float(weight_dict['new_visitors'])
-        noevent_return_visitors = float(weight_dict['return_visitors'])
-        noevent_new_fans = float(weight_dict['new_fans'])
-        noevent_search_clicks = float(weight_dict['search_clicks'])
-        noevent_product_likes = float(weight_dict['product_likes'])
-
-        noevent_SUM = noevent_product_page_views + noevent_step_times + noevent_product_page_bounce_rate + noevent_unique_visitors + noevent_new_visitors + noevent_return_visitors + noevent_new_fans + noevent_search_clicks + noevent_product_likes
         
-        return {
-        'prop_noevent_product_page_views' : noevent_product_page_views / noevent_SUM * 100,
-        'prop_noevent_step_times' : noevent_step_times / noevent_SUM * 100,
-        'prop_noevent_product_page_bounce_rate' : noevent_product_page_bounce_rate / noevent_SUM * 100,
-        'prop_noevent_unique_visitors' : noevent_unique_visitors / noevent_SUM * 100,
-        'prop_noevent_new_visitors' : noevent_new_visitors / noevent_SUM * 100,
-        'prop_noevent_return_visitors' : noevent_return_visitors / noevent_SUM * 100,
-        'prop_noevent_new_fans' : noevent_new_fans / noevent_SUM * 100,
-        'prop_noevent_search_clicks' : noevent_search_clicks / noevent_SUM * 100,
-        'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100
-        }
+        # 獲取資料變數
+    noevent_product_page_views = float(weight_dict['product_page_views'])
+    # print(noevent_product_page_views)
+    noevent_step_times = float(weight_dict['step_times'])
+    noevent_product_page_bounce_rate = float(weight_dict['product_page_bounce_rate'])
+    noevent_unique_visitors = float(weight_dict['unique_visitors'])
+    noevent_new_visitors = float(weight_dict['new_visitors'])
+    noevent_return_visitors = float(weight_dict['return_visitors'])
+    noevent_new_fans = float(weight_dict['new_fans'])
+    noevent_search_clicks = float(weight_dict['search_clicks'])
+    noevent_product_likes = float(weight_dict['product_likes'])
 
+    noevent_SUM = noevent_product_page_views + noevent_step_times + noevent_product_page_bounce_rate + noevent_unique_visitors + noevent_new_visitors + noevent_return_visitors + noevent_new_fans + noevent_search_clicks + noevent_product_likes
+    
+    return {
+    'prop_noevent_product_page_views' : noevent_product_page_views / noevent_SUM * 100,
+    'prop_noevent_step_times' : noevent_step_times / noevent_SUM * 100,
+    'prop_noevent_product_page_bounce_rate' : noevent_product_page_bounce_rate / noevent_SUM * 100,
+    'prop_noevent_unique_visitors' : noevent_unique_visitors / noevent_SUM * 100,
+    'prop_noevent_new_visitors' : noevent_new_visitors / noevent_SUM * 100,
+    'prop_noevent_return_visitors' : noevent_return_visitors / noevent_SUM * 100,
+    'prop_noevent_new_fans' : noevent_new_fans / noevent_SUM * 100,
+    'prop_noevent_search_clicks' : noevent_search_clicks / noevent_SUM * 100,
+    'prop_noevent_product_likes' : noevent_product_likes / noevent_SUM * 100
+    }
 
 # ----------------------------------------------------
 def feature_mean():
@@ -134,28 +139,28 @@ def feature_mean():
     if month == day and day == 18:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
         return {
-            'AVG_step_times' : df['step_times'] / len(df['step_times']),
-            'AVG_product_page_bounce_rate' : df['AVG_product_page_bounce_rate'] / len(df['AVG_product_page_bounce_rate']),
-            'AVG_unique_visitors' : df['AVG_unique_visitors'] / len(df['AVG_unique_visitors']),
-            'AVG_new_visitors' : df['AVG_new_visitors'] / len(df['AVG_new_visitors']),
-            'AVG_return_visitors' : df['AVG_return_visitors'] / len(df['AVG_return_visitors']),
-            'AVG_new_fans' : df['AVG_new_fans'] / len(df['AVG_new_fans']),
-            'AVG_search_clicks' : df['AVG_search_clicks'] / len(df['AVG_search_clicks']),
-            'AVG_product_page_views' : df['AVG_product_page_views'] / len(df['AVG_product_page_views']),
-            'AVG_product_likes' : df['AVG_product_likes'] / len(df['AVG_product_likes'])
+            'AVG_step_times' : df['step_times'].mean(),
+            'AVG_product_page_bounce_rate' : df['product_page_bounce_rate'].mean(),
+            'AVG_unique_visitors' : df['unique_visitors'].mean(),
+            'AVG_new_visitors' : df['new_visitors'].mean(),
+            'AVG_return_visitors' : df['return_visitors'].mean(),
+            'AVG_new_fans' : df['new_fans'].mean(),
+            'AVG_search_clicks' : df['search_clicks'].mean(),
+            'AVG_product_page_views' : df['product_page_views'].mean(),
+            'AVG_product_likes' : df['product_likes'].mean()
         }
     else:
         df = pd.read_csv(f'./dataset/noevent_data{yesterday}.csv', sep=',')
         return {
-            'AVG_step_times' : df['step_times'] / len(df['step_times']),
-            'AVG_product_page_bounce_rate' : df['AVG_product_page_bounce_rate'] / len(df['AVG_product_page_bounce_rate']),
-            'AVG_unique_visitors' : df['AVG_unique_visitors'] / len(df['AVG_unique_visitors']),
-            'AVG_new_visitors' : df['AVG_new_visitors'] / len(df['AVG_new_visitors']),
-            'AVG_return_visitors' : df['AVG_return_visitors'] / len(df['AVG_return_visitors']),
-            'AVG_new_fans' : df['AVG_new_fans'] / len(df['AVG_new_fans']),
-            'AVG_search_clicks' : df['AVG_search_clicks'] / len(df['AVG_search_clicks']),
-            'AVG_product_page_views' : df['AVG_product_page_views'] / len(df['AVG_product_page_views']),
-            'AVG_product_likes' : df['AVG_product_likes'] / len(df['AVG_product_likes'])
+            'AVG_step_times' : df['step_times'].mean(),
+            'AVG_product_page_bounce_rate' : df['product_page_bounce_rate'].mean(),
+            'AVG_unique_visitors' : df['unique_visitors'].mean(),
+            'AVG_new_visitors' : df['new_visitors'].mean(),
+            'AVG_return_visitors' : df['return_visitors'].mean(),
+            'AVG_new_fans' : df['new_fans'].mean(),
+            'AVG_search_clicks' : df['search_clicks'].mean(),
+            'AVG_product_page_views' : df['product_page_views'].mean(),
+            'AVG_product_likes' : df['product_likes'].mean()
         }
 
 # ----------------------------------------------------
@@ -169,18 +174,19 @@ def daily_report():
     dd = daily_data()
     fm = feature_mean()
     ntw = noevent_training_weight()
+    etw = event_training_weight()
     if month == day and day == 18:
         # data / mean * weight%
         return {
-        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * ntw['prop_noevent_product_page_views'],
-        'step_times' : dd['step_times'] / fm['AVG_step_times'] * ntw['prop_noevent_step_times'],
-        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * ntw['prop_noevent_product_page_bounce_rate'],
-        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * ntw['prop_noevent_unique_visitors'],
-        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * ntw['prop_noevent_new_visitors'],
-        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * ntw['prop_noevent_return_visitors'],
-        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * ntw['prop_noevent_new_fans'],
-        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * ntw['prop_noevent_search_clicks'],
-        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * ntw['prop_noevent_product_likes'],
+        'product_page_views' : dd['product_page_views'] / fm['AVG_product_page_views'] * etw['prop_event_product_page_views'],
+        'step_times' : dd['step_times'] / fm['AVG_step_times'] * etw['prop_event_step_times'],
+        'product_page_bounce_rate' : dd['product_page_bounce_rate'] / fm['AVG_product_page_bounce_rate'] * etw['prop_event_product_page_bounce_rate'],
+        'unique_visitors' : dd['unique_visitors'] / fm['AVG_unique_visitors'] * etw['prop_event_unique_visitors'],
+        'new_visitors' : dd['new_visitors'] / fm['AVG_new_visitors'] * etw['prop_event_new_visitors'],
+        'return_visitors' : dd['return_visitors'] / fm['AVG_return_visitors'] * etw['prop_event_return_visitors'],
+        'new_fans' : dd['new_fans'] / fm['AVG_new_fans'] * etw['prop_event_new_fans'],
+        'search_clicks' : dd['search_clicks'] / fm['AVG_search_clicks'] * etw['prop_event_search_clicks'],
+        'product_likes' : dd['product_likes'] / fm['AVG_product_likes'] * etw['prop_event_product_likes'],
         }
     else:
         return {
@@ -200,48 +206,127 @@ def daily_insight():
     # shopee events
     # 讀取有活動參與的數據
     insight_message = {}
-    dr = daily_report()
     fm = feature_mean()
-    if dr['product_page_views'] < fm['AVG_product_page_views']:
-        product_page_views = fm['AVG_product_page_views'] - dr['product_page_views']
-        insight_message['product_page_views'] = f"商品頁面瀏覽數低於每日平均{product_page_views}次"
+    dd = daily_data()
+
+    if dd['product_page_views'] < fm['AVG_product_page_views']:
+        product_page_views = abs(fm['AVG_product_page_views'] - dd['product_page_views'])
+        insight_message['product_page_views'] = f"商品頁面瀏覽數低於每日平均 {product_page_views} 次"    
     
-    if dr['step_times'] < fm['AVG_step_times']:
-        step_times = fm['AVG_step_times'] - dr['step_times']
-        insight_message['step_times'] = f"用戶停留時間低於每日平均{step_times}秒"
+    if dd['step_times'] < fm['AVG_step_times']:
+        step_times = abs(fm['AVG_step_times'] - dd['step_times'])
+        insight_message['step_times'] = f"用戶停留時間低於每日平均 {step_times} 秒"
         
-    if dr['product_page_bounce_rate'] > fm['AVG_product_page_bounce_rate']:
-        product_page_bounce_rate = fm['AVG_product_page_bounce_rate'] - dr['product_page_bounce_rate']
-        insight_message['product_page_bounce_rate'] = f"用戶跳出率高於每日平均{product_page_bounce_rate}%"
+    if dd['product_page_bounce_rate'] > fm['AVG_product_page_bounce_rate']:
+        product_page_bounce_rate = abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate'])
+        insight_message['product_page_bounce_rate'] = f"用戶跳出率高於每日平均 {product_page_bounce_rate} %"
 
-    if dr['unique_visitors'] < fm['AVG_unique_visitors']:
-        unique_visitors = fm['AVG_unique_visitors'] - dr['unique_visitors']
-        insight_message['unique_visitors'] = f"不重複拜訪用戶低於每日平均{unique_visitors}人次"
+    if dd['unique_visitors'] < fm['AVG_unique_visitors']:
+        unique_visitors = abs(fm['AVG_unique_visitors'] - dd['unique_visitors'])
+        insight_message['unique_visitors'] = f"不重複拜訪用戶低於每日平均 {unique_visitors} 人次"
 
-    if dr['new_visitors'] < fm['AVG_new_visitors']:
-        new_visitors = fm['AVG_new_visitors'] - dr['new_visitors']
-        insight_message['new_visitors'] = f"新拜訪用戶低於每日平均{new_visitors}人次"
+    if dd['new_visitors'] < fm['AVG_new_visitors']:
+        new_visitors = abs(fm['AVG_new_visitors'] - dd['new_visitors'])
+        insight_message['new_visitors'] = f"新拜訪用戶低於每日平均 {new_visitors} 人次"
 
-    if dr['return_visitors'] < fm['AVG_return_visitors']:
-        return_visitors = fm['AVG_return_visitors'] - dr['return_visitors']
-        insight_message['return_visitors'] = f"回訪用戶低於每日平均{return_visitors}人次"
+    if dd['return_visitors'] < fm['AVG_return_visitors']:
+        return_visitors = abs(fm['AVG_return_visitors'] - dd['return_visitors'])
+        insight_message['return_visitors'] = f"回訪用戶低於每日平均 {return_visitors} 人次"
 
-    if dr['new_fans'] < fm['AVG_new_fans']:
-        new_fans = fm['AVG_new_fans'] - dr['new_fans']
-        insight_message['new_fans'] = f"新加入粉絲低於每日平均{new_fans}人次"
+    if dd['new_fans'] < fm['AVG_new_fans']:
+        new_fans = abs(fm['AVG_new_fans'] - dd['new_fans'])
+        insight_message['new_fans'] = f"新加入粉絲低於每日平均 {new_fans} 人次"
 
-    if dr['search_clicks'] < fm['AVG_search_clicks']:
-        search_clicks = fm['AVG_search_clicks'] - dr['search_clicks']
-        insight_message['search_clicks'] = f"搜尋點擊低於每日平均{search_clicks}次"
+    if dd['search_clicks'] < fm['AVG_search_clicks']:
+        search_clicks = abs(fm['AVG_search_clicks'] - dd['search_clicks'])
+        insight_message['search_clicks'] = f"搜尋點擊低於每日平均 {search_clicks} 次"
 
-    if dr['product_likes'] < fm['AVG_product_likes']:
-        product_likes = fm['AVG_product_likes'] - dr['product_likes']
-        insight_message['product_likes'] = f"收藏點擊次數低於每日平均{product_likes}次"
+    if dd['product_likes'] < fm['AVG_product_likes']:
+        product_likes = abs(fm['AVG_product_likes'] - dd['product_likes'])
+        insight_message['product_likes'] = f"收藏點擊次數低於每日平均 {product_likes} 次"
+# =========================================================================
+    if dd['product_page_views'] > fm['AVG_product_page_views']:
+        product_page_views = abs(fm['AVG_product_page_views'] - dd['product_page_views'])
+        insight_message['product_page_views'] = f"商品頁面瀏覽數高於每日平均 {product_page_views} 次"    
+    
+    if dd['step_times'] > fm['AVG_step_times']:
+        step_times = abs(fm['AVG_step_times'] - dd['step_times'])
+        insight_message['step_times'] = f"用戶停留時間高於每日平均 {step_times} 秒"
+        
+    if dd['product_page_bounce_rate'] < fm['AVG_product_page_bounce_rate']:
+        product_page_bounce_rate = abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate'])
+        insight_message['product_page_bounce_rate'] = f"用戶跳出率低於每日平均 {product_page_bounce_rate} %"
+
+    if dd['unique_visitors'] > fm['AVG_unique_visitors']:
+        unique_visitors = abs(fm['AVG_unique_visitors'] - dd['unique_visitors'])
+        insight_message['unique_visitors'] = f"不重複拜訪用戶高於每日平均 {unique_visitors} 人次"
+
+    if dd['new_visitors'] > fm['AVG_new_visitors']:
+        new_visitors = abs(fm['AVG_new_visitors'] - dd['new_visitors'])
+        insight_message['new_visitors'] = f"新拜訪用戶高於每日平均 {new_visitors} 人次"
+
+    if dd['return_visitors'] > fm['AVG_return_visitors']:
+        return_visitors = abs(fm['AVG_return_visitors'] - dd['return_visitors'])
+        insight_message['return_visitors'] = f"回訪用戶高於每日平均 {return_visitors} 人次"
+
+    if dd['new_fans'] > fm['AVG_new_fans']:
+        new_fans = abs(fm['AVG_new_fans'] - dd['new_fans'])
+        insight_message['new_fans'] = f"新加入粉絲高於每日平均 {new_fans} 人次"
+
+    if dd['search_clicks'] > fm['AVG_search_clicks']:
+        search_clicks = abs(fm['AVG_search_clicks'] - dd['search_clicks'])
+        insight_message['search_clicks'] = f"搜尋點擊高於每日平均 {search_clicks} 次"
+
+    if dd['product_likes'] > fm['AVG_product_likes']:
+        product_likes = abs(fm['AVG_product_likes'] - dd['product_likes'])
+        insight_message['product_likes'] = f"收藏點擊次數高於每日平均 {product_likes} 次"
     
     return insight_message
 
+insights = daily_insight()
+print(insights['step_times'])
+print('='*30)
+print(insights)
 
-print(insight_message)
+
+# ----------------------------------------------------
+def daily_score():
+    now = datetime.now()
+    yesterday = (now - timedelta(days=1)).date()
+    month = yesterday.strftime("%m")
+    day = yesterday.strftime("%d")
+    # shopee events
+    # 讀取有活動參與的數據
+    # if month == day and day == 18:
+    df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')      
+    step_times_score = df['step_times'].sort_values(ascending=False)[:3]
+        # product_page_bounce_rate_score = df['product_page_bounce_rate'].mean()
+        # unique_visitors_score = df['unique_visitors'].mean()
+        # new_visitors_score = df['new_visitors'].mean()
+        # return_visitors_score = df['return_visitors'].mean()
+        # new_fans_score = df['new_fans'].mean()
+        # search_clicks_score = df['search_clicks'].mean()
+        # product_page_views_score = df['product_page_views'].mean()
+        # product_likes_score = df['product_likes'].mean()
 
 
+
+print('\n=====================')
+dr = daily_report()
+print(sum(dr.values()))
+print('\n=====================')
+print(dr['product_page_views'])
+
+
+
+# 先找出何謂 100，標準應該要固定 
+# 帶來最高業績那一天？
+# 
+
+
+# dr = daily_report()
+# fm = feature_mean()
+
+# print(dr['step_times'])
+# print(fm['AVG_step_times'])
 
