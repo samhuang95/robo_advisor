@@ -170,75 +170,75 @@ def daily_insight():
     dd = daily_data()
 
     if dd['product_page_views'] < fm['AVG_product_page_views']:
-        product_page_views = abs(fm['AVG_product_page_views'] - dd['product_page_views'])
+        product_page_views = round(abs(fm['AVG_product_page_views'] - dd['product_page_views']))
         insight_message['product_page_views'] = f"商品頁面瀏覽數低於每日平均 {product_page_views} 次"    
     
     if dd['step_times'] < fm['AVG_step_times']:
-        step_times = abs(fm['AVG_step_times'] - dd['step_times'])
+        step_times = round(abs(fm['AVG_step_times'] - dd['step_times']))
         insight_message['step_times'] = f"用戶停留時間低於每日平均 {step_times} 秒"
         
     if dd['product_page_bounce_rate'] > fm['AVG_product_page_bounce_rate']:
-        product_page_bounce_rate = abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate'])
+        product_page_bounce_rate = round(abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate']))
         insight_message['product_page_bounce_rate'] = f"用戶跳出率高於每日平均 {product_page_bounce_rate} %"
 
     if dd['unique_visitors'] < fm['AVG_unique_visitors']:
-        unique_visitors = abs(fm['AVG_unique_visitors'] - dd['unique_visitors'])
+        unique_visitors = round(abs(fm['AVG_unique_visitors'] - dd['unique_visitors']))
         insight_message['unique_visitors'] = f"不重複拜訪用戶低於每日平均 {unique_visitors} 人次"
 
     if dd['new_visitors'] < fm['AVG_new_visitors']:
-        new_visitors = abs(fm['AVG_new_visitors'] - dd['new_visitors'])
+        new_visitors = round(abs(fm['AVG_new_visitors'] - dd['new_visitors']))
         insight_message['new_visitors'] = f"新拜訪用戶低於每日平均 {new_visitors} 人次"
 
     if dd['return_visitors'] < fm['AVG_return_visitors']:
-        return_visitors = abs(fm['AVG_return_visitors'] - dd['return_visitors'])
+        return_visitors = round(abs(fm['AVG_return_visitors'] - dd['return_visitors']))
         insight_message['return_visitors'] = f"回訪用戶低於每日平均 {return_visitors} 人次"
 
     if dd['new_fans'] < fm['AVG_new_fans']:
-        new_fans = abs(fm['AVG_new_fans'] - dd['new_fans'])
+        new_fans = round(abs(fm['AVG_new_fans'] - dd['new_fans']))
         insight_message['new_fans'] = f"新加入粉絲低於每日平均 {new_fans} 人次"
 
     if dd['search_clicks'] < fm['AVG_search_clicks']:
-        search_clicks = abs(fm['AVG_search_clicks'] - dd['search_clicks'])
+        search_clicks = round(abs(fm['AVG_search_clicks'] - dd['search_clicks']))
         insight_message['search_clicks'] = f"搜尋點擊低於每日平均 {search_clicks} 次"
 
     if dd['product_likes'] < fm['AVG_product_likes']:
-        product_likes = abs(fm['AVG_product_likes'] - dd['product_likes'])
+        product_likes = round(abs(fm['AVG_product_likes'] - dd['product_likes']))
         insight_message['product_likes'] = f"收藏點擊次數低於每日平均 {product_likes} 次"
 # =========================================================================
     if dd['product_page_views'] > fm['AVG_product_page_views']:
-        product_page_views = abs(fm['AVG_product_page_views'] - dd['product_page_views'])
+        product_page_views = round(abs(fm['AVG_product_page_views'] - dd['product_page_views']))
         insight_message['product_page_views'] = f"商品頁面瀏覽數高於每日平均 {product_page_views} 次"    
     
     if dd['step_times'] > fm['AVG_step_times']:
-        step_times = abs(fm['AVG_step_times'] - dd['step_times'])
+        step_times = round(abs(fm['AVG_step_times'] - dd['step_times']))
         insight_message['step_times'] = f"用戶停留時間高於每日平均 {step_times} 秒"
         
     if dd['product_page_bounce_rate'] < fm['AVG_product_page_bounce_rate']:
-        product_page_bounce_rate = abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate'])
+        product_page_bounce_rate = round(abs(fm['AVG_product_page_bounce_rate'] - dd['product_page_bounce_rate']))
         insight_message['product_page_bounce_rate'] = f"用戶跳出率低於每日平均 {product_page_bounce_rate} %"
 
     if dd['unique_visitors'] > fm['AVG_unique_visitors']:
-        unique_visitors = abs(fm['AVG_unique_visitors'] - dd['unique_visitors'])
+        unique_visitors = round(abs(fm['AVG_unique_visitors'] - dd['unique_visitors']))
         insight_message['unique_visitors'] = f"不重複拜訪用戶高於每日平均 {unique_visitors} 人次"
 
     if dd['new_visitors'] > fm['AVG_new_visitors']:
-        new_visitors = abs(fm['AVG_new_visitors'] - dd['new_visitors'])
+        new_visitors = round(abs(fm['AVG_new_visitors'] - dd['new_visitors']))
         insight_message['new_visitors'] = f"新拜訪用戶高於每日平均 {new_visitors} 人次"
 
     if dd['return_visitors'] > fm['AVG_return_visitors']:
-        return_visitors = abs(fm['AVG_return_visitors'] - dd['return_visitors'])
+        return_visitors = round(abs(fm['AVG_return_visitors'] - dd['return_visitors']))
         insight_message['return_visitors'] = f"回訪用戶高於每日平均 {return_visitors} 人次"
 
     if dd['new_fans'] > fm['AVG_new_fans']:
-        new_fans = abs(fm['AVG_new_fans'] - dd['new_fans'])
+        new_fans = round(abs(fm['AVG_new_fans'] - dd['new_fans']))
         insight_message['new_fans'] = f"新加入粉絲高於每日平均 {new_fans} 人次"
 
     if dd['search_clicks'] > fm['AVG_search_clicks']:
-        search_clicks = abs(fm['AVG_search_clicks'] - dd['search_clicks'])
+        search_clicks = round(abs(fm['AVG_search_clicks'] - dd['search_clicks']))
         insight_message['search_clicks'] = f"搜尋點擊高於每日平均 {search_clicks} 次"
 
     if dd['product_likes'] > fm['AVG_product_likes']:
-        product_likes = abs(fm['AVG_product_likes'] - dd['product_likes'])
+        product_likes = round(abs(fm['AVG_product_likes'] - dd['product_likes']))
         insight_message['product_likes'] = f"收藏點擊次數高於每日平均 {product_likes} 次"
     
     return insight_message
