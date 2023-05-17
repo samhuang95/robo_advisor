@@ -22,6 +22,4 @@ class SQLcommand:
     self.conn.commit()
 
 if __name__ == '__main__':
-  user_name = 'root3'
-  user_password = 'root3'
-  SQLcommand().modify(f'INSERT INTO user_data (account, password) VALUES ("{user_name}", "{user_password}")')
+  pass

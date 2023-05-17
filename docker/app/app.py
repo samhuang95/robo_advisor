@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, request
 from functions.connect_to_db import SQLcommand
 # from functions.image_predict import predict_image
+from functions.clear_folder import clear_folder
 
 app=Flask(__name__)
 
@@ -115,17 +116,18 @@ def d():
 def e():
     if request.method == 'GET':
         return render_template("e.html")
-    
+    clear_folder('static/photos/')
     text = []
     files = request.files.getlist('file')
-    for file in files:
-        file.save('photos/' + file.filename)
-        evaluate = predict_image(f'./photos/{file.filename}')
-        text.append({'圖片名稱': file.filename, '圖片評價': evaluate})
-    return render_template('e.html', data=text)
-
-
-
+    print(len(files))
+    if len(files) == 4 and files[0].filename:
+        warning = ''
+        for file in files:
+            file.save('static/photos/' + file.filename)
+            evaluate = predict_image(f'static/photos/{file.filename}')
+            text.append({'picture': f'static/photos/{file.filename}', 'score': evaluate})
+    else: warning = '請選擇4張圖片'
+    return render_template('e.html', scores=text, warning=warning)
 
 
 @app.route("/head")
@@ -133,4 +135,6 @@ def head():
     return render_template("project01.html")
 
 # 讓程式跑起來
-app.run(host="0.0.0.0")
+if __name__ == '__main__':
+    app.debug = True
+    app.run(host="0.0.0.0")

@@ -18,3 +18,6 @@ def predict_image(path):
     case 1: return 'B'
     case 2: return 'A'
     case 3: return 'S'
+
+if __name__ == '__main__':
+  pass
