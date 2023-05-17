@@ -1,0 +1,1 @@
+0 * * * * python /app/functions/update_db.py

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request
 from functions.connect_to_db import SQLcommand
-# from functions.image_predict import predict_image
+from functions.image_predict import predict_image
 from functions.clear_folder import clear_folder
 
 app=Flask(__name__)

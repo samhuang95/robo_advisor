@@ -8,17 +8,23 @@
         <!-- font-family是字體的選擇 font-weight是讓字體變粗-->
         <!-- opacity 讓東西改變他的透明度-->
         <style type="text/css">
-            .head{
-                background-color: rgb(125, 202, 166) ;color: black; font-family: Comic Sans MS, cursive, sans-serif;font-weight: bold; font-size:50px;
-                text-align:center;      
+            .head {
+                background-color: rgb(125, 202, 166) ;
+                color: black;
+                font-family: Comic Sans MS, cursive, sans-serif;
+                font-weight: bold;
+                font-size:50px;
+                text-align:center;
             }
-            .content{
-                width: 1000px; margin-left:auto; margin-right:auto;border: 1px solid black
+            .content {
+                width: 1000px;
+                margin-left:auto;
+                margin-right:auto;
             }
-            .signin{
+            .signin {
                 text-align:center; 
             }
-            .signup{
+            .signup {
                 text-align:center; 
             }
             .warning {
@@ -31,8 +37,11 @@
                 bottom: 0;
                 right: 0;   
             } */
-            .font01{
-                text-align:center; font-family: Comic Sans MS, cursive, sans-serif;font-weight: bold; font-size:25px;
+            .font01 {
+                text-align:center;
+                font-family: Comic Sans MS, cursive, sans-serif;
+                font-weight: bold;
+                font-size:25px;
                 opacity: 0.7;
             }
         </style>
@@ -43,11 +52,14 @@
         <div class="signin">
             <br/>
             <br/>
-            </form>
-            <h3>會員登入</h3>
+            <h1>會員登入</h1>
+            <br/>
             <form action="/" method="POST">
-                帳號<input type="text" name="user_name" /><br/>
-                密碼<input type="password" name="user_password" /><br/>
+                <label for="user_name">帳號</label>
+                <input type="text" name="user_name" required pattern="[a-zA-Z0-9_@]+"><br/>
+                <label for="user_password">密碼</label>
+                <input type="password" name="user_password" required pattern="[a-zA-Z0-9_@]+"><br/>
+                <br/>
                 <button>登入</button>
             </form>
             {% set warning = warning | default('') %}

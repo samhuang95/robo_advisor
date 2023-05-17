@@ -6,30 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>註冊畫面</title>
     <style type="text/css">
-            .header{
+            .header {
+                margin-top: 20vh;
                 text-align:center;
             }
-            .signup{
-                text-align:center; margin-top: 100px;
+            .signup {
+                text-align:center;
+                margin-top: 10vh;
             }
-            .q{
+            .q {
                 text-align:center; 
             }
     </style>
 </head>
 <body>
-    <div class="header1"><h2>會員註冊系統</h2></div>
+    <div class="header"><h1>會員註冊系統</h1></div>
     
     <div class="signup">
         <form action="/signup" method="POST">
-            <input type="text" placeholder="帳號" name="user_name"  >
-            <br/>
-            <input type="password" placeholder="密碼" name="user_password"/>
-            <br/>
-            <br/>
+            <input type="text" placeholder="帳號" name="user_name" required pattern="[a-zA-Z0-9_@]+"><br/>
+            <input type="password" placeholder="密碼" name="user_password" required pattern="[a-zA-Z0-9_@]+"><br/>
             <button>註冊</button>
         </form>
     </div>
+    <br/>
     <div class="q">
         <a href="/">回首頁</a>
     </div>
