@@ -65,15 +65,3 @@ def predict_column(data, f_date: int):
     global predictions_df
     predictions_df['Column'] = np.squeeze(future_predictions)
     return predictions_df
-
-
-# 创建一个空的 DataFrame 来保存预测结果
-predictions_df = pd.DataFrame()
-
-# 從 0 到 21，進行 22 次預測
-# for i in range(22):
-#     print(f"Predicting column {i}")
-#     predict_column(i)
-
-# 保存预测结果到 CSV 文件
-predictions_df.to_csv('predictions.csv', index=False)
