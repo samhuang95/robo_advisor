@@ -5,6 +5,18 @@ import datetime
 import schedule
 from functions.connect_to_db import SQLcommand
 
+credential_dict = {
+    'host': 'db',
+    'database': 'chi101',
+    'user': 'chi101',
+    'password': 'chi101',
+    'charset': 'utf8mb4'
+}
+conn = pymysql.connect(**credential_dict)
+cursor = conn.cursor()
+
+
+
 
 # 閏年判斷
 def is_leap_year(year: int):
@@ -48,12 +60,14 @@ def start_predict(year_month):
     orig_dict_date = dict()
     orig_dict_month = dict()
     pred_dict = dict()
-
-    # 建立預測資料的資料庫
-    sql = f"""
-        CREATE TABLE predict_total_sales_{year}_{str(month).zfill(2)} (NAME text, sales float);
-        """
-    SQLcommand.modify(sql)
+    try:
+        # 建立預測資料的資料庫
+        sql1 = f"""
+            CREATE TABLE predict_total_sales_{year}_{str(month).zfill(2)} (NAME text, sales float);
+            """
+        cursor.execute(sql1)
+    except:
+        print('db already exists')
 
     # 生成下個月
     if int(month) == 12:
@@ -63,11 +77,12 @@ def start_predict(year_month):
 
     # 對每種植物進行資料庫讀取並放入orig_dict_date中
     for n in plant_list:
-        sql = f"""
-            SELECT date_time, total_sales FROM robo_adviser.product_detail
+        sql2 = f"""
+            SELECT date_time, total_sales FROM chi101.product_detail
             WHERE product_name like '%{n}%' AND (date_time < '{year_month}-01');
             """
-        datas = SQLcommand.modify(sql)
+        cursor.execute(sql2)
+        datas = cursor.fetchall()
         for data in datas:
             if n not in orig_dict_date.keys():
                 orig_dict_date[n] = [[data[0], data[1]]]
@@ -109,11 +124,11 @@ def start_predict(year_month):
             sum_avg[key][year_month] = 30*sum(item_list)/(len(item_list)-(month_date(month)))
         print(sum_avg)
         print(pred_dict)
-        sql = f"""
+        sql3 = f"""
             INSERT INTO predict_total_sales_{year}_{str(month).zfill(2)} (NAME, SALES)
             VALUES ('{key}', {pred});
             """
-        SQLcommand.modify(sql)
+        cursor.execute(sql3)
 
 
 # 執行以下兩個月份的kpi
@@ -124,13 +139,13 @@ start_predict("2023-03")
 
 
 # 每個月15號執行plant_kpi
-# def job():
-#     today = datetime.date.today()
-#     if today.day == 15:
-#         start_predict(str(today.year) + "-" + str(today.month))
-#         print("執行程式 - 15號")
-#
-#
-# schedule.every().day.at("00:00").do(job)
-# while True:
-#     schedule.run_pending()
+def job():
+    today = datetime.date.today()
+    if today.day == 15:
+        start_predict(str(today.year) + "-" + str(today.month))
+        print("執行程式 - 15號")
+
+
+schedule.every().day.at("00:00").do(job)
+while True:
+    schedule.run_pending()
