@@ -24,12 +24,8 @@ def connect_mysql(plant_name, start_date, end_date):
     SELECT * FROM robo_adviser.product_detail
     WHERE (product_name like '%{plant_name}%') AND (date_time BETWEEN '{start_date}' AND '{end_date}');
     """
-    # cursor.execute(sql)
-    # datas = cursor.fetchall()
     datas = SQLcommand.get(sql)
     for data in datas:
-        # dates.append(data[0])
-        # sales.append(data[14])
         if (str(data[0].year) + "年" + str(data[0].month) + "月") not in month_dict:
             month_dict[str(data[0].year) + "年" + str(data[0].month) + "月"] = data[14]
         else:
@@ -65,8 +61,6 @@ def catch_predict(plant_name, start_date, end_date):
             sql = f"""
                SELECT * FROM robo_adviser.predict_total_sales_{month}
                """
-            # cursor.execute(sql)
-            # sales = cursor.fetchall()
             sales = SQLcommand.get(sql)
             print(sales)
             for item in sales:
@@ -94,9 +88,6 @@ def index():
         start_date = datetime.strptime(start_date_str, '%Y-%m-%d')  # 將 start_date_str 字串轉為 datetime 物件
         end_date = datetime.strptime(end_date_str, '%Y-%m-%d')  # 將 end_date_str 字串轉為 datetime 物件
         x, y = connect_mysql(plant_name, start_date, end_date)
-
-        # delta = end_date - start_date   # 計算日期區間
-        # every_date = [start_date + timedelta(days=i) for i in range(delta.days + 1)]   # 產生日期區間內每一天的日期
         fig = go.Figure()
         fig.add_trace(go.Bar(x=x, y=y, name='月銷量', text=y, textposition='auto', textangle=0, orientation='v'))
         fig.update_layout(barmode='group', title='Bar Chart')

@@ -78,8 +78,6 @@ def start_predict(year_month):
     for key, values in orig_dict_date.items():
         # print(key)
         for value in values:
-            # print(str(value[0])[2:7])
-            # print(value[1])
             if key not in orig_dict_month:
                 orig_dict_month[key] = {str(value[0])[2:7]: value[1]}
             else:
