@@ -8,10 +8,10 @@ pymysql
 requests
 selenium-wire
 selenium
-# tensorflow
 mysql-connector-python
 pandas
 openpyxl
 datetime
 schedule
+tensorflow
 scikit-learn

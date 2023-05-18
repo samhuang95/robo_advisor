@@ -98,17 +98,10 @@ def index():
         # delta = end_date - start_date   # 計算日期區間
         # every_date = [start_date + timedelta(days=i) for i in range(delta.days + 1)]   # 產生日期區間內每一天的日期
         fig = go.Figure()
-        fig.add_trace(go.Bar(x=x, y=y, name='Group 1', text=y, textposition='auto', textangle=0, orientation='v'))
+        fig.add_trace(go.Bar(x=x, y=y, name='月銷量', text=y, textposition='auto', textangle=0, orientation='v'))
         fig.update_layout(barmode='group', title='Bar Chart')
-
-        # fig = go.Figure()   # 建立一個 plotly 的 Figure 物件
-        # fig.add_trace(go.Scatter(x=every_date, y=y, mode='lines+markers'))   # 在 Figure 物件中添加一個 Scatter 圖形
-        # fig.update_layout(title=f'日期區間: {start_date_str} - {end_date_str}', xaxis_title='日期', yaxis_title='Value')   # 更新 Figure 物件的布
-        #  # 将图表转换为HTML文件
-        # div = opy.plot(fig, auto_open=False, output_type='div')
-        # # 回傳 a頁面                         # 這個是圖像介面
         x2, y2 = catch_predict(plant_name, start_date, end_date)
-        fig.add_trace(go.Bar(x=x2, y=y2, name='Group 2', text=y2, textposition='auto', textangle=0, orientation='v'))
+        fig.add_trace(go.Bar(x=x2, y=y2, name='預測kpi', text=y2, textposition='auto', textangle=0, orientation='v'))
         div = pyo.plot(fig, auto_open=False, output_type='div')
         return render_template("b.html", div_placeholder=div, plant_list=plant_list)
     except:

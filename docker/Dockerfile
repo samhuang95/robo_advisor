@@ -1,13 +1,11 @@
 FROM python:slim
 
 
-COPY start.sh .
-COPY ./app/app.py .
-COPY ./app/plant_kpi.py .
 COPY ./root /var/spool/cron/crontabs/
 COPY ./requirements.txt /
-COPY ./app /app
+COPY . /app
 WORKDIR /app
+
 
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
