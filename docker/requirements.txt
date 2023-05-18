@@ -7,10 +7,10 @@ pymysql
 requests
 selenium-wire
 selenium
-tensorflow
+# tensorflow
 mysql-connector-python
 pandas
 openpyxl
-
+plotly
 
 
