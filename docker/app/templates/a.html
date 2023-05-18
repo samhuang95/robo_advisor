@@ -149,24 +149,24 @@
                     </div>
                     <div class="col-2 score-col">
                         <div class="score-text">
-                            <h3 class="score-text">100分</h3>
+                            <h3 class="score-text">{{ ds|safe }}</h3>
                         </div>
                         <div class="warning-reminder">
-                            {% set a = a | default({})%}
+                            {% set di = di | default({})%}
                             <div class="alert alert-danger" role="alert">
-                                {{ a.get("a_highlight")}}
+                                {{ di.get("product_page_views")}}
                             </div>
                             <div class="alert alert-danger" role="alert">
-                                {{ a.get("b_highlight")}}
+                                {{ di.get("step_times")}}
                             </div>
                             <div class="alert alert-danger" role="alert">
-                                {{ a.get("c_highlight")}}
+                                {{ di.get("product_likes")}}
                             </div>
                             <div class="alert alert-warning" role="alert">
-                                {{ a.get("d_highlight")}}
+                                {{ di.get("search_clicks")}}
                             </div>
                             <div class="alert alert-warning" role="alert">
-                                {{ a.get("e_highlight")}}
+                                {{ di.get("new_fans")}}
                             </div>
                         </div>
                     </div>    
@@ -174,7 +174,7 @@
                 <div class="row date-row">
                     <div class="col-2">
                         <div class="date">
-                            <form action="/plot" method="get">
+                            <form action="/a" method="POST">
                                 <label for="start_date">起始日 :</label>
                                 <input type="date" id="start_date" name="start_date" min="2019-09-01" max="2023-06-30" />
                                 <br>
@@ -188,13 +188,13 @@
                         </div>
                     </div>
                     <div class="col-10">
-                        {% set a = a | default({})%}
+                        {% set da = da | default({})%}
                         <div class="row">
                             <div class="col-3">
                                 <div class="card text-bg-light mb-3" style="width: 8rem;">
                                     <div class="card-header">銷售額</div>
                                     <div class="card-body">
-                                    <p class="card-text">{{ a.get("sales")}}</p>
+                                    <p class="card-text">{{ da.get("total_sales")}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@
                                 <div class="card text-bg-light mb-3" style="width: 8rem;">
                                     <div class="card-header">成銷量</div>
                                     <div class="card-body">
-                                    <p class="card-text">{{ a.get("turnover")}}</p>
+                                    <p class="card-text">{{ da.get("sale_products")}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                                 <div class="card text-bg-light mb-3" style="width: 8rem;">
                                     <div class="card-header">商品瀏覽數</div>
                                     <div class="card-body">
-                                    <p class="card-text">{{ a.get("Product_Views")}}</p>
+                                    <p class="card-text">{{ da.get("product_page_views")}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +218,7 @@
                                 <div class="card text-bg-light mb-3" style="width: 8rem;">
                                     <div class="card-header">訪客數</div>
                                     <div class="card-body">
-                                    <p class="card-text">{{ a.get("number_of_visitors")}}</p>
+                                    <p class="card-text">{{ da.get("unique_visitors")}}</p>
                                     </div>
                                 </div>
                             </div>
