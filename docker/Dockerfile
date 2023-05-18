@@ -1,5 +1,9 @@
 FROM python:slim
 
+
+COPY start.sh .
+COPY ./app/app.py .
+COPY ./app/plant_kpi.py .
 COPY ./root /var/spool/cron/crontabs/
 COPY ./requirements.txt /
 COPY ./app /app
@@ -14,4 +18,4 @@ RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["bash", "start.sh"]

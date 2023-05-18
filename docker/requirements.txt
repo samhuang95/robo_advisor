@@ -1,3 +1,4 @@
+plotly
 cryptography
 Flask
 numpy
@@ -11,6 +12,6 @@ tensorflow
 mysql-connector-python
 pandas
 openpyxl
-
-
-
+datetime
+schedule
+scikit-learn
