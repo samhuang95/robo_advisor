@@ -4,91 +4,67 @@ from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date
 import csv
-from store_overview import *
 
-# def daily_score():
-#     now = datetime.now()
-#     yesterday = (now - timedelta(days=1)).date()
-#     month = yesterday.strftime("%m")
-#     day = yesterday.strftime("%d")
-#     year = now.strftime("%Y")
+# ----------------------------------------------------
+# 建立 MySQL 連線
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-#     dd = daily_data()
-#     etw = event_training_weight()
-#     ntw = noevent_training_weight()
+# 設定連線資訊
+config = {
+    'user': config.get('store_overview', 'user'),
+    'password': config.get('store_overview', 'password'),
+    'host': config.get('store_overview', 'host'),
+    'database': config.get('store_overview', 'database'),
+    # 'ports': 
+}
 
-#     if month == day and day == 18 and yesterday.weekday() == 2:
-        
-#         with open(f'./dataset/{year}_event_score_std.csv') as csvfile:
-#             reader = csv.DictReader(csvfile, delimiter=',')
-#             max_data = {}
-#             for row in reader:
-#                 for key, value in row.items():
-#                     max_data[key] = int(value)
-#         # 將數值縮放至 0~100 範圍內，然後 * weight %
-#         return {
-#             'product_page_views' : ((dd['product_page_views']) / (max_data['product_page_views_score'])) * 100 * etw['prop_event_product_page_views'],
-#             'step_times' : ((dd['step_times']) / (max_data['step_times_score'])) * 100 * etw['prop_event_step_times'],
-#             'product_page_bounce_rate' : ((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * 100 * etw['prop_event_product_page_bounce_rate'],
-#             'unique_visitors' : ((dd['unique_visitors']) / (max_data['unique_visitors_score'])) * 100 * etw['prop_event_unique_visitors'],
-#             'new_visitors' : ((dd['new_visitors']) / (max_data['new_visitors_score'])) * 100 * etw['prop_event_new_visitors'],
-#             'return_visitors' : ((dd['return_visitors']) / (max_data['return_visitors_score'])) * 100 * etw['prop_event_return_visitors'],
-#             'new_fans' : ((dd['new_fans']) / (max_data['new_fans_score'])) * 100 * etw['prop_event_new_fans'],
-#             'search_clicks' : ((dd['search_clicks']) / (max_data['search_clicks_score'])) * 100 * etw['prop_event_search_clicks'],
-#             'product_likes' : ((dd['product_likes']) / (max_data['product_likes_score'])) * 100 * etw['prop_event_product_likes']
-#             }
-#     else:
-        
-#         with open(f'./dataset/{year}_noevent_score_std.csv') as csvfile:
-#             reader = csv.DictReader(csvfile, delimiter=',')
-#             max_data = {}
-#             for row in reader:
-#                 for key, value in row.items():
-#                     max_data[key] = int(value)
-
-#         # 將數值縮放至 0~100 範圍內，然後 * weight %
-#         return {
-#             'product_page_views' : ((dd['product_page_views']) / (max_data['product_page_views_score'])) * 100 * ntw['prop_noevent_product_page_views'],
-#             'step_times' : ((dd['step_times']) / (max_data['step_times_score'])) * 100 * ntw['prop_noevent_step_times'],
-#             'product_page_bounce_rate' : ((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * 100 * ntw['prop_noevent_product_page_bounce_rate'],
-#             'unique_visitors' : ((dd['unique_visitors']) / (max_data['unique_visitors_score'])) * 100 * ntw['prop_noevent_unique_visitors'],
-#             'new_visitors' : ((dd['new_visitors']) / (max_data['new_visitors_score'])) * 100 * ntw['prop_noevent_new_visitors'],
-#             'return_visitors' : ((dd['return_visitors']) / (max_data['return_visitors_score'])) * 100 * ntw['prop_noevent_return_visitors'],
-#             'new_fans' : ((dd['new_fans']) / (max_data['new_fans_score'])) * 100 * ntw['prop_noevent_new_fans'],
-#             'search_clicks' : ((dd['search_clicks']) / (max_data['search_clicks_score'])) * 100 * ntw['prop_noevent_search_clicks'],
-#             'product_likes' : ((dd['product_likes']) / (max_data['product_likes_score'])) * 100 * ntw['prop_noevent_product_likes']
-#             }
-
-# ds = daily_score()
-
-# print(ds['product_page_views'])
-
+conn = mysql.connector.connect(**config)
 
 
 now = datetime.now()
 yesterday = (now - timedelta(days=1)).date()
 month = yesterday.strftime("%m")
 day = yesterday.strftime("%d")
-year = now.strftime("%Y")
+# shopee events
+# 讀取有活動參與的數據
+event_sql = '''
+    SELECT 
+        t.date_time,
+        t.page_views AS product_page_views, 
+        TIME_TO_SEC(t.time_on_page) AS step_times, 
+        t.bounce_rate AS product_page_bounce_rate, 
+        t.unique_visitors, 
+        t.new_visitors , 
+        t.return_visitors, 
+        t.new_fans, 
+        SUM(pd.search_clicks) AS search_clicks, 
+        SUM(pd.product_likes) AS product_likes, 
+        SUM(pd.sale_products) AS sale_products,
+        SUM(pd.total_sales) AS total_sales
+    FROM 
+        traffic_overview t
+            JOIN product_detail pd
+                ON t.date_time = pd.date_time
+    GROUP BY 
+        pd.date_time, t.date_time
+    HAVING 
+        MONTH(t.date_time) = DAY(t.date_time) OR 
+        DAY(t.date_time) = 18 OR
+        (DAYOFWEEK(t.date_time) = 4);'''
 
-dd = daily_data()
-etw = event_training_weight()
-ntw = noevent_training_weight()
 
-with open(f'./dataset/{year}_event_score_std.csv') as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=',')
-            max_data = {}
-            for row in reader:
-                for key, value in row.items():
-                    max_data[key] = int(value)
+df = pd.read_sql(event_sql, conn)
+print(df)
 
+target_date = pd.to_datetime("2023-05-17")
+filtered_df = df.loc[df["date_time"] == target_date]
 
-dd = daily_data()
-etw = event_training_weight()
-ntw = noevent_training_weight()
-product_page_views = ((dd['product_page_views']) / (max_data['product_page_views_score'])) * ntw['prop_noevent_product_page_views']
+if not filtered_df.empty:
+    result = filtered_df["product_page_views"].values[0]
+    print(result)
+else:
+    print("No data found for the specified date.")
 
-print(product_page_views)
-print(dd['product_page_views'])
-print(max_data['product_page_views_score'])
-print(ntw['prop_noevent_product_page_views'])
+# 關閉資料庫連接
+conn.close()

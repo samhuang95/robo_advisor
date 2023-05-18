@@ -12,9 +12,9 @@ def daily_data():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day and day == 18 and yesterday.weekday() == 2:
+    if month == day or day == 18 or yesterday.weekday() == 2:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
-        return {   
+        return {
         'product_page_views' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_views'].values[0],
         'step_times' : df.loc[df['date_time'] == f'{yesterday}', 'step_times'].values[0],
         'product_page_bounce_rate' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_bounce_rate'].values[0],
@@ -27,6 +27,7 @@ def daily_data():
         'sale_products' : df.loc[df['date_time'] == f'{yesterday}', 'sale_products'].values[0],
         'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]
         }
+
     else:
         df = pd.read_csv(f'./dataset/noevent_data{yesterday}.csv', sep=',')     
         return {   
@@ -42,6 +43,9 @@ def daily_data():
         'sale_products' : df.loc[df['date_time'] == f'{yesterday}', 'sale_products'].values[0],
         'total_sales' : df.loc[df['date_time'] == f'{yesterday}', 'total_sales'].values[0]
         }
+
+
+
 
 # ----------------------------------------------------
 def event_training_weight():
@@ -134,7 +138,7 @@ def feature_mean():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day and day == 18 and yesterday.weekday() == 2:
+    if month == day or day == 18 or yesterday.weekday() == 2:
         df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
         return {
             'AVG_step_times' : df['step_times'].mean(),
@@ -256,7 +260,7 @@ def daily_score():
     etw = event_training_weight()
     ntw = noevent_training_weight()
 
-    if month == day and day == 18 and yesterday.weekday() == 2:
+    if month == day or day == 18 or yesterday.weekday() == 2:
         
         with open(f'./dataset/{year}_event_score_std.csv') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=',')
@@ -298,3 +302,5 @@ def daily_score():
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * ntw['prop_noevent_product_likes'])
             }
 
+# ds = daily_score()
+# print(sum(ds.values()))
