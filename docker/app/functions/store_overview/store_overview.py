@@ -301,6 +301,3 @@ def daily_score():
             'search_clicks' : round(((dd['search_clicks']) / (max_data['search_clicks_score'])) * ntw['prop_noevent_search_clicks']),
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * ntw['prop_noevent_product_likes'])
             }
-
-ds = daily_score()
-print(sum(ds.values()))
