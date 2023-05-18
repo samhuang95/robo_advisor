@@ -7,7 +7,7 @@ import random   # 匯入 random 模組
 import plotly.graph_objs as go   # 匯入 plotly.graph_objs 模組並使用 go 簡寫
 import plotly.offline as opy
 from functions.store_overview.store_overview import *
-
+##############
 app=Flask(__name__)
 
 # 做一個註冊的路由
