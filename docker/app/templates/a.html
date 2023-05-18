@@ -149,24 +149,24 @@
                     </div>
                     <div class="col-2 score-col">
                         <div class="score-text">
-                            <h3 class="score-text">{{ds}}</h3>
+                            <h3 class="score-text">{{ ds|safe }}</h3>
                         </div>
                         <div class="warning-reminder">
-                            {% set da = da | default({})%}
+                            {% set di = di | default({})%}
                             <div class="alert alert-danger" role="alert">
-                                {{ da.get("total_sales")}}
+                                {{ di.get("product_page_views")}}
                             </div>
                             <div class="alert alert-danger" role="alert">
-                                {{ da.get("total_sales")}}
+                                {{ di.get("step_times")}}
                             </div>
                             <div class="alert alert-danger" role="alert">
-                                {{ da.get("total_sales")}}
+                                {{ di.get("product_likes")}}
                             </div>
                             <div class="alert alert-warning" role="alert">
-                                {{ da.get("total_sales")}}
+                                {{ di.get("search_clicks")}}
                             </div>
                             <div class="alert alert-warning" role="alert">
-                                {{ da.get("total_sales")}}
+                                {{ di.get("new_fans")}}
                             </div>
                         </div>
                     </div>    

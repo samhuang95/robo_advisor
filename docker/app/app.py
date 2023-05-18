@@ -65,7 +65,7 @@ def a():
 
         da = daily_data() #賣場數據總攬
         di = daily_insight() # 賣場警告
-        ds = daily_score # 賣場分數
+        ds = daily_score() # 賣場分數
        
         
 

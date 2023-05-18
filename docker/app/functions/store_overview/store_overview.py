@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import date
 import csv
 
-path = './docker/app/functions/store_overview/dataset' 
+path = './functions/store_overview/dataset' 
 # ----------------------------------------------------
 def daily_data():
     now = datetime.now()
@@ -14,15 +14,9 @@ def daily_data():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-<<<<<<< HEAD
     if month == day or day == 18 or yesterday.weekday() == 2:
-        df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
+        df = pd.read_csv(f'{path}/event_data{yesterday}.csv', sep=',')
         return {
-=======
-    if month == day and day == 18 and yesterday.weekday() == 2:
-        df = pd.read_csv(f'.{path}/event_data{yesterday}.csv', sep=',')
-        return {   
->>>>>>> 865ca08 (add file)
         'product_page_views' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_views'].values[0],
         'step_times' : df.loc[df['date_time'] == f'{yesterday}', 'step_times'].values[0],
         'product_page_bounce_rate' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_bounce_rate'].values[0],
@@ -37,7 +31,7 @@ def daily_data():
         }
 
     else:
-        df = pd.read_csv(f'.{path}/noevent_data{yesterday}.csv', sep=',')     
+        df = pd.read_csv(f'{path}/noevent_data{yesterday}.csv', sep=',')     
         return {   
         'product_page_views' : df.loc[df['date_time'] == f'{yesterday}', 'product_page_views'].values[0],
         'step_times' : df.loc[df['date_time'] == f'{yesterday}', 'step_times'].values[0],
@@ -53,14 +47,15 @@ def daily_data():
         }
 
 
-
+dd = daily_data()
+print(dd)
 
 # ----------------------------------------------------
 def event_training_weight():
     now = datetime.now()
     yesterday = (now - timedelta(days=1)).date()
     # 讀取有活動的權重
-    with open(f'.{path}/event_weight{yesterday}.csv', newline='') as csvfile:
+    with open(f'{path}/event_weight{yesterday}.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
         weight_dict = {}
@@ -100,7 +95,7 @@ def noevent_training_weight():
     yesterday = (now - timedelta(days=1)).date()
     
     # 讀取沒有活動的權重
-    with open(f'.{path}/noevent_weight{yesterday}.csv', newline='') as csvfile:
+    with open(f'{path}/noevent_weight{yesterday}.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)        
         weight_dict = {}
         for noevent_weight in reader:
@@ -146,13 +141,8 @@ def feature_mean():
     day = yesterday.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-<<<<<<< HEAD
     if month == day or day == 18 or yesterday.weekday() == 2:
-        df = pd.read_csv(f'./dataset/event_data{yesterday}.csv', sep=',')
-=======
-    if month == day and day == 18 and yesterday.weekday() == 2:
-        df = pd.read_csv(f'.{path}/event_data{yesterday}.csv', sep=',')
->>>>>>> 865ca08 (add file)
+        df = pd.read_csv(f'{path}/event_data{yesterday}.csv', sep=',')
         return {
             'AVG_step_times' : df['step_times'].mean(),
             'AVG_product_page_bounce_rate' : df['product_page_bounce_rate'].mean(),
@@ -165,7 +155,7 @@ def feature_mean():
             'AVG_product_likes' : df['product_likes'].mean()
             }
     else:
-        df = pd.read_csv(f'.{path}/noevent_data{yesterday}.csv', sep=',')
+        df = pd.read_csv(f'./dataset/noevent_data{yesterday}.csv', sep=',')
         return {
             'AVG_step_times' : df['step_times'].mean(),
             'AVG_product_page_bounce_rate' : df['product_page_bounce_rate'].mean(),
@@ -260,6 +250,9 @@ def daily_insight():
     
     return insight_message
 
+di = daily_insight()
+print(di)
+
 
 # ----------------------------------------------------
 def daily_score():
@@ -275,14 +268,14 @@ def daily_score():
 
     if month == day or day == 18 or yesterday.weekday() == 2:
         
-        with open(f'.{path}/{year}_event_score_std.csv') as csvfile:
+        with open(f'{path}/{year}_event_score_std.csv') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=',')
             max_data = {}
             for row in reader:
                 for key, value in row.items():
                     max_data[key] = int(value)
         # 將數值縮放至 0~100 範圍內，然後 * weight %
-        score1 ={
+        score ={
             'product_page_views' : round(((dd['product_page_views']) / (max_data['product_page_views_score'])) * etw['prop_event_product_page_views']),
             'step_times' : round(((dd['step_times']) / (max_data['step_times_score'])) * etw['prop_event_step_times']),
             'product_page_bounce_rate' : round(((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * etw['prop_event_product_page_bounce_rate']),
@@ -293,10 +286,10 @@ def daily_score():
             'search_clicks' : round(((dd['search_clicks']) / (max_data['search_clicks_score'])) * etw['prop_event_search_clicks']),
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * etw['prop_event_product_likes'])
             }
-        return score1
+        return sum(score.values())
     else:
         
-        with open(f'.{path}/{year}_noevent_score_std.csv') as csvfile:
+        with open(f'{path}/{year}_noevent_score_std.csv') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=',')
             max_data = {}
             for row in reader:
@@ -304,7 +297,7 @@ def daily_score():
                     max_data[key] = int(value)
 
         # 將數值縮放至 0~100 範圍內，然後 * weight %
-        score1 ={
+        score ={
             'product_page_views' : round(((dd['product_page_views']) / (max_data['product_page_views_score'])) * etw['prop_event_product_page_views']),
             'step_times' : round(((dd['step_times']) / (max_data['step_times_score'])) * etw['prop_event_step_times']),
             'product_page_bounce_rate' : round(((dd['product_page_bounce_rate']) / (max_data['product_page_bounce_rate_score'])) * etw['prop_event_product_page_bounce_rate']),
@@ -315,7 +308,8 @@ def daily_score():
             'search_clicks' : round(((dd['search_clicks']) / (max_data['search_clicks_score'])) * etw['prop_event_search_clicks']),
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * etw['prop_event_product_likes'])
             }
-        return score1
+        return sum(score.values())
+    
 
-# ds = daily_score()
-# print(sum(ds.values()))
+ds = daily_score()
+print(ds)
