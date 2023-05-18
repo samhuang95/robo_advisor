@@ -302,5 +302,5 @@ def daily_score():
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * ntw['prop_noevent_product_likes'])
             }
 
-# ds = daily_score()
-# print(sum(ds.values()))
+ds = daily_score()
+print(sum(ds.values()))
