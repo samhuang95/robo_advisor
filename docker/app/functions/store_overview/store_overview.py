@@ -312,4 +312,8 @@ def daily_score():
     
 
 ds = daily_score()
+<<<<<<< HEAD
 print(ds)
+=======
+print(sum(ds.values()))
+>>>>>>> c615b20ccc06f37e7011f0e962c291e6dccf4a12
