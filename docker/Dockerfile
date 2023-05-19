@@ -1,9 +1,11 @@
 FROM python:slim
 
+
 COPY ./root /var/spool/cron/crontabs/
 COPY ./requirements.txt /
-COPY ./app /app
+COPY . /app
 WORKDIR /app
+
 
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
@@ -14,4 +16,4 @@ RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["bash", "start.sh"]
