@@ -1,14 +1,19 @@
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request
-from functions.connect_to_db import SQLcommand
-# from functions.image_predict import predict_image
-from functions.clear_folder import clear_folder
-import random   # 匯入 random 模組
-import plotly.graph_objs as go   # 匯入 plotly.graph_objs 模組並使用 go 簡寫
-import plotly.offline as opy
 from functions.store_overview.store_overview import *
-##############
+from functions.connect_to_db import SQLcommand
+from functions.image_predict import predict_image
+from functions.clear_folder import clear_folder
+import random
+import plotly.graph_objs as go 
+import plotly.offline as opy
+from page_b import page_b
+
+
 app=Flask(__name__)
+
+app.register_blueprint(page_b)
+
 
 # 做一個註冊的路由
 @app.route("/signup", methods=["GET", "POST"])
@@ -81,10 +86,10 @@ def a():
 
 
 # 點擊載入b功能頁面
-@app.route("/b", methods=["GET"])
-def b():
-    kpi1 = "kpi"
-    return render_template("b.html", kpi1=kpi1)
+# @app.route("/b", methods=["GET"])
+# def b():
+#     kpi1 = "kpi"
+#     return render_template("b.html", kpi1=kpi1)
 
 # 點擊載入c功能頁面
 @app.route("/c", methods=["GET"])

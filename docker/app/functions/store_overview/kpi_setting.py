@@ -57,7 +57,7 @@ cnx.close()
 
 
 # 讀取數據，我的表格
-dataItem = read_csv(f'./train_data/{year}{month}{day}_train_data.csv', engine='python')
+dataItem = read_csv(f'./train_data/{year}{month}_train_data.csv', engine='python')
 data = dataItem.values
 data = data.astype('float32')
 # # 繪製原始數據
@@ -111,7 +111,7 @@ model.add(Dense(1))
 optimizer = keras.optimizers.Adam(learning_rate=0.001)
 model.compile(loss='mean_squared_error', optimizer=optimizer)
 # early_stopping = EarlyStopping(monitor='loss', patience=50, verbose=1)
-hist = model.fit(traindataNew, trainLabelNew, epochs=500, batch_size=32, verbose=1)
+hist = model.fit(traindataNew, trainLabelNew, epochs=500, batch_size=64, verbose=1)
 # hist = model.fit(traindataNew, trainLabelNew, epochs=500, batch_size=32, verbose=1, callbacks=[early_stopping])
 
 # # 繪製訓練損失
@@ -152,7 +152,7 @@ plt.legend()
 plt.show()
 
 # 預測未來3個月銷售額
-future_days = 60
+future_days = 90
 input_data = data[-TimeStep:]
 input_data = np.reshape(input_data, (1, TimeStep, 1))
 
@@ -177,10 +177,10 @@ plt.show()
 
 # 創建日期範圍
 start_date = datetime.today()
-date_range = [start_date + timedelta(days=x) for x in range(future_days)]
-
+date_range = [(start_date + timedelta(days=x)).strftime("%Y-%m-%d") for x in range(future_days)]
 # 創建 DataFrame 並顯示
-predictions_df = pd.DataFrame({'Date': date_range, 'Predicted Sales': np.squeeze(future_predictions)})
+predictions_df = pd.DataFrame({'Date': date_range, 'Predicted_Sales': np.squeeze(future_predictions)})
+
 pd.set_option('display.max_rows', None)  # 顯示所有行
 print(predictions_df)
 predictions_df.to_csv(f'./train_data/{year}{month}_train_result.csv', index=False)

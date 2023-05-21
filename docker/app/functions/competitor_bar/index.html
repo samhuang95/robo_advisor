@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>機器顧問儀表板</title>
+  </head>
+  <body>
+    <div class="main">
+      <h1>{{ message }}</h1>
+      <form action="{{ url_for('index') }}" method="POST">
+        <label for="account">帳號: </label>
+        <input type="text" name="account" id="account" pattern="[a-zA-Z0-9@-_]{5, 20}" required>
+        <label for="password">密碼: </label>
+        <input type="password" name="password" id="password" pattern="[a-zA-Z0-9@-_]{5, 20}" required>
+        <button type="submit" name="button" value="login">登入</button>
+      </form>
+      <form action="{{ url_for('index') }}" method="POST">
+        <label for="start">開始日期: </label>
+        <input type="date" name="start" id="start" required>
+        <label for="end">結束日期: </label>
+        <input type="date" name="end" id="end" min="{{ start }}" required>
+        <button type="submit" name="button" value="date">跳轉到新頁面</button>
+      </form>
+      <form action="{{ url_for('index') }}" method="POST" style="display: inline-block;">
+        <button type="submit" name="button" value="5">資料庫前五筆資料</button>
+        <button type="submit" name="button" value="10">資料庫前十筆資料</button>
+        <button type="submit" name="button" value="line">每年發文數折線圖</button>
+        <button type="submit" name="button" value="bar">每年發文數長條圖</button>
+      </form>
+      <form id="select-form" action="{{ url_for('index') }}" method="POST">
+        {% set selected_value = selected_value | default("0") %}
+        <select name="options" onchange="document.querySelector('#select-form').submit()">
+          <option value="0" {% if selected_value == "0" %} selected {% endif %} disabled>請選擇月份</option>
+          <option value="1" {% if selected_value == "1" %} selected {% endif %}>2023年1月</option>
+          <option value="2" {% if selected_value == "2" %} selected {% endif %}>2023年2月</option>
+          <option value="3" {% if selected_value == "3" %} selected {% endif %}>2023年3月</option>
+          <option value="4" {% if selected_value == "4" %} selected {% endif %}>2023年4月</option>
+        </select>
+      </form>
+      <br>
+      <div id="chart-container">{{ chart_html|safe }}</div>
+      {% set data = data | default(None) %}
+      {% if data != None %}
+      <table style="border-collapse: collapse;">
+        <thead>
+          <tr>
+            {% for key in data[0].keys() %}
+            <th style="border: 1px solid black;">{{ key }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          <tr>
+            {% for key in item.keys() %}
+            <td style="border: 1px solid black;">{{ item[key] }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+    <div class="sidebar">
+      <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"></a>
+      <h2>Our Team Name</h2>
+      <ul>
+        <li><a href="/1">賣場成效總覽</a></li>
+        <li><a href="/2">商品銷售總覽</a></li>
+        <li><a href="/3">商品執行策略</a></li>
+        <li><a href="/4">競品數據監測</a></li>
+        <li><a href="/5">Facebook數據資料</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

@@ -165,14 +165,20 @@
                 </div>
                 <div class="row row-date align-items-center">
                     <div class="date border border-3 rounded">
-                        <form action="/plot" method="get">
+                        <form action="/b" method="get">
                             <label for="start_date" class="datePicker">起始日 :</label>
-                                <input class="datePicker" type="date" id="start_date" name="start_date" min="2019-09-01" max="2023-06-30" />
+                                <input class="datePicker" type="date" id="start_date" name="start_date" min="2021-04-26" max="2023-05-02" />
                             </label>
                             <br>
                             <label for="end_date" class="datePicker">到期日 :
-                                <input class="datePicker" type="date" id="end_date" name="end_date" min="2019-09-01" max="2023-06-30" />
+                                <input class="datePicker" type="date" id="end_date" name="end_date" min="2021-04-26" max="2023-05-02" />
                             </label>
+                            <br>
+                            <select id="plant_name" name="plant_name">
+                                {% for plant in plant_list %}
+                                <option value="{{ plant }}">{{ plant }}</option>
+                                {% endfor %}
+                            </select>
                             <br>
                             <div style="float:right">
                                 <input type="submit" value="搜尋" class="btn btn-outline-success">   
@@ -182,7 +188,8 @@
                 </div>
             </div>
             <div class="col-7">
-                <!-- 這裡串要帶入的圖片 -->
+                <div class = "position-absolute top-0 start-50 translate-middle-x width: 40vw;
+                height: 40vw; display: block; margin: 0 auto; ;" >{{ div_placeholder|safe }}</div>
             </div>
         </div>    
     </div>
