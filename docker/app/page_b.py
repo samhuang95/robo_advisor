@@ -24,7 +24,7 @@ def connect_mysql(plant_name, start_date, end_date):
     SELECT * FROM robo_adviser.product_detail
     WHERE (product_name like '%{plant_name}%') AND (date_time BETWEEN '{start_date}' AND '{end_date}');
     """
-    datas = SQLcommand.get(sql)
+    datas = SQLcommand().get(sql)
     for data in datas:
         if (str(data[0].year) + "年" + str(data[0].month) + "月") not in month_dict:
             month_dict[str(data[0].year) + "年" + str(data[0].month) + "月"] = data[14]
