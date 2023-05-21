@@ -214,7 +214,7 @@ def daily_insight():
 # =========================================================================
     if dd['product_page_views'] > fm['AVG_product_page_views']:
         product_page_views = round(abs(fm['AVG_product_page_views'] - dd['product_page_views']))
-        insight_message['product_page_views'] = f"商品頁面瀏覽數高於每日平均 {product_page_views} 次"    
+        insight_message['product_page_views'] = "今日無須留意"   
     
     if dd['step_times'] > fm['AVG_step_times']:
         step_times = round(abs(fm['AVG_step_times'] - dd['step_times']))
@@ -309,3 +309,6 @@ def daily_score():
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * etw['prop_event_product_likes'])
             }
         return sum(score.values())
+    
+
+
