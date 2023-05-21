@@ -1,5 +1,5 @@
 import configparser
-import mysql.connector
+# import mysql.connector
 from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date

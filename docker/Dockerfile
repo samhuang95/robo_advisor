@@ -16,4 +16,5 @@ RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 EXPOSE 5000
 
-CMD ["bash", "start.sh"]
+# CMD ["bash", "start.sh"]
+CMD ["python", "app.py"]
