@@ -3,7 +3,7 @@ import datetime
 from datetime import datetime, timedelta
 import plotly.graph_objs as go
 import plotly.offline as pyo
-from funtions.connect_to_db import SQLcommand
+from functions.connect_to_db import SQLcommand
 from dateutil.relativedelta import relativedelta
 
 page_b = Blueprint('page_b', __name__)

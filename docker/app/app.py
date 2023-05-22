@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request
-from functions.store_overview.adj_store_overview import *
+# from functions.store_overview.adj_store_overview import *
 # from functions.store_overview.goal import line_stack_area
 from functions.connect_to_db import SQLcommand
 from functions.image_predict import predict_image
 from functions.clear_folder import clear_folder
-from BCG_funtions import *
+# from BCG_funtions import *
 import random
 import logging
 import plotly.graph_objs as go 
