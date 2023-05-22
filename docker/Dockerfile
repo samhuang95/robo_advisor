@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python:3.10-slim
 
 
 COPY ./root /var/spool/cron/crontabs/
@@ -18,4 +18,5 @@ RUN pip install -r /requirements.txt
 
 EXPOSE 5000
 
-CMD ["bash", "start.sh"]
+# CMD ["bash", "start.sh"]
+CMD ["python", "app.py"]
