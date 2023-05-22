@@ -92,10 +92,10 @@ def a():
        
 
 # 點擊載入b功能頁面
-@app.route("/b", methods=["GET"])
-def b():
-    kpi1 = "kpi"
-    return render_template("b.html", kpi1=kpi1)
+# @app.route("/b", methods=["GET"])
+# def b():
+#     kpi1 = "kpi"
+#     return render_template("b.html", kpi1=kpi1)
 
 # 點擊載入c功能頁面
 @app.route("/c", methods=["GET"])
