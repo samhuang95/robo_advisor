@@ -1,7 +1,11 @@
 import configparser
+<<<<<<< HEAD
 import sys
 sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
 from connect_to_db import SQLcommand
+=======
+import mysql.connector
+>>>>>>> eca6bb6ee13902a5e46487764be83e151558a672
 from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date
@@ -302,7 +306,11 @@ def daily_insight(time_select):
     if dd['product_page_views'] > fm['AVG_product_page_views']:
         product_page_views = round(abs(fm['AVG_product_page_views'] - dd['product_page_views']))
         insight_message['product_page_views'] = f"商品頁面瀏覽數高於每日平均 {product_page_views} 次"    
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> eca6bb6ee13902a5e46487764be83e151558a672
     if dd['step_times'] > fm['AVG_step_times']:
         step_times = round(abs(fm['AVG_step_times'] - dd['step_times']))
         insight_message['step_times'] = f"用戶停留時間高於每日平均 {step_times} 秒"
@@ -427,6 +435,12 @@ def daily_score(time_select):
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * fwm['product_likes'])
             }
         return sum(score.values())
+<<<<<<< HEAD
 
 ds = daily_score('2023-05-21')
+=======
+    
+
+ds = daily_score()
+>>>>>>> eca6bb6ee13902a5e46487764be83e151558a672
 print(ds)

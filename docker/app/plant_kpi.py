@@ -5,15 +5,15 @@ import datetime
 import schedule
 from functions.connect_to_db import SQLcommand
 
-credential_dict = {
-    'host': 'db',
-    'database': 'chi101',
-    'user': 'chi101',
-    'password': 'chi101',
-    'charset': 'utf8mb4'
-}
-conn = pymysql.connect(**credential_dict)
-cursor = conn.cursor()
+# credential_dict = {
+#     'host': 'db',
+#     'database': 'chi101',
+#     'user': 'chi101',
+#     'password': 'chi101',
+#     'charset': 'utf8mb4'
+# }
+# conn = pymysql.connect(**credential_dict)
+# cursor = conn.cursor()
 
 
 
@@ -65,7 +65,7 @@ def start_predict(year_month):
         sql1 = f"""
             CREATE TABLE predict_total_sales_{year}_{str(month).zfill(2)} (NAME text, sales float);
             """
-        cursor.execute(sql1)
+        SQLcommand().modify(sql1)
     except:
         print('db already exists')
 
@@ -81,8 +81,9 @@ def start_predict(year_month):
             SELECT date_time, total_sales FROM chi101.product_detail
             WHERE product_name like '%{n}%' AND (date_time < '{year_month}-01');
             """
-        cursor.execute(sql2)
-        datas = cursor.fetchall()
+        # cursor.execute(sql2)
+        # datas = cursor.fetchall()
+        datas = SQLcommand().get(sql2)
         for data in datas:
             if n not in orig_dict_date.keys():
                 orig_dict_date[n] = [[data[0], data[1]]]
@@ -128,14 +129,8 @@ def start_predict(year_month):
             INSERT INTO predict_total_sales_{year}_{str(month).zfill(2)} (NAME, SALES)
             VALUES ('{key}', {pred});
             """
-        cursor.execute(sql3)
-
-
-# 執行以下兩個月份的kpi
-start_predict("2023-05")
-start_predict("2023-06")
-start_predict("2023-04")
-start_predict("2023-03")
+        # cursor.execute(sql3)
+        SQLcommand().modify(sql3)
 
 
 # 每個月15號執行plant_kpi

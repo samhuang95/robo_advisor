@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from pyecharts.charts import Line
 from pyecharts import options as opts
 import pandas as pd
@@ -35,3 +36,8 @@ ORDER BY 1 DESC;
 # print(len(df))
 df = pd.DataFrame(df)
 print(df[1].mean())
+=======
+ddd ={'A':1234,'A+':3456}
+print(ddd['A'])
+print(ddd['C'])
+>>>>>>> eca6bb6ee13902a5e46487764be83e151558a672

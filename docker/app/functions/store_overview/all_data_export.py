@@ -33,7 +33,14 @@ cursor = cnx.cursor()
 
 
 # 獨立匯出一包不分活動與否的 all_data
-
+event_sql = '''
+SELECT 
+    date_time AS 'date', 
+    SUM(total_sales) AS 'daily_sales'
+FROM 
+    tibame_project.product_detail
+GROUP BY 
+    date_time;'''
 result = pd.read_sql(event_sql, cnx)
 
 # 將結果轉成 DataFrame，並儲存下來
