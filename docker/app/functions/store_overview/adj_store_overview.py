@@ -1,7 +1,7 @@
 import configparser
 import sys
 sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
-from connect_to_db import SQLcommand
+from ..connect_to_db import SQLcommand
 from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date
@@ -12,6 +12,7 @@ from sklearn.tree import DecisionTreeRegressor
 def daily_data():
     now = datetime.now()
     yesterday = (now - timedelta(days=1)).date()
+    # month = (yesterday).date()
     month = yesterday.strftime("%m")
     day = yesterday.strftime("%d")
     # shopee events
