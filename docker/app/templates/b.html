@@ -6,18 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B預測功能</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    
+
 
       <style>
-
-        .date {
-            font-size: 10px;
-            font-family: Arial, sans-serif;
-            color: navy;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
         .button1{
             display: inline-block;
             background-color: #B1E1C7;
@@ -89,10 +80,6 @@
             text-align: center;
             padding: 0.4rem;
         }
-        .datePicker{
-            margin-top: 0.3rem;
-            margin-bottom: 0.3rem;
-        }
         .row-date{
             margin-top: 10%;
             height:20%;
@@ -101,7 +88,7 @@
             margin-left: 1rem;
         }
     </style>
-    
+
 </head>
 <body>
 
@@ -113,7 +100,7 @@
                         <hr class="h-color">
                         <div class="left-button">
                             <form action="/a" method="GET" >
-                                    <button class="button1">   
+                                    <button class="button1">
                                         賣場成效總覽
                                     </button>
                             </form>
@@ -121,7 +108,7 @@
                         <br>
                         <div class="left-button">
                             <form action="/b" method="GET" >
-                                    <button class="button1">   
+                                    <button class="button1">
                                         商品銷售總覽
                                     </button>
                             </form>
@@ -151,54 +138,46 @@
                             </form>
                         </div>
                 </div>
-            
+
             </div>
 
             <div class="col-2">
                 <div class="row row-card">
                     <div class="flow-col card overflow-y-scroll card-body text-success border border-3">
                         <div class="alert-card">
-                            {% set kpi1 = kpi1 | default({})%}
-                            <p>{{kpi1}}</p> <!-- 這裡放kpi差位警訊 -->
+                            {% for k in kpi %}
+                            <p>{{k}}</p> <!-- 這裡放kpi差位警訊 -->
+                            {% endfor %}
                         </div>
                     </div>
+                <div class="position-absolute"
+                style="left: 35%; width: 65vw; height: 50vw; display: block;">{{ div_placeholder|safe }}</div>
                 </div>
                 <div class="row row-date align-items-center">
                     <div class="date border border-3 rounded">
                         <form action="/b" method="get">
-                            <label for="start_date" class="datePicker">起始日 :</label>
-                                <input class="datePicker" type="date" id="start_date" name="start_date" min="2021-04-26" max="2023-05-02" />
-                            </label>
-                            <br>
-                            <label for="end_date" class="datePicker">到期日 :
-                                <input class="datePicker" type="date" id="end_date" name="end_date" min="2021-04-26" max="2023-05-02" />
-                            </label>
-                            <br>
-                            <select id="plant_name" name="plant_name">
-                                {% for plant in plant_list %}
-                                <option value="{{ plant }}">{{ plant }}</option>
+                            <select id="month" name="month">
+                                {% for month in month_list %}
+                                <option value="{{ month }}">{{ month }}</option>
                                 {% endfor %}
                             </select>
                             <br>
                             <div style="float:right">
-                                <input type="submit" value="搜尋" class="btn btn-outline-success">   
-                            </div>  
+                                <input type="submit" value="搜尋" class="btn btn-outline-success">
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-7">
-                <div class = "position-absolute top-0 start-50 translate-middle-x width: 40vw;
-                height: 40vw; display: block; margin: 0 auto; ;" >{{ div_placeholder|safe }}</div>
-            </div>
-        </div>    
+        </div>
     </div>
-    
+
 
 
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>

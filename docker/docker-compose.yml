@@ -14,7 +14,7 @@ services:
       - MYSQL_USER=chi101
       - MYSQL_PASSWORD=chi101
     ports:
-      - 3307:3306 
+      - 3307:3306
   app:
     build: ./
     container_name: app
