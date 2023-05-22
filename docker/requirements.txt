@@ -15,6 +15,5 @@ openpyxl
 datetime
 schedule
 tensorflow
-scikit-learnscikit-learn
 scikit-learn
 matplotlib
