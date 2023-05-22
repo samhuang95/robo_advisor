@@ -10,6 +10,7 @@ import random
 import logging
 import plotly.graph_objs as go 
 import plotly.offline as opy
+from page_b import page_b
 
 
 # ==============德柔功能
@@ -20,6 +21,8 @@ from datetime import datetime
 app=Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+
+app.register_blueprint(page_b)
 
 
 # 做一個註冊的路由
@@ -89,10 +92,10 @@ def a():
        
 
 # 點擊載入b功能頁面
-@app.route("/b", methods=["GET"])
-def b():
-    kpi1 = "kpi"
-    return render_template("b.html", kpi1=kpi1)
+# @app.route("/b", methods=["GET"])
+# def b():
+#     kpi1 = "kpi"
+#     return render_template("b.html", kpi1=kpi1)
 
 # 點擊載入c功能頁面
 @app.route("/c", methods=["GET"])
