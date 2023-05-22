@@ -1,8 +1,15 @@
+from pyecharts.charts import Line
+from pyecharts import options as opts
+import pandas as pd
+import csv
+from datetime import date, datetime, timedelta
+from flask import Flask, render_template
 import sys
 sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
 from connect_to_db import SQLcommand
 
-df = SQLcommand().get('''
+
+df = SQLcommand().get(f'''
 SELECT 
     t.date_time, t.page_views AS product_page_views, 
     TIME_TO_SEC(t.time_on_page) AS step_times, 
@@ -13,13 +20,18 @@ SELECT
     SUM(pd.sale_products) AS sale_products,
     SUM(pd.total_sales) AS total_sales
 FROM 
-    traffic_overview t
-        JOIN product_detail pd
+    product_detail pd
+        JOIN traffic_overview t
             ON t.date_time = pd.date_time
 GROUP BY 
     pd.date_time, t.date_time
-ORDER BY 1 DESC
-LIMIT 1;
+HAVING 
+    MONTH(t.date_time) = DAY(t.date_time) OR 
+    DAY(t.date_time) = 18 OR
+    (DAYOFWEEK(t.date_time) = 4)
+ORDER BY 1 DESC;
     ''')
 
-print(df[0][0])
+# print(len(df))
+df = pd.DataFrame(df)
+print(df[1].mean())

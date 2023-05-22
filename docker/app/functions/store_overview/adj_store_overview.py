@@ -31,6 +31,7 @@ def daily_data():
             product_detail pd
                 JOIN traffic_overview t
                     ON t.date_time = pd.date_time
+        WHERE t.date_time LIKE '{}%'
         GROUP BY 
             pd.date_time, t.date_time
         HAVING 
