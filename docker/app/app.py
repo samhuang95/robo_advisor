@@ -104,7 +104,7 @@ def c():
     app.logger.debug("==============================================")
     
 
-    return render_template("c.html",gre1 = gre1)
+    return render_template("c.html"   ,gre1 = gre1)
 
 # 點擊載入d功能頁面
 @app.route("/d", methods=["GET","POST"])
