@@ -192,22 +192,15 @@
                     <div class="col-10"><!-- 這裡串要放在左上的圖片 --></div>
                     <div class="col-2">
                         <div class="warning-reminder">
-                            {% set c = c | default({})%}
-                            <div class="alert alert-success" role="alert"> <!-- 下面五個<h5>串 優先處裡的植物 -->
-                                <h5 class="primary-text">{{ c.get("a")}}</h5>
-                            </div>
+                            <!-- {% set gre = gre | default({})%} -->
+                            {% for item in gre1 %}
                             <div class="alert alert-success" role="alert">
-                                <h5 class="primary-text">{{ c.get("b")}}</h5>
+                                <h5 class="primary-text">
+                                {{ item }}
+                                </h5>
                             </div>
-                            <div class="alert alert-success" role="alert">
-                                <h5 class="primary-text">{{ c.get("c")}}</h5>
-                            </div>
-                            <div class="alert alert-success" role="alert">
-                                <h5 class="primary-text">{{ c.get("d")}}</h5>
-                            </div>
-                            <div class="alert alert-success" role="alert">
-                                <h5 class="primary-text">{{ c.get("e")}}</h5>
-                            </div>
+                            {% endfor %}
+
                         </div> 
                     </div>
                 </div>

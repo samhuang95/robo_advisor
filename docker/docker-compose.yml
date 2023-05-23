@@ -6,13 +6,7 @@ services:
     container_name: db
     restart: always
     volumes:
-      - ./backup:/docker-entrypoint-initdb.d/
-      # - ./.data/db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=chi101
-      - MYSQL_USER=chi101
-      - MYSQL_PASSWORD=chi101
+      - ./data:/var/lib/mysql
     ports:
       - 3307:3306
   app:
