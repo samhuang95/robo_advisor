@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 from pandas import read_csv
-from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.layers import GRU, Dense
-from tensorflow import keras
+# from sklearn.preprocessing import MinMaxScaler
+# from tensorflow.keras.layers import GRU, Dense
+# from tensorflow import keras
 from datetime import datetime, timedelta
 
 
