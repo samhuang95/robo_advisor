@@ -242,14 +242,15 @@ def e():
     text = []
     files = request.files.getlist('file')
     print(len(files))
-    if len(files) == 4 and files[0].filename:
+    if len(files) <= 4 and files[0].filename:
         warning = ''
         for file in files:
             file.save('static/photos/' + file.filename)
             evaluate = predict_image(f'static/photos/{file.filename}')
             text.append({'picture': f'static/photos/{file.filename}', 'score': evaluate})
     else: warning = '請選擇4張圖片'
-    return render_template('e.html', scores=text, warning=warning)
+    return render_template('e.html', scores=text, num=len(text), warning=warning)
+
 
 # 讓程式跑起來
 if __name__ == '__main__':

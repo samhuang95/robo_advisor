@@ -16,7 +16,24 @@
             width: 80px;
         }
 
-        .row-img > * {
+        .col-5,
+        .col-7 {
+            margin: 1vh;
+            padding-right: 1vw;
+            padding-left: 1vw;
+            height: 96vh;
+            width: 35vw;
+        }
+
+        .pic-1 {
+            margin: 1vh;
+            padding-right: 1vw;
+            padding-left: 1vw;
+            height: 96vh;
+            width: 70vw;
+        }
+
+        .pic-2 {
             margin: 1vh;
             padding-right: 1vw;
             padding-left: 1vw;
@@ -36,8 +53,8 @@
             color: navy;
             text-transform: uppercase;
             letter-spacing: 2px;
-            height: 48vh;
-            width: 35vw;
+            height: 100%;
+            width: 100%;
         }
 
         .container {
@@ -47,10 +64,17 @@
             overflow: hidden;
         }
         
-        .container img {
-            margin-top: 1vh;
+        .container .img-1 {
+            margin: 1vh;
             width: 100%;
-            height: 40vh;
+            height: 85vh;
+            object-fit: contain;
+        }
+
+        .container img1 {
+            margin: 1vh;
+            width: 100%;
+            height: 90vh;
             object-fit: contain;
         }
 
@@ -239,51 +263,83 @@
 
             <div class="col-10 text-center">
                 <div class="row row-img">
-                    {% set scores = scores | default([]) %}
+                    {% set num = num | default(0) %}
+                    {% if num == 1 %}
+                    <div class="pic-1">
+                        <div class="picture border border-3 rounded">
+                            <div class="container">
+                                <img class="img-1" src="{{ scores[0]['picture'] }}">
+                            </div>
+                            <div class="score">
+                                {{ scores[0]['score'] }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if num == 2 %}
+                    <div class="pic-2">
+                        <div class="picture border border-3 rounded">
+                            <div class="container">
+                                <img class="img-1" src="{{ scores[0]['picture'] }}">
+                            </div>
+                            <div class="score">
+                                {{ scores[0]['score'] }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pic-2">
+                        <div class="picture border border-3 rounded">
+                            <div class="container">
+                                <img class="img-1" src="{{ scores[1]['picture'] }}">
+                            </div>
+                            <div class="score">
+                                {{ scores[1]['score'] }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if num > 2 %}
                     <div class="col-5">
                         <div class="picture border border-3 rounded">
-                            {% if scores %}
                             <div class="container">
                                 <img src="{{ scores[0]['picture'] }}">
                             </div>
                             <div class="score">
                                 {{ scores[0]['score'] }}
                             </div>
-                            {% endif %}
                         </div>
                         <div class="picture border border-3 rounded">
-                            {% if scores %}
                             <div class="container">
                                 <img src="{{ scores[2]['picture'] }}">
                             </div>
                             <div class="score">
                                 {{ scores[2]['score'] }}
                             </div>
-                            {% endif %}
                         </div>
                     </div>
                     <div class="col-7">
                         <div class="picture border border-3 rounded">
-                            {% if scores %}
                             <div class="container">
                                 <img src="{{ scores[1]['picture'] }}">
                             </div>
                             <div class="score">
                                 {{ scores[1]['score'] }}
                             </div>
-                            {% endif %}
                         </div>
+                        {% if num >= 4 %}
                         <div class="picture border border-3 rounded">
-                            {% if scores %}
                             <div class="container">
                                 <img src="{{ scores[3]['picture'] }}">
                             </div>
                             <div class="score">
                                 {{ scores[3]['score'] }}
                             </div>
-                            {% endif %}
                         </div>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     <div class="submit-button">
                         <form method="post" action="/e" enctype="multipart/form-data">
                             <input type="file" name="file" id="file" accept="image/*" multiple>

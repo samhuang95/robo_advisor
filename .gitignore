@@ -5,4 +5,3 @@ docker/data/*
 !docker/data/chi101
 !docker/data/#innodb_redo/dummy
 !docker/data/mysql/dummy
-docker/.data
