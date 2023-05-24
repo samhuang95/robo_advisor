@@ -95,8 +95,8 @@ def daily_data(time_select):
         'total_sales' :float(df[0][11])
         }
     
-# dd = daily_data('2023-05-21')
-# print(dd['date_time'])
+dd = daily_data('2023-04-03')
+print(dd['date_time'])
 
 # ----------------------------------------------------
 def feature_mean(time_select):
