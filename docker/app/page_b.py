@@ -93,18 +93,18 @@ def index():
             trace2.text = text2_labels
             fig.add_trace(trace2)
             if month != list_year_month()[-1]:
-                for i, x in enumerate(x2):
-                    fig.update_layout(height=1500)
-                    if x == 0:
-                        fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=-10)
+                fig.update_layout(title=dict(text='月銷量+預測kpi', font=dict(size=25)), height=1500)
+                # for i, x in enumerate(x2):
+                #     if x == 0:
+                #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=-10)
             else:
-                for i, x in enumerate(x2):
-                    if x == 0:
-                        fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5)
+                fig.update_layout(title=dict(text='預測kpi', font=dict(size=25)))
+                # for i, x in enumerate(x2):
+                #     if x == 0:
+                #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5)
 
         if month != list_year_month()[-1]:
-            trace1 = go.Bar(x=x1, y=y1, name='月銷量', textposition='auto', textangle=0, orientation='h',
-                            marker=dict(color='blue'))
+            trace1 = go.Bar(x=x1, y=y1, name='月銷量', textposition='auto', textangle=0, orientation='h', marker=dict(color='blue'))
             text1_labels = [str(x) if x != 0 else '0' for x in x1]
             trace1.text = text1_labels
             fig.add_trace(trace1)
@@ -112,14 +112,14 @@ def index():
                 if key in dict2:
                     if dict1[key] < dict2[key]:
                         kpi.append(f"""{key}：{dict2[key] - dict1[key]}""")
-            if x2 == [] and y2 == []:
-                for i, x in enumerate(x1):
-                    if x == 0:
-                        fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5)
-            else:
-                for i, x in enumerate(x1):
-                    if x == 0:
-                        fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=10)
+            # if x2 == [] and y2 == []:
+            #     for i, x in enumerate(x1):
+            #         if x == 0:
+            #             fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5)
+            # else:
+            #     for i, x in enumerate(x1):
+            #         if x == 0:
+            #             fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=10)
 
 
         div = pyo.plot(fig, auto_open=False, output_type='div')
