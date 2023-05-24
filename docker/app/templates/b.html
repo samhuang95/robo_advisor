@@ -81,11 +81,13 @@
             padding: 0.4rem;
         }
         .row-date{
-            margin-top: 10%;
+            margin-top: 0%;
             height:20%;
         }
         .flow-col{
             margin-left: 1rem;
+            overflow: auto;
+            height: 400px;  /* 设置容器的高度 */
         }
     </style>
 
@@ -142,23 +144,15 @@
             </div>
 
             <div class="col-2">
-                <div class="row row-card">
-                    <div class="flow-col card overflow-y-scroll card-body text-success border border-3">
-                        <div class="alert-card">
-                            {% for k in kpi %}
-                            <p>{{k}}</p> <!-- 這裡放kpi差位警訊 -->
-                            {% endfor %}
-                        </div>
-                    </div>
-                <div class="position-absolute"
-                style="left: 35%; width: 65vw; height: 50vw; display: block;">{{ div_placeholder|safe }}</div>
-                </div>
+                <div class="plotly"
+                        style="position: absolute; left: 35%; top: 0%; width: 65vw; height: 50vw; display: block;">{{ div_placeholder|safe }}</div>
+                <h5 style="margin-top: 30px; font-weight: bold;">請選擇月份：</h5>
                 <div class="row row-date align-items-center">
                     <div class="date border border-3 rounded">
                         <form action="/b" method="get">
                             <select id="month" name="month">
                                 {% for month in month_list %}
-                                <option value="{{ month }}">{{ month }}</option>
+                                    <option value="{{ month }}" {% if month == selected_month %}selected{% endif %}>{{ month }}</option>
                                 {% endfor %}
                             </select>
                             <br>
@@ -166,6 +160,15 @@
                                 <input type="submit" value="搜尋" class="btn btn-outline-success">
                             </div>
                         </form>
+                    </div>
+                    <br>
+                    <div class="flow-col card overflow-y-scroll card-body text-success border border-3" {% if kpi %}style="visibility: visible;"{% else %}style="visibility: invisible; display: none;"{% endif %}>
+                        <div class="alert-card">
+                            <h4 style="color: red; margin-bottom: 20px; font-weight: bold;">kpi差值：</h4>
+                            {% for k in kpi %}
+                            <p style="font-size: 14px; line-height: 1.1">{{k}}</p> <!-- 這裡放kpi差位警訊 -->
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,6 +181,5 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
 </body>
 </html>
