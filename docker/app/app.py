@@ -114,7 +114,6 @@ def c():
 def index():
     if request.method == 'GET':
         return render_template('index.html')
-
     # ====================第一張圖:[點擊每月按鈕] 賣場資訊(柱狀圖)_START======================                         
     if request.form.get('button') == '5':
         start = request.form.get('start')
@@ -233,25 +232,31 @@ def index():
         return render_template('index.html', chart_html=chart_html)
     
 
-# 點擊載入e功能頁面
-@app.route("/e", methods=["GET", "POST"])
+@app.route('/e', methods=['GET', 'POST'])
 def e():
     if request.method == 'GET':
         return render_template("e.html")
+
     clear_folder('static/photos/')
-    text = []
+
     files = request.files.getlist('file')
-    print(len(files))
-    if len(files) == 4 and files[0].filename:
-        warning = ''
+
+    if not files[0].filename:
+        return render_template('e.html', warning='請選擇至少1張圖片')
+
+    elif len(files) > 4:
+        return render_template('e.html', warning='請選擇少於4張圖片')
+
+    else:
+        text = []
         for file in files:
             file.save('static/photos/' + file.filename)
             evaluate = predict_image(f'static/photos/{file.filename}')
             text.append({'picture': f'static/photos/{file.filename}', 'score': evaluate})
-    else: warning = '請選擇4張圖片'
-    return render_template('e.html', scores=text, warning=warning)
 
-# 讓程式跑起來
+        return render_template('e.html', scores=text, num=len(text))
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host="0.0.0.0")

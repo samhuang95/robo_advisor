@@ -10,8 +10,6 @@ pymysql
 requests
 selenium-wire
 selenium
-mysql
-mysql-connector-python
 pandas
 openpyxl
 datetime

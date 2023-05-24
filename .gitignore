@@ -6,3 +6,4 @@ docker/data/*
 !docker/data/#innodb_redo/dummy
 !docker/data/mysql/dummy
 docker/.data
+docker/backup
