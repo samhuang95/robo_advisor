@@ -112,7 +112,6 @@ def index():
                 if key in dict2:
                     if dict1[key] < dict2[key]:
                         kpi.append(f"""{key}：{dict2[key] - dict1[key]}""")
-                print(kpi)
             if x2 == [] and y2 == []:
                 for i, x in enumerate(x1):
                     if x == 0:
