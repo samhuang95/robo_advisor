@@ -136,8 +136,8 @@ def inventory_highlight():
             else:
                 inventory_highlight[f'{plants_name}']= f"{plants_name},下季前庫存調整 +{int(ihs)}顆"
     return inventory_highlight
-ihh = inventory_highlight()
-print(ihh) 
+# ihh = inventory_highlight()
+# print(ihh) 
 
 
 # # 熱銷 單一植物4月銷量 / 24種 整個市場4月銷量 
