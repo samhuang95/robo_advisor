@@ -13,17 +13,17 @@
         .date {
             font-size: 10px;
             font-family: Arial, sans-serif;
-            color: navy;
+            color: #666666;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         .button1{
             display: inline-block;
-            background-color: #B1E1C7;
+            background-color: #C7E2C3;
             border-color: #B1E1C7;
             border-radius: 0.5rem;
-            color: green; /* 美化的字体颜色 */
+            color: #303030; /* 美化的字体颜色 */
             font-family: "Helvetica Neue", sans-serif; /* 字体 */
             font-size: 22px; /* 字号 */
             font-weight: 550; /* 字体粗细 */
@@ -36,14 +36,14 @@
             border:3px ;
         }
         .button1:hover {
-            background-color: #73af8f; /* 鼠标移上去时的背景颜色 */
+            background-color: #b2cfae; /* 鼠标移上去时的背景颜色 */
             border-color: #73af8f; /* 鼠标移上去时的边框颜色 */
-            color: black; /* 鼠标移上去时的字体颜色 */
+            color: white; /* 鼠标移上去时的字体颜色 */
         }
 
 
         .menu{
-            background-color: #B1E1C7;
+            background-color: #C7E2C3;
         }
         .main-row{
             min-height: 100vh;
@@ -60,7 +60,7 @@
             text-decoration: none;
         }
         hr{
-            border-top: 3px solid #8FBC8F;
+            border-top: 3px solid #395d39;
         }
         .score-text{
             font-size: 40px; /* 字号 */
@@ -132,6 +132,44 @@
             background-color: #73af8f;
             color:black;
         }
+        .menu-logo-text{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+        }
+        .bcg_img{
+            margin-top:2%;
+            width:100%;
+            height:90%;
+        }
+        .datepick{
+            height:1vh;
+        }
+        .reminder{
+            overflow-y:scroll;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: row;
+            height: 97vh;
+            justify-content: center;
+        }
+        .alert-green{
+            width:100%;
+        }
+        .image-row1{
+            height: 90%;
+            margin-top: 2%;
+        }
 
     </style>
     
@@ -142,7 +180,12 @@
         <div class="row main-row">
             <div class="col-2 menu text-center">
                 <div class="menu-button">
-                    <div class="menu-logo-text"><p> 宅栽 </p></div>
+                    <div class="menu-logo-text"><p>
+                        {% if 'username' in session %}
+                            <p>Welcome {{ session['username'] }}</p>
+                        {% else %}
+                            <p>Please log in to view this page.</p>
+                        {% endif %} </p></div>
                         <hr class="h-color">
                         <div class="left-button">
                             <form action="/a" method="GET" >
@@ -187,46 +230,43 @@
             
             </div>
 
-            <div class="col-10 text-center">
-                <div class="row image-row">
-                    <div class="col-10"><!-- 這裡串要放在左上的圖片 --></div>
-                    <div class="col-2">
-                        <div class="warning-reminder">
-                            <!-- {% set gre = gre | default({})%} -->
-                            {% for item in gre1 %}
-                            <div class="alert alert-success" role="alert">
-                                <h5 class="primary-text">
-                                {{ item }}
-                                </h5>
+                <div class="col-10 text-center">
+                    <div class="row image-row">
+                        <div class="col-10">
+                            
+                            <div class="datepick">
+                                <form action="/c" method="POST">
+                                    <label for="start_date">請選擇月份 :</label>
+                                    <input type="month" id="start_date" name="start_date" min="2019-09-01" max="2023-06-30" />
+                                    <input type="submit" value="搜尋"> 
+                                </form>
                             </div>
-                            {% endfor %}
-
-                        </div> 
-                    </div>
-                </div>
-                <div class="row date-row">
-                    <div class="col-2 date-col">
-                        <div class="date border border-3 rounded">
-                            <form action="/plot" method="get">
-                                <label for="start_date" class="datePicker">起始日 :</label>
-                                    <input class="datePicker" type="date" id="start_date" name="start_date" min="2019-09-01" max="2023-06-30" />
-                                </label>
-                                <br>
-                                <label for="end_date" class="datePicker">到期日 :
-                                    <input class="datePicker" type="date" id="end_date" name="end_date" min="2019-09-01" max="2023-06-30" />
-                                </label>
-                                <br>
-                                <div style="float:right">
-                                    <input type="submit" value="搜尋" class="datePicker datePicker-button">   
-                                </div>  
-                            </form>
+                            <div class="image-row1">
+                            {% if start_month_str == "2023-04"%}
+                                <img class="bcg_img" src="{{ url_for('static', filename='BCG2023-0522.png') }}" alt="April Image">
+                            {% elif start_month_str == "2023-05" %}
+                                <img class="bcg_img" src="{{ url_for('static', filename='BCG2023_05_23.png') }}" alt="May Image">
+                            {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-10"><!-- 這裡串要放在右下的圖片 --></div>
+                        <div class="col-2 right-3">
+                            <div class="warning-reminder reminder" >
+                                {% set ih_list = ih_list | default([])%}
+                                {% if start_month_str == "2023-04" or start_month_str == "2023-05" %}
+                                {% for item in ih_list %}
+                                <div class="alert alert-success alert-green" role="alert">
+                                    <h5 class="primary-text">
+                                    {{ item }}
+                                    </h5>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div> 
+                        </div>
+
                 </div>
-            </div>
-        </div>    
-    </div>
+            </div>    
+        </div>
     
 
 
