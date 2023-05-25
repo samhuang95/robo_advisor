@@ -19,7 +19,14 @@ from connect_to_db import SQLcommand
 # 匯出只有金額的訓練資料
 
 df = SQLcommand().get('''
-SELECT SUM(total_sales) AS total_sales
+SELECT 
+    date_time,
+    SUM(product_visitors) AS product_visitors,
+    SUM(product_page_views) AS product_page_views,
+    SUM(product_page_bounce_rate) AS product_page_bounce_rate,
+    SUM(search_clicks) AS search_clicks,
+    SUM(product_likes) AS product_likes,
+    SUM(total_sales) AS total_sales
 FROM product_detail
 GROUP BY date_time
 ORDER BY date_time;
