@@ -20,8 +20,5 @@ class SQLcommand:
       cursor.execute(sql)
     self.conn.commit()
 
-# if __name__ == '__main__':
-#   start = '2023-05-01'
-#   end = '2023-05-23'
-#   data = SQLcommand().get(f'SELECT date, shop_name AS name, rating_counts AS rating FROM offical_data WHERE date >= "{start}" AND date <= "{end}"')
-#   print(data)
+if __name__ == '__main__':
+  pass
