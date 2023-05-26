@@ -8,10 +8,16 @@
         <!-- font-family是字體的選擇 font-weight是讓字體變粗-->
         <!-- opacity 讓東西改變他的透明度-->
         <style type="text/css">
+            body {
+                margin: 0px;
+                background-color: #eeeeee;
+                font-family: "Helvetica Neue", sans-serif;
+            }
             .head {
-                background-color: rgb(125, 202, 166) ;
-                color: black;
-                font-family: Comic Sans MS, cursive, sans-serif;
+                background-color: #C7E2C3 ;
+                color: #303030;
+                font-family: "Helvetica Neue", sans-serif;
+                /* font-family: Comic Sans MS, cursive, sans-serif; */
                 font-weight: bold;
                 font-size:50px;
                 text-align:center;
@@ -29,14 +35,14 @@
             }
             .warning {
                 font-size: 30px;
-                color: red;
+                color: rgb(169, 35, 35);
             }
-            /* .img1 img[src="/messageImage_1681269807392.jpg"]{
+            .img1 img[src="/messageImage_1681269807392.jpg"]{
                 width: 200px;
                 position: fixed;
                 bottom: 0;
                 right: 0;   
-            } */
+            }
             .font01 {
                 text-align:center;
                 font-family: Comic Sans MS, cursive, sans-serif;
@@ -44,10 +50,39 @@
                 font-size:25px;
                 opacity: 0.7;
             }
+            .font01 p {
+                font-family: "Helvetica Neue", sans-serif;
+            }
+            .img2 {
+                position: fixed;
+                bottom: 170px;
+                right: 40px;
+                width: 400px;
+                height: 250px;
+                z-index: 9999;
+            }
+            .img3 {
+                position: fixed;
+                bottom: 320px;
+                left: 0px;
+                width: 400px;
+                height: 250px;
+                object-fit: contain;
+                z-index: 999;
+            }
+            .img4 {
+                position: fixed;
+                bottom: 520px;
+                right: 0px;
+                /* width: 400px;
+                height: 250px; */
+                /* object-fit: contain; */
+                z-index: 999;
+            }
         </style>
     </head>
-    <body style="margin:0px; background-color:#eeeeee;">
-        <div class="head">宅栽</div>
+    <body>
+        <div class="head">機器人顧問</div>
         <div class="content"></div>
         <div class="signin">
             <br/>
@@ -77,7 +112,16 @@
             <!-- <img src="/messageImage_1681269807392.jpg" /> -->
         </div>
         <div class="font01">
-            <p>歡迎來到宅栽</p>
+            <p>智能商業洞察  讓數據為您服務</p>
+        </div>
+        <div class="img2">
+            <img src="../static/img3.png" />
+        </div>
+        <div class="img3">
+            <img src="../static/img9.png" />
+        </div>
+        <div class="img4">
+            <img src="../static/img10.png" />
         </div>
     </body> 
 </html>

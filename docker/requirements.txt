@@ -12,6 +12,5 @@ selenium-wire
 selenium
 pandas
 openpyxl
-datetime
 schedule
 matplotlib

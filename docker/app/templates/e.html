@@ -89,75 +89,56 @@
             font-size: 25px;
         }
 
-        .button1 {
+        .button1{
             display: inline-block;
-            background-color: #B1E1C7;
+            background-color: #C7E2C3;
             border-color: #B1E1C7;
             border-radius: 0.5rem;
-            color: green;
-            /* 美化的字体颜色 */
-            font-family: "Helvetica Neue", sans-serif;
-            /* 字体 */
-            font-size: 22px;
-            /* 字号 */
-            font-weight: 550;
-            /* 字体粗细 */
-            letter-spacing: 1.5px;
-            /* 字间距 */
-            text-transform: uppercase;
-            /* 文字大写 */
-            text-decoration: none;
-            /* 文字无下划线 */
-            padding: 8px 15px;
-            /* 按钮内边距 */
-            transition: all 0.3s ease-in-out;
-            /* 过渡效果 */
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
             width: 100%;
-            border: 3px;
+            border:3px ;
         }
 
         .button1:hover {
-            background-color: #73af8f;
-            /* 鼠标移上去时的背景颜色 */
-            border-color: #73af8f;
-            /* 鼠标移上去时的边框颜色 */
-            color: black;
-            /* 鼠标移上去时的字体颜色 */
+            background-color: #b2cfae; /* 鼠标移上去时的背景颜色 */
+            border-color: #73af8f; /* 鼠标移上去时的边框颜色 */
+            color: white; /* 鼠标移上去时的字体颜色 */
         }
 
 
-        .menu {
-            background-color: #B1E1C7;
+        .menu{
+            background-color: #C7E2C3;
         }
-
-        .main-row {
+        .main-row{
             min-height: 100vh;
         }
 
-        .menu-button {
-            margin-top: 5vh;
+        .menu-button{
+            margin-top:5vh;
         }
 
-        .menu-logo-text {
+        .menu-logo-text{
             font-size: 40px;
             letter-spacing: 15px;
             font-weight: 550;
             text-decoration: none;
         }
-
-        hr {
-            border-top: 3px solid #8FBC8F;
+        hr{
+            border-top: 3px solid #395d39;
         }
-
-        .score-text {
-            font-size: 40px;
-            /* 字号 */
-            font-weight: 550;
-            /* 字体粗细 */
-            letter-spacing: 1.5px;
-            /* 字间距 */
-            text-decoration: none;
-            /* 文字无下划线 */
+        .score-text{
+            font-size: 40px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-decoration: none; /* 文字无下划线 */
         }
 
         .image {
@@ -210,6 +191,40 @@
             padding: 2rem;
             margin-bottom: 2rem;
         }
+        .menu-logo-text{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+        }
+        .img2 {
+            position: fixed;
+            bottom: 125px;
+            right: -40px;
+            width: 400px;
+            height: 250px;
+            object-fit: contain;
+            z-index: 9999;
+        }
+        .img3 {
+            position: fixed;
+            bottom: 408px;
+            left: 215px;
+            width: 400px;
+            height: 250px;
+            object-fit: contain;
+            z-index: 9999;
+        }
+        
     </style>
 </head>
 
@@ -219,7 +234,12 @@
             <div class="col-2 menu text-center">
                 <div class="menu-button">
                     <div class="menu-logo-text">
-                        <p> 宅栽 </p>
+                        <p>
+                            {% if 'username' in session %}
+                                <p>Welcome {{ session['username'] }}</p>
+                            {% else %}
+                                <p>Please log in to view this page.</p>
+                            {% endif %} </p>
                     </div>
                     <hr class="h-color">
                     <div class="left-button">
@@ -359,6 +379,12 @@
                             </p>
                             {% endif %}
                         </form>
+                    </div>
+                    <div class="img2">
+                        <img src="../static/img4.png" />
+                    </div>
+                    <div class="img3">
+                        <img src="../static/img6.png" />
                     </div>
                 </div>
             </div>

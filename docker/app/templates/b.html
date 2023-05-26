@@ -11,10 +11,10 @@
       <style>
         .button1{
             display: inline-block;
-            background-color: #B1E1C7;
+            background-color: #C7E2C3;
             border-color: #B1E1C7;
             border-radius: 0.5rem;
-            color: green; /* 美化的字体颜色 */
+            color: #303030; /* 美化的字体颜色 */
             font-family: "Helvetica Neue", sans-serif; /* 字体 */
             font-size: 22px; /* 字号 */
             font-weight: 550; /* 字体粗细 */
@@ -27,14 +27,14 @@
             border:3px ;
         }
         .button1:hover {
-            background-color: #73af8f; /* 鼠标移上去时的背景颜色 */
+            background-color: #b2cfae; /* 鼠标移上去时的背景颜色 */
             border-color: #73af8f; /* 鼠标移上去时的边框颜色 */
-            color: black; /* 鼠标移上去时的字体颜色 */
+            color: white; /* 鼠标移上去时的字体颜色 */
         }
 
 
         .menu{
-            background-color: #B1E1C7;
+            background-color: #C7E2C3;
         }
         .main-row{
             min-height: 100vh;
@@ -51,7 +51,7 @@
             text-decoration: none;
         }
         hr{
-            border-top: 3px solid #8FBC8F;
+            border-top: 3px solid #395d39;
         }
         .score-text{
             font-size: 40px; /* 字号 */
@@ -73,7 +73,7 @@
         .date {
             font-size: 1rem;
             font-family: Arial, sans-serif;
-            color: navy;
+            color: #666666;
             text-transform: uppercase;
             letter-spacing: 0.18rem;
             margin-left: 1rem;
@@ -89,6 +89,71 @@
             overflow: auto;
             height: 400px;  /* 设置容器的高度 */
         }
+        .menu-logo-text{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+        }
+        .alert-card{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 0.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+            line-height: 0.8;
+            margin-bottom: 5px;
+        }
+        .btn3 {
+          background-color: #FF9833; /* 鼠标移上去时的背景颜色 */
+          border-color: #FF9833; /* 鼠标移上去时的边框颜色 */
+          color: #303030; /* 鼠标移上去时的字体颜色 */
+          font-family: "Helvetica Neue", sans-serif; /* 字体 */
+          font-size: 15px; /* 字号 */
+          font-weight: 550; /* 字体粗细 */
+          letter-spacing: 1.5px; /* 字间距 */
+          text-decoration: none; /* 文字无下划线 */
+          padding: 3px 8px; /* 按钮内边距 */
+          transition: all 0.3s ease-in-out; /* 过渡效果 */
+          border-radius: 10px; /* 圆角边缘 */
+        }
+        .reminder{
+            overflow-y:scroll;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: row;
+            height: 70vh;
+            justify-content: center;
+        }
+        .reminder2{
+            margin-top: 1rem;
+            overflow-y:scroll;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: row;
+            height: 90vh;
+            justify-content: center;
+        }
+        .flow-col{
+            
+        }
     </style>
 
 </head>
@@ -98,7 +163,12 @@
         <div class="row main-row">
             <div class="col-2 menu text-center">
                 <div class="menu-button">
-                    <div class="menu-logo-text"><p> 宅栽 </p></div>
+                    <div class="menu-logo-text"><p> 
+                        {% if 'username' in session %}
+                            <p>Welcome {{ session['username'] }}</p>
+                        {% else %}
+                            <p>Please log in to view this page.</p>
+                        {% endif %} </p></div>
                         <hr class="h-color">
                         <div class="left-button">
                             <form action="/a" method="GET" >
@@ -144,10 +214,10 @@
             </div>
 
             <div class="col-2">
-                <div class="plotly"
-                        style="position: absolute; left: 35%; top: 0%; width: 65vw; height: 50vw; display: block;">{{ div_placeholder|safe }}</div>
-                <h5 style="margin-top: 30px; font-weight: bold;">請選擇月份：</h5>
+                
+                
                 <div class="row row-date align-items-center">
+                    <h5 style="margin-top: 30px; font-weight: bold;">請選擇月份：</h5>
                     <div class="date border border-3 rounded">
                         <form action="/b" method="get">
                             <select id="month" name="month">
@@ -157,14 +227,14 @@
                             </select>
                             <br>
                             <div style="float:right">
-                                <input type="submit" value="搜尋" class="btn btn-outline-success">
+                                <input class=btn3 type="submit" value="搜尋" class="btn btn-outline-success">
                             </div>
                         </form>
                     </div>
                     <br>
-                    <div class="flow-col card overflow-y-scroll card-body text-success border border-3" {% if kpi %}style="visibility: visible;"{% else %}style="visibility: invisible; display: none;"{% endif %}>
+                    <div class="flow-col card overflow-y-scroll card-body text-success border border-3 reminder" {% if kpi %}style="visibility: visible;"{% else %}style="visibility: invisible; display: none;"{% endif %}>
                         <div class="alert-card">
-                            <h4 style="color: red; margin-bottom: 20px; font-weight: bold;">kpi差值：</h4>
+                            <h4 style="color: #FF9933; margin-bottom: 20px; font-weight: bold;">kpi差值：</h4>
                             {% for k in kpi %}
                             <p style="font-size: 14px; line-height: 1.1">{{k}}</p> <!-- 這裡放kpi差位警訊 -->
                             {% endfor %}
@@ -172,8 +242,12 @@
                     </div>
                 </div>
             </div>
+            <div class="col-8">
+                <div class="plotly reminder2">{{ div_placeholder|safe }}</div>
+            </div>
         </div>
     </div>
+
 
 
 

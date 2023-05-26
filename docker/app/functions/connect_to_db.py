@@ -19,3 +19,6 @@ class SQLcommand:
     with self.conn.cursor() as cursor:
       cursor.execute(sql)
     self.conn.commit()
+
+if __name__ == '__main__':
+  pass
