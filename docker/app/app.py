@@ -6,17 +6,13 @@ from functions.connect_to_db import SQLcommand
 from functions.image_predict import predict_image
 from functions.clear_folder import clear_folder
 # from BCG_funtions import *
-import random
 import logging
-import plotly.graph_objs as go 
-import plotly.offline as opy
 from page_b import page_b
 from BCG_funtions import *
 
 
 # ==============德柔功能
 from competitor_draw_chart import DrawChart
-from datetime import datetime
 
 
 app=Flask(__name__)
@@ -105,9 +101,7 @@ def c():
 def index():
     if request.method == 'GET':
         return render_template('index.html')
-
     if request.method == 'POST':
-
         start = request.form.get('start')
         end = request.form.get('end')
         button_value = request.form.get('button')
@@ -296,6 +290,7 @@ def index():
     #     return render_template('index.html', chart_html=chart_html)
     
 
+# 點擊載入e功能頁面
 @app.route('/e', methods=['GET', 'POST'])
 def e():
     if request.method == 'GET':
@@ -320,7 +315,7 @@ def e():
 
         return render_template('e.html', scores=text, num=len(text))
 
-
+# 讓程式跑起來
 if __name__ == '__main__':
     app.debug = True
     app.run(host="0.0.0.0")

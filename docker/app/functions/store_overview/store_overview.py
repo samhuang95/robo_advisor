@@ -1,7 +1,7 @@
 import configparser
 import sys
-sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
-from connect_to_db import SQLcommand
+# sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
+from ..connect_to_db import SQLcommand
 from datetime import datetime, timedelta
 import pandas as pd
 from datetime import date
@@ -10,6 +10,7 @@ from sklearn.tree import DecisionTreeRegressor
 
 # ----------------------------------------------------
 def daily_data(time_select):
+    print(time_select)
     time_select_dt = datetime.strptime(time_select, '%Y-%m-%d')
     month = time_select_dt.strftime("%m")
     day = time_select_dt.strftime("%d")
@@ -79,6 +80,7 @@ def daily_data(time_select):
             (DAYOFWEEK(t.date_time) <> 4)
             ORDER BY 1 DESC;
             ''')
+        # print(df)
         return {
         'event_noevent_data' : df,
         'date_time' : df[0][0], 
@@ -94,9 +96,10 @@ def daily_data(time_select):
         'sale_products' : float(df[0][10]),
         'total_sales' :float(df[0][11])
         }
+
     
-dd = daily_data('2023-04-03')
-print(dd['date_time'])
+# dd = daily_data('2023-05-21')
+# print(dd['date_time'])
 
 # ----------------------------------------------------
 def feature_mean(time_select):

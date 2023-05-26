@@ -4,8 +4,8 @@ import csv
 from datetime import date, datetime, timedelta
 from flask import Flask, render_template
 import sys
-sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
-from connect_to_db import SQLcommand
+# sys.path.append("..")  # 添加上一層資料夾至模組搜尋路徑
+from ..connect_to_db import SQLcommand
 
 # 【kpi 數值】
 def line_stack_area(time_select):
@@ -29,7 +29,7 @@ def line_stack_area(time_select):
     # 轉成 dict
     month_sales = {date: value for date, value in month_sales_rowdata}   
 
-    line_kpi = Line(init_opts=opts.InitOpts(theme='light', width='1000px', height='600px'))
+    line_kpi = Line(init_opts=opts.InitOpts(theme='light', width='100%', height='100%'))
     line_kpi.add_xaxis(list(kpi_data.keys()))
     line_kpi.add_yaxis('當月 KPI', list(kpi_data.values()),
                         areastyle_opts=opts.AreaStyleOpts(opacity=0.5, color='rgba(62, 197, 197, 1)'),
