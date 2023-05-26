@@ -65,6 +65,7 @@ def signin():
 # 點擊載入a功能頁面
 @app.route("/a", methods=["GET", "POST"])
 def a():
+    today = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
         line_chart  = line_stack_area(start_date_str)
@@ -73,10 +74,10 @@ def a():
         di = daily_insight(start_date_str) # 賣場警告
         ds = daily_score(start_date_str) # 賣場分數
         # 回傳 a頁面                         # 這個是圖像介面
-        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, start_date_str=start_date_str) 
+        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, today=today, start_date_str=start_date_str) 
      # 如果是 GET 請求
     else:
-        return render_template("a.html")
+        return render_template("a.html", today=today)
        
 
 # 點擊載入b功能頁面
