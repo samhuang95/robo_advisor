@@ -73,7 +73,7 @@ def a():
         di = daily_insight(start_date_str) # 賣場警告
         ds = daily_score(start_date_str) # 賣場分數
         # 回傳 a頁面                         # 這個是圖像介面
-        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html) 
+        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, start_date_str=start_date_str) 
      # 如果是 GET 請求
     else:
         return render_template("a.html")

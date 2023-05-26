@@ -14,9 +14,10 @@ def daily_data(time_select):
     time_select_dt = datetime.strptime(time_select, '%Y-%m-%d')
     month = time_select_dt.strftime("%m")
     day = time_select_dt.strftime("%d")
+
     # shopee events
     # 讀取有活動參與的數據
-    if month == day or day == 18 or time_select_dt.weekday() == 3:
+    if month == day or day == '18' or time_select_dt.weekday() == 2:
         df = SQLcommand().get(f'''
         SELECT 
             t.date_time, t.page_views AS product_page_views, 
@@ -108,7 +109,7 @@ def feature_mean(time_select):
     day = time_select_dt.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day or day == 18 or time_select_dt.weekday() == 3:
+    if month == day or day == '18' or time_select_dt.weekday() == 2:
         df = SQLcommand().get(f'''
         SELECT 
             t.date_time, t.page_views AS product_page_views, 
@@ -132,6 +133,7 @@ def feature_mean(time_select):
             (DAYOFWEEK(t.date_time) = 4)
         ORDER BY 1 DESC;
             ''')
+        df = pd.DataFrame(df)
         all_data = {
         'product_page_views' : df[1].mean(),
         'step_times' : df[2].mean(),
@@ -202,7 +204,7 @@ def all_data(time_select):
     day = time_select_dt.strftime("%d")
     # shopee events
     # 讀取有活動參與的數據
-    if month == day or day == 18 or time_select_dt.weekday() == 3:
+    if month == day or day == '18' or time_select_dt.weekday() == 2:
         df = SQLcommand().get(f'''
         SELECT 
             t.date_time, t.page_views AS product_page_views, 
@@ -387,7 +389,7 @@ def daily_score(time_select):
 
     dd = daily_data(time_select)
     fwm = feature_weight_model(time_select)
-    if month == day or day == 18 or time_select_dt.weekday() == 3:
+    if month == day or day == '18' or time_select_dt.weekday() == 2:
         with open(f'/app/functions/store_overview/dataset/{year}_event_score_std.csv') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=',')
             max_data = {}
