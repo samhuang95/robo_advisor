@@ -32,20 +32,20 @@ def line_stack_area(time_select):
     line_kpi = Line(init_opts=opts.InitOpts(theme='light', width='100%', height='100%'))
     line_kpi.add_xaxis(list(kpi_data.keys()))
     line_kpi.add_yaxis('當月 KPI', list(kpi_data.values()),
-                        areastyle_opts=opts.AreaStyleOpts(opacity=0.5, color='rgba(62, 197, 197, 1)'),
-                        linestyle_opts=opts.LineStyleOpts(color='rgba(62, 197, 197, 1)'),
-                        label_opts=opts.LabelOpts(color='rgba(62, 197, 197, 1)', font_size=30, position='right')
+                        areastyle_opts=opts.AreaStyleOpts(opacity=0.5, color='rgba(123, 123, 123, 1)'),
+                        linestyle_opts=opts.LineStyleOpts(color='rgba(123, 123, 123, 1)'),
+                        label_opts=opts.LabelOpts(color='#D26900', font_size=30, position='right')
                         )
 
     line_sales = Line()
     line_sales.add_xaxis(list(month_sales.keys()))
     line_sales.add_yaxis('月銷量', list(month_sales.values()), 
-                        areastyle_opts=opts.AreaStyleOpts(opacity=0.5, color='rgba(225, 0, 0, 0.65)'),
-                        linestyle_opts=opts.LineStyleOpts(color='rgba(225, 0, 0, 0.65)'),
-                        label_opts=opts.LabelOpts(color='rgba(225, 0, 0, 0.65)', font_size=30, position='right')
+                        areastyle_opts=opts.AreaStyleOpts(opacity=0.5, color='rgba(210, 105, 0, 0.65)'),
+                        linestyle_opts=opts.LineStyleOpts(color='rgba(210, 105, 0, 0.65)'),
+                        label_opts=opts.LabelOpts(color='#585858', font_size=30, position='right')
                         )
-    line_kpi.set_series_opts(label_opts=opts.LabelOpts(color='rgba(62, 197, 197, 1)'))
-    line_sales.set_series_opts(label_opts=opts.LabelOpts(color='rgba(225, 0, 0, 0.65)'))  
+    line_kpi.set_series_opts(label_opts=opts.LabelOpts(color='rgba(123, 123, 123, 1)'))
+    line_sales.set_series_opts(label_opts=opts.LabelOpts(color='rgba(210, 105, 0, 0.65)'))  
 
 
     

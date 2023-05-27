@@ -101,6 +101,14 @@
             transition: all 0.3s ease-in-out; /* 过渡效果 */
             width: 100%;
             border:3px ;
+            margin-top: 60px;
+        }
+        .menu-logo2{
+            font-size: 20px;
+            letter-spacing: 7px;
+            font-weight: 550;
+            text-decoration: none;
+            margin-top: -15px;
         }
         .alert-card{
             display: inline-block;
@@ -149,8 +157,13 @@
             height: 90vh;
             justify-content: center;
         }
-        .flow-col{
-            
+        .photo{
+            position: absolute;
+            top: -10px;
+            left: 50px;
+            max-width: 10px;
+            max-height: 10px;
+            transform: scale(0.20);
         }
     </style>
 
@@ -163,13 +176,17 @@
                 <div class="menu-button">
                     <div class="menu-logo-text"><p> 
                         {% if 'username' in session %}
-                            <p>Welcome {{ session['username'] }}</p>
+                            <p>{{ session['username'] }}</p>
+                            <p class="menu-logo2">Welcome</p>
                         {% else %}
                             <p>Please log in to view this page.</p>
                         {% endif %} </p></div>
+                        <div class="photo">
+                            <img src="../static/photo.png" />
+                        </div>
                         <hr class="h-color">
                         <div class="left-button">
-                            <form action="/a" method="GET" >
+                            <form action="/effectiveness" method="GET" >
                                     <button class="button1">
                                         賣場成效總覽
                                     </button>
@@ -177,7 +194,7 @@
                         </div>
                         <br>
                         <div class="left-button">
-                            <form action="/b" method="GET" >
+                            <form action="/merchandising" method="GET" >
                                     <button class="button1">
                                         商品銷售總覽
                                     </button>
@@ -185,7 +202,7 @@
                         </div>
                         <br>
                         <div class="left-button">
-                            <form action="/c" method="GET">
+                            <form action="/execution" method="GET">
                                 <button class="button1">
                                     商品執行策略
                                 </button>
@@ -193,7 +210,7 @@
                         </div>
                         <br>
                         <div class="left-button">
-                            <form action="/d" method="GET">
+                            <form action="/datamonitoring" method="GET">
                                 <button class="button1">
                                     競品數據監測
                                 </button>
@@ -201,7 +218,7 @@
                         </div>
                         <br>
                         <div class="left-button">
-                            <form action="/e" method="GET">
+                            <form action="/FBdata" method="GET">
                                 <button class="button1">
                                     臉書數據資料
                                 </button>
@@ -217,7 +234,7 @@
                 <div class="row row-date align-items-center">
                     <h5 style="margin-top: 30px; font-weight: bold;">請選擇月份：</h5>
                     <div class="date border border-3 rounded">
-                        <form action="/b" method="get">
+                        <form action="/merchandising" method="get">
                             <select id="month" name="month">
                                 {% for month in month_list %}
                                     <option value="{{ month }}" {% if month == selected_month %}selected{% endif %}>{{ month }}</option>
