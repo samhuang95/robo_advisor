@@ -67,8 +67,8 @@ def signin():
 
     
 # 點擊載入a功能頁面
-@app.route("/a", methods=["GET", "POST"])
-def a():
+@app.route("/effectiveness", methods=["GET", "POST"])
+def effectivenessa():
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
         line_chart  = line_stack_area(start_date_str)
@@ -90,8 +90,8 @@ def a():
 #     return render_template("b.html", kpi1=kpi1)
 
 # 點擊載入c功能頁面
-@app.route("/c", methods=["GET" , "POST"])
-def c():
+@app.route("/execution", methods=["GET" , "POST"])
+def execution():
     if request.method == 'GET':
         return render_template("c.html")
     if request.method == 'POST':   # 如果是 POST 請求
@@ -101,8 +101,8 @@ def c():
         return render_template("c.html", ih_list = ih_list ,start_month_str=start_month_str)
 
 # 點擊載入d功能頁面
-@app.route("/d", methods=["GET","POST"])
-def index():
+@app.route("/datamonitoring", methods=["GET","POST"])
+def datamonitoring():
     if request.method == 'GET':
         return render_template('index.html')
     if request.method == 'POST':
@@ -295,7 +295,7 @@ def index():
     
 
 # 點擊載入e功能頁面
-@app.route('/e', methods=['GET', 'POST'])
+@app.route('/FBdata', methods=['GET', 'POST'])
 def e():
     if request.method == 'GET':
         return render_template("e.html")

@@ -156,6 +156,14 @@
         transition: all 0.3s ease-in-out; /* 过渡效果 */
         width: 100%;
         border:3px ;
+        margin-top: 60px;
+      }
+      .menu-logo2{
+        font-size: 20px;
+        letter-spacing: 7px;
+        font-weight: 550;
+        text-decoration: none;
+        margin-top: -15px;
       }
       .img2 {
         position: fixed;
@@ -173,7 +181,15 @@
         height: 250px;
         object-fit: contain;
         z-index: -1;
-    }
+      }
+      .photo{
+        position: absolute;
+        top: -10px;
+        left: 50px;
+        max-width: 10px;
+        max-height: 10px;
+        transform: scale(0.20);
+      }
     
     </style>
   
@@ -188,13 +204,17 @@
               <div class="menu-button">
                   <div class="menu-logo-text"><p>
                     {% if 'username' in session %}
-                        <p>Welcome {{ session['username'] }}</p>
+                        <p>{{ session['username'] }}</p>
+                        <p class="menu-logo2">Welcome</p>
                     {% else %}
                         <p>Please log in to view this page.</p>
                     {% endif %} </p></div>
+                    <div class="photo">
+                        <img src="../static/photo.png" />
+                    </div>
                       <hr class="h-color">
                       <div class="left-button">
-                          <form action="/a" method="GET" >
+                          <form action="/effectiveness" method="GET" >
                                   <button class="button1">   
                                       賣場成效總覽
                                   </button>
@@ -202,7 +222,7 @@
                       </div>
                       <br>
                       <div class="left-button">
-                          <form action="/b" method="GET" >
+                          <form action="/merchandising" method="GET" >
                                   <button class="button1">   
                                       商品銷售總覽
                                   </button>
@@ -210,7 +230,7 @@
                       </div>
                       <br>
                       <div class="left-button">
-                          <form action="/c" method="GET">
+                          <form action="/execution" method="GET">
                               <button class="button1">
                                   商品執行策略
                               </button>
@@ -218,7 +238,7 @@
                       </div>
                       <br>
                       <div class="left-button">
-                          <form action="/d" method="GET">
+                          <form action="/datamonitoring" method="GET">
                               <button class="button1">
                                   競品數據監測
                               </button>
@@ -226,7 +246,7 @@
                       </div>
                       <br>
                       <div class="left-button">
-                          <form action="/e" method="GET">
+                          <form action="/FBdata" method="GET">
                               <button class="button1">
                                   臉書數據資料
                               </button>
@@ -237,7 +257,7 @@
           </div>
           <div class="col-10">
             <div class="main">
-              <form action="{{ url_for('index') }}" method="POST">
+              <form action="{{ url_for('datamonitoring') }}" method="POST">
                 <label for="start">開始日期: </label>
                 <input type="date" name="start" id="start" required>
                 <label for="end">結束日期: </label>

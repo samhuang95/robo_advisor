@@ -72,8 +72,8 @@ def catch_predict(month):
 
 
 # flask路由
-@page_b.route('/b', methods=['GET', 'POST'])
-def index():
+@page_b.route('/merchandising', methods=['GET', 'POST'])
+def merchandising():
     try:
         if request.method == 'POST':  # 如果是 POST 請求
             month = request.form['month']
@@ -88,7 +88,7 @@ def index():
         dict2 = {key: value for key, value in zip(y2, x2)}
         kpi = []
         if x2 != [] and y2 != []:
-            trace2 = go.Bar(x=x2, y=y2, name='預測kpi', textposition='auto', textangle=0, orientation='h', marker=dict(color='#FF9933'))
+            trace2 = go.Bar(x=x2, y=y2, name='預測kpi', textposition='auto', textangle=0, orientation='h', marker=dict(color='#666666'))
             text2_labels = [str(x) if x != 0 else '0' for x in x2]
             trace2.text = text2_labels
             fig.add_trace(trace2)
@@ -104,7 +104,7 @@ def index():
                 #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5)
 
         if month != list_year_month()[-1]:
-            trace1 = go.Bar(x=x1, y=y1, name='月銷量', textposition='auto', textangle=0, orientation='h', marker=dict(color='#666666'))
+            trace1 = go.Bar(x=x1, y=y1, name='月銷量', textposition='auto', textangle=0, orientation='h', marker=dict(color='#FF9933'))
             text1_labels = [str(x) if x != 0 else '0' for x in x1]
             trace1.text = text1_labels
             fig.add_trace(trace1)
