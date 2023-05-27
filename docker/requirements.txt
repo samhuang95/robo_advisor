@@ -8,9 +8,7 @@ Pillow
 pyecharts
 pymysql
 requests
-selenium-wire
-selenium
+# selenium-wire
+# selenium
 pandas
-openpyxl
-schedule
 matplotlib

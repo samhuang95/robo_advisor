@@ -6,17 +6,13 @@ from functions.connect_to_db import SQLcommand
 from functions.image_predict import predict_image
 from functions.clear_folder import clear_folder
 # from BCG_funtions import *
-import random
 import logging
-import plotly.graph_objs as go 
-import plotly.offline as opy
 from page_b import page_b
 from BCG_funtions import *
 
 
 # ==============德柔功能
 from competitor_draw_chart import DrawChart
-from datetime import datetime
 
 
 app=Flask(__name__)
@@ -77,10 +73,10 @@ def effectivenessa():
         di = daily_insight(start_date_str) # 賣場警告
         ds = daily_score(start_date_str) # 賣場分數
         # 回傳 a頁面                         # 這個是圖像介面
-        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html) 
+        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, today=today, start_date_str=start_date_str) 
      # 如果是 GET 請求
     else:
-        return render_template("a.html")
+        return render_template("a.html", today=today)
        
 
 # 點擊載入b功能頁面
