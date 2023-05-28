@@ -100,7 +100,7 @@ def execution():
 @app.route("/datamonitoring", methods=["GET","POST"])
 def datamonitoring():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', start_date=start_date, start_date_str=start_date_str)
     if request.method == 'POST':
         start = request.form.get('start')
         end = request.form.get('end')

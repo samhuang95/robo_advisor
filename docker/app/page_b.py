@@ -83,7 +83,7 @@ def merchandising():
         y1 = plant_list
         dict1 = {key: value for key, value in zip(y1, x1)}
         fig = go.Figure()
-        fig.update_layout( plot_bgcolor='#E9F4E8',barmode='group', title=dict(text='月銷量', font=dict(size=25)), width=830, height=800, xaxis_tickfont=dict(size=16), yaxis_tickfont=dict(size=16))
+        fig.update_layout( plot_bgcolor='#E9F4E8',barmode='group', title=dict( font=dict(size=25)), width=830, height=800, xaxis_tickfont=dict(size=16), yaxis_tickfont=dict(size=16))
         x2, y2 = catch_predict(month)
         dict2 = {key: value for key, value in zip(y2, x2)}
         kpi = []
@@ -93,12 +93,12 @@ def merchandising():
             trace2.text = text2_labels
             fig.add_trace(trace2)
             if month != list_year_month()[-1]:
-                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict(text='月銷量+預測kpi', font=dict(size=25)), height=1500)
+                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict( font=dict(size=25)), height=1500)
                 # for i, x in enumerate(x2):
                 #     if x == 0:
                 #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=-10)
             else:
-                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict(text='預測kpi', font=dict(size=25)))
+                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict( font=dict(size=25)))
                 # for i, x in enumerate(x2):
                 #     if x == 0:
                 #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5)
