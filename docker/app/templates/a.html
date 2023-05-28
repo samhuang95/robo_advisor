@@ -125,11 +125,25 @@
             max-height: 10px;
             transform: scale(0.20);
         }
-    </style>
-    
-</head>
-<body>
+        .scrollable-container1 {
+            width: 90%; /* 设置容器的宽度 */
+            height: 120px; /* 设置容器的高度 */
+            overflow-x: auto; /* 当内容超过容器宽度时，显示水平滚动条 */
+        }
 
+        .scrollable-row {
+        display: flex; /* 把他們放在同一個ROW上 */
+        }
+        
+        .scrollable-container {
+            height: 500px; /* 设置容器的固定高度 */
+            overflow-y: auto; /* 当内容超过容器高度时，显示垂直滚动条 */
+        }
+        
+    </style>
+</head>
+
+<body>
     <div class="container-fluid">
         <div class="row main-row">
             <div class="col-2 menu text-center">
@@ -186,14 +200,12 @@
                             </form>
                         </div>
                 </div>
-            
             </div>           
             <div class="col-8 text-center">
                 <div class="row img-row">
                     <div class="col-12">
                             {{ chart_html|safe }}                        
                     </div>
- 
                 </div>  
                 <div class="row date-row">
                     <div class="col-2">
@@ -212,35 +224,89 @@
                     <div class="col-10">
                         {% set da = da | default({})%}
                         <div class="row">
-                            <div class="col-3">
-                                <div class="card text-bg-light mb-3" style="width: 8rem;">
-                                    <div class="card-header">銷售額</div>
-                                    <div class="card-body">
-                                    <p class="card-text">{{ da.get("total_sales")}}</p>
+                            <div class="scrollable-container1">
+                                <div class="scrollable-row">
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">銷售額
+                                            </div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("total_sales")}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="card text-bg-light mb-3" style="width: 8rem;">
-                                    <div class="card-header">成銷量</div>
-                                    <div class="card-body">
-                                    <p class="card-text">{{ da.get("sale_products")}}</p>
+                                <div class="col-3">
+                                    <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                        <div class="card-header">成銷量
+                                        </div>
+                                        <div class="card-body">
+                                        <p class="card-text">{{ da.get("sale_products")}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="card text-bg-light mb-3" style="width: 8rem;">
-                                    <div class="card-header">商品瀏覽數</div>
-                                    <div class="card-body">
-                                    <p class="card-text">{{ da.get("product_page_views")}}</p>
+                                <div class="col-3">
+                                    <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                        <div class="card-header">商品瀏覽數</div>
+                                        <div class="card-body">
+                                        <p class="card-text">{{ da.get("product_page_views")}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="card text-bg-light mb-3" style="width: 8rem;">
-                                    <div class="card-header">訪客數</div>
-                                    <div class="card-body">
-                                    <p class="card-text">{{ da.get("unique_visitors")}}</p>
+                                <div class="col-3">
+                                    <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                        <div class="card-header">訪客數</div>
+                                        <div class="card-body">
+                                        <p class="card-text">{{ da.get("unique_visitors")}}</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">新訪客</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("new_visitors")}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">喜歡產品</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("product_likes")}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">點擊次數</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("search_clicks")}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">新粉絲</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("new_fans")}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">回頭客</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("return_visitors")}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card text-bg-light mb-3" style="width: 8rem;">
+                                            <div class="card-header">停留時間</div>
+                                            <div class="card-body">
+                                            <p class="card-text">{{ da.get("step_times")}}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -252,22 +318,36 @@
                 <div class="score-text">
                     <h3 class="score-text">{{ ds|safe }}</h3>
                 </div>
-                <div class="warning-reminder">
-                    {% set di = di | default({})%}
-                    <div class="alert alert-orange" role="alert">
-                        {{ di.get("product_page_views")}}
-                    </div>
-                    <div class="alert alert-orange" role="alert">
-                        {{ di.get("step_times")}}
-                    </div>
-                    <div class="alert alert-orange" role="alert">
-                        {{ di.get("product_likes")}}
-                    </div>
-                    <div class="alert alert-orange2" role="alert">
-                        {{ di.get("search_clicks")}}
-                    </div>
-                    <div class="alert alert-orange2" role="alert">
-                        {{ di.get("new_fans")}}
+                <div class="scrollable-container"> 
+                    <div class="warning-reminder reminder">
+                        {% set di = di | default({})%}
+                        <div class="alert alert-orange" role="alert">
+                            {{ di.get("product_page_views")}}
+                        </div>
+                        <div class="alert alert-orange" role="alert">
+                            {{ di.get("step_times")}}
+                        </div>
+                        <div class="alert alert-orange" role="alert">
+                            {{ di.get("product_likes")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("search_clicks")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("new_fans")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("product_page_bounce_rate")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("unique_visitors")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("new_visitors")}}
+                        </div>
+                        <div class="alert alert-orange2" role="alert">
+                            {{ di.get("return_visitors")}}
+                        </div>
                     </div>
                 </div>
             </div>
