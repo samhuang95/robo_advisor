@@ -1,21 +1,9 @@
-import pymysql
 from plants_forecating_model import predict_column
 import pandas as pd
-import datetime
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import schedule
 from functions.connect_to_db import SQLcommand
-
-# credential_dict = {
-#     'host': 'db',
-#     'database': 'chi101',
-#     'user': 'chi101',
-#     'password': 'chi101',
-#     'charset': 'utf8mb4'
-# }
-# conn = pymysql.connect(**credential_dict)
-# cursor = conn.cursor()
-
-
 
 
 # 閏年判斷
@@ -34,7 +22,7 @@ def is_leap_year(year: int):
 
 # 月份天數判斷
 def month_date(m: int) -> int:
-    now_time = datetime.datetime.now()
+    now_time = datetime.now()
     month1 = [1, 3, 5, 7, 8, 10, 12]
     if m in month1:
         return 31
@@ -69,20 +57,13 @@ def start_predict(year_month):
     except:
         print('db already exists')
 
-    # 生成下個月
-    if int(month) == 12:
-        new_month = str(year + 1) + "-01"
-    else:
-        new_month = str(year) + "-" + str(month + 1).zfill(2)
 
     # 對每種植物進行資料庫讀取並放入orig_dict_date中
     for n in plant_list:
         sql2 = f"""
             SELECT date_time, total_sales FROM chi101.product_detail
-            WHERE product_name like '%{n}%' AND (date_time < '{year_month}-01');
+            WHERE product_name like '%{n}%' AND (date_time < '{year_month}-15');
             """
-        # cursor.execute(sql2)
-        # datas = cursor.fetchall()
         datas = SQLcommand().get(sql2)
         for data in datas:
             if n not in orig_dict_date.keys():
@@ -108,10 +89,9 @@ def start_predict(year_month):
         item_list = [item[1] for item in orig_dict_date[key]]
         x = pd.Series(item_list)
         if month != 12:
-            predictions_df = predict_column(x, (month_date(month) + month_date(month + 1)))
+            predictions_df = predict_column(x, (month_date(month) + month_date(month + 1) - 15))
         else:
-            predictions_df = predict_column(x, (month_date(month) + 31))
-        print(predictions_df)
+            predictions_df = predict_column(x, (month_date(month) + 31 - 15))
         pred = sum([item[0] for item in predictions_df.values.tolist()][month_date(month):])
         if key not in pred_dict.keys():
             pred_dict[key] = {year_month: pred}
@@ -119,25 +99,25 @@ def start_predict(year_month):
             pred_dict[key][year_month] = pred
 
         if key not in sum_avg.keys():
-
-            sum_avg[key] = {year_month: 30*sum(item_list)/(len(item_list)-(month_date(month)))}
+            sum_avg[key] = {year_month: month_date((datetime.now() + relativedelta(months=1)).month)*sum(item_list)/(len(item_list)-(month_date(month)))}
         else:
-            sum_avg[key][year_month] = 30*sum(item_list)/(len(item_list)-(month_date(month)))
+            sum_avg[key][year_month] = month_date((datetime.now() + relativedelta(months=1)).month)*sum(item_list)/(len(item_list)-(month_date(month)))
         print(sum_avg)
         print(pred_dict)
         sql3 = f"""
             INSERT INTO predict_total_sales_{year}_{str(month).zfill(2)} (NAME, SALES)
             VALUES ('{key}', {pred});
             """
-        # cursor.execute(sql3)
         SQLcommand().modify(sql3)
 
 
 # 每個月15號執行plant_kpi
 def job():
     today = datetime.date.today()
+    new = today + relativedelta(months=1)
+    new_month = str(new.year) + str(new.month).zfill(2)
     if today.day == 15:
-        start_predict(str(today.year) + "-" + str(today.month))
+        start_predict(new_month)
         print("執行程式 - 15號")
 
 
