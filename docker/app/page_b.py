@@ -8,13 +8,14 @@ from dateutil.relativedelta import relativedelta
 
 page_b = Blueprint('page_b', __name__)
 
-# # 24種植物list
+# 24種植物list
 plant_list = ['銅鏡觀音蓮', '七變化虎耳草', '白斑姑婆芋', '明脈火鶴', '飄帶火鶴', '油畫竹芋', '巧克力皇后朱蕉',
               '斑葉豹紋竹芋', '大麻葉', '瑞士起司窗孔龜背芋', '大西瓜', '白斑龜背芋', '小西瓜', '紅玉椒草', '獨角獸',
               '灑金蔓綠絨', '白斑合果芋', '姬龜背芋', '黑頂卷柏', '斑葉白鶴芋', '黑合果芋', '台灣崖爬藤', '絨葉蔓綠絨',
               '斑葉心葉蔓綠絨']
 
 
+# 連接mysql抓取全部商品，並對日銷量個別加總成月銷量
 def connect_mysql(month):
     month_year = month[0:4]
     month_month = month.split("年")[1].replace("月", "")
@@ -35,6 +36,7 @@ def connect_mysql(month):
     return sales
 
 
+# 設定下拉式選單中的月份
 def list_year_month():
     start_year, start_month = 2021, 4
     end_year, end_month = datetime.now().year, (datetime.now() + relativedelta(months=1)).month
@@ -51,6 +53,7 @@ def list_year_month():
     return month_list
 
 
+# 抓取mysql中預測kpi的資料
 def catch_predict(month):
     x, y = [], []
     new_month = month[0:4] + "_" + month.split("年")[1].replace("月", "").zfill(2)
@@ -75,53 +78,44 @@ def catch_predict(month):
 @page_b.route('/merchandising', methods=['GET', 'POST'])
 def merchandising():
     try:
+        # 獲取月份
         if request.method == 'POST':  # 如果是 POST 請求
             month = request.form['month']
         else:  # 如果是 GET 請求
             month = request.args.get('month')
+        # 若無月分則設為當前月份
+        if month is None:
+            month = str(datetime.now().year) + "年" + str(datetime.now().month) + "月"
+        
+        # 繪製圖表
+        fig = go.Figure()
+        fig.update_layout(plot_bgcolor='#E9F4E8',barmode='group', title=dict(font=dict(size=25)), width=830, height=800, xaxis_tickfont=dict(size=16), yaxis_tickfont=dict(size=16))
         x1 = connect_mysql(month)
         y1 = plant_list
         dict1 = {key: value for key, value in zip(y1, x1)}
-        fig = go.Figure()
-        fig.update_layout( plot_bgcolor='#E9F4E8',barmode='group', title=dict( font=dict(size=25)), width=830, height=800, xaxis_tickfont=dict(size=16), yaxis_tickfont=dict(size=16))
         x2, y2 = catch_predict(month)
         dict2 = {key: value for key, value in zip(y2, x2)}
         kpi = []
-        if x2 != [] and y2 != []:
-            trace2 = go.Bar(x=x2, y=y2, name='預測kpi', textposition='auto', textangle=0, orientation='h', marker=dict(color='#666666'))
-            text2_labels = [str(x) if x != 0 else '0' for x in x2]
-            trace2.text = text2_labels
-            fig.add_trace(trace2)
-            if month != list_year_month()[-1]:
-                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict( font=dict(size=25)), height=1500)
-                # for i, x in enumerate(x2):
-                #     if x == 0:
-                #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=-10)
-            else:
-                fig.update_layout( plot_bgcolor='#E9F4E8',title=dict( font=dict(size=25)))
-                # for i, x in enumerate(x2):
-                #     if x == 0:
-                #         fig.add_annotation(y=y2[i], x=x, text=str(x), showarrow=False, xshift=5)
-
+      
+        # 表一為月銷量
         if month != list_year_month()[-1]:
-            trace1 = go.Bar(x=x1, y=y1, name='月銷量', textposition='auto', textangle=0, orientation='h', marker=dict(color='#FF9933'))
-            text1_labels = [str(x) if x != 0 else '0' for x in x1]
-            trace1.text = text1_labels
-            fig.add_trace(trace1)
+            trace1 = go.Bar(x=x1, y=y1, text=x1, name='月銷量', textposition='auto', textangle=0, orientation='h', marker=dict(color='#FF9933'))
             for key in dict1:
                 if key in dict2:
                     if dict1[key] < dict2[key]:
                         kpi.append(f"""{key}：{dict2[key] - dict1[key]}""")
-            # if x2 == [] and y2 == []:
-            #     for i, x in enumerate(x1):
-            #         if x == 0:
-            #             fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5)
-            # else:
-            #     for i, x in enumerate(x1):
-            #         if x == 0:
-            #             fig.add_annotation(y=y1[i], x=x, text=str(x), showarrow=False, xshift=5, yshift=10)
-
-
+            fig.add_trace(trace1)
+       
+        # 表二為預測kpi
+        if x2 != [] and y2 != []:
+            trace2 = go.Bar(x=x2, y=y2, text=x2, name='預測kpi', textposition='auto', textangle=0, orientation='h', marker=dict(color='#666666'))
+            fig.add_trace(trace2)
+            if month != list_year_month()[-1]:
+                fig.update_layout(plot_bgcolor='#E9F4E8', title=dict(font=dict(size=25)), height=1500)
+            else:
+                fig.update_layout( plot_bgcolor='#E9F4E8', title=dict(font=dict(size=25)))
+ 
+        # 回傳div給前端
         div = pyo.plot(fig, auto_open=False, output_type='div')
         return render_template("b.html", kpi=kpi, div_placeholder=div, month_list=list_year_month(), selected_month=month)
     except:
