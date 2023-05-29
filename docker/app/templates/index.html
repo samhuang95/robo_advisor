@@ -41,8 +41,8 @@
       }
 
       .btn3 {
-          background-color: #FF9833; /* 鼠标移上去时的背景颜色 */
-          border-color: #FF9833; /* 鼠标移上去时的边框颜色 */
+          background-color: #FDAD55; /* 鼠标移上去时的背景颜色 */
+          border-color: #FDAD55; /* 鼠标移上去时的边框颜色 */
           color: #303030; /* 鼠标移上去时的字体颜色 */
           font-family: "Helvetica Neue", sans-serif; /* 字体 */
           font-size: 15px; /* 字号 */
@@ -268,7 +268,34 @@
                 <button class="btn3" type="submit" name="button" value="10">評價數(折線圖)</button>
                 <button class="btn3" type="submit" name="button" value="line">粉絲數(折線圖)</button>
                 <button class="btn3" type="submit" name="button" value="bar">日銷售額(折線圖)</button>
-              </form> 
+                
+                <script>
+                    // Set date
+                    document.getElementById('start').onchange = function() {
+                        localStorage.setItem('startDate', this.value);
+                    }
+                    
+                    document.getElementById('end').onchange = function() {
+                        localStorage.setItem('endDate', this.value);
+                    }
+                    
+                    function loadDate() {
+                        var savedStartDate = localStorage.getItem('startDate');
+                        var savedEndDate = localStorage.getItem('endDate');
+                        if (savedStartDate) {
+                            document.getElementById('start').value = savedStartDate;
+                        }
+                        if (savedEndDate) {
+                            document.getElementById('end').value = savedEndDate;
+                        }
+                    }
+            
+                    // Immediately-invoked Function Expression (IIFE)
+                    (function() {
+                        loadDate();
+                    })();
+                </script>
+            </form>
             </div>
             <div class="main2">
               <div id="chart-container">{{ chart_html|safe }}</div>

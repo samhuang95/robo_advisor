@@ -321,6 +321,7 @@ SQLcommand().modify("""
         ELSE shop_name
     END;
 """)
+
 print(f'所有資料已匯入資料庫且同步完成products_info表格的名稱更新')
 driver.close() 
 

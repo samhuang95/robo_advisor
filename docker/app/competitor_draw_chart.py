@@ -9,8 +9,8 @@ class DrawChart:
   def bar(self, title, x_label, y_label1, y_label2, x, y, y2):
     chart = Bar()
     chart.add_xaxis(x)
-    chart.add_yaxis(y_label1, y)
-    chart.add_yaxis(y_label2, y2)
+    chart.add_yaxis(y_label1, y, color="#FD9A32")
+    chart.add_yaxis(y_label2, y2, color="#666666")
     yaxis_opts=[
     opts.AxisOpts(name=y_label1),
     opts.AxisOpts(name=y_label2)]

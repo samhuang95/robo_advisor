@@ -241,6 +241,10 @@
             max-height: 10px;
             transform: scale(0.20);
         }
+        .btn2{
+            transform: scale(1.25);
+            margin-top:40%;
+        }
         
     </style>
 
@@ -394,8 +398,8 @@
 
                     <div class="submit-button">
                         <form method="post" action="/FBdata" enctype="multipart/form-data">
-                            <input type="file" name="file" id="file" accept="image/*" multiple>
-                            <input type="submit" value="進行預測">
+                            <input class=btn2 type="file" name="file" id="file" accept="image/*" multiple>
+                            <input class=btn2 type="submit" value="進行預測">
                             <br>
                             {% set warning = warning | default('') %}
                             {% if warning %}
