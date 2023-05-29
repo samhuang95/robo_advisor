@@ -99,8 +99,8 @@ def daily_data(time_select):
         }
 
     
-# dd = daily_data('2023-05-21')
-# print(dd['date_time'])
+# dd = daily_data('2023-05-28')
+# print(dd['step_times'])
 
 # ----------------------------------------------------
 def feature_mean(time_select):
@@ -195,7 +195,7 @@ def feature_mean(time_select):
         'AVG_product_likes' : all_data['product_likes'].mean()
         }
 
-# fm = feature_mean('2023-05-21')
+# fm = feature_mean('2023-05-28')
 # print(fm['AVG_step_times'])
 # # ---------------------------------------------------
 def all_data(time_select):
@@ -257,7 +257,7 @@ def all_data(time_select):
         df = pd.DataFrame(df)
         return df
 
-# ad = all_data('2023-05-20')
+# ad = all_data('2023-05-28')
 # print(ad)
 
 # # ----------------------------------------------------
@@ -341,6 +341,9 @@ def daily_insight(time_select):
 
     return insight_message
 
+# di = daily_insight('2023-05-28')
+# print(di)
+
 # --------------------------------------------------------------
 def feature_weight_model(time_select):
 
@@ -375,7 +378,7 @@ def feature_weight_model(time_select):
         'product_likes' : weight_dict['product_likes'] / sum(weight_dict.values()) * 100
         }
 
-# ff = feature_weight_model('2023-05-21')
+# ff = feature_weight_model('2023-05-28')
 # print(ff)
 
 # ----------------------------------------------------
@@ -431,5 +434,6 @@ def daily_score(time_select):
             'product_likes' : round(((dd['product_likes']) / (max_data['product_likes_score'])) * fwm['product_likes'])
             }
         return sum(score.values())
-# ds = daily_score('2023-05-21')
+
+# ds = daily_score('2023-05-28')
 # print(ds)
