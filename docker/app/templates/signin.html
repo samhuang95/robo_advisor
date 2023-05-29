@@ -13,47 +13,61 @@
                 background-color: #eeeeee;
                 font-family: "Helvetica Neue", sans-serif;
             }
-            .head {
+            .header {
                 background-color: #C7E2C3 ;
                 color: #303030;
                 font-family: "Helvetica Neue", sans-serif;
                 /* font-family: Comic Sans MS, cursive, sans-serif; */
                 font-weight: bold;
-                font-size:50px;
+                font-size:3rem;
                 text-align:center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
+
             .content {
-                width: 1000px;
+         
                 margin-left:auto;
                 margin-right:auto;
+                background-color: #eeeeee;
             }
             .signin {
                 text-align:center; 
             }
             .signup {
                 text-align:center; 
+                width: 100%;
+                padding-top: 5rem;
+                
             }
             .warning {
-                font-size: 30px;
+                font-size: 2rem;
                 color: rgb(169, 35, 35);
             }
-            .img1 img[src="/messageImage_1681269807392.jpg"]{
+            /* .img1 img[src="/messageImage_1681269807392.jpg"]{
                 width: 200px;
                 position: fixed;
                 bottom: 0;
                 right: 0;   
-            }
+            } */
             .font01 {
+                margin-top:2rem;
                 text-align:center;
                 font-family: Comic Sans MS, cursive, sans-serif;
                 font-weight: bold;
-                font-size:25px;
+                font-size:1.2rem;
                 opacity: 0.7;
+                height: 35%;
+                display:flex;
+                flex-direction: column;
+                justify-content: end;
+                padding-bottom: 7%;
             }
             .font01 p {
                 font-family: "Helvetica Neue", sans-serif;
             }
-            .img2 {
+            /* .img2 {
                 position: fixed;
                 bottom: 170px;
                 right: 40px;
@@ -76,9 +90,9 @@
                 right: 0px;
                 /* width: 400px;
                 height: 250px; */
-                /* object-fit: contain; */
+                /* object-fit: contain; 
                 z-index: 999;
-            }
+            } */
             /* .img2 {
                 position: absolute;
                 bottom: 170px;
@@ -114,49 +128,192 @@
                 object-fit: contain;
                 z-index: 999;
             } */
+
+
+            .content{
+                height: 93vh;
+                width: 100vw;
+            }
+            .header{
+                height: 7vh;
+            }
+            .leftSpace{
+                height: 15%;
+            }
+            .leftCol{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+            /* --------------------center-col--------------------------------- */
+            .centerCol{
+                display:flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                height: 93vh;
+            }
+            .centerSpace{
+                height: 15%;
+            }
+            .signin{
+                height: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+            }
+            .inputbox{
+                width:100%;
+                height:3rem;
+                border-radius: 2rem;
+                margin: 1rem;
+                opacity: 0.5;
+                border: none;
+                outline: none;
+                margin-left:0;
+                background-color: white;
+            }
+            .signin_form{
+                width: 100%;
+                height: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+            }
+            .signInButton{
+                height: 3rem;
+                width: 40%;
+                background-color: #C7E2C3;
+                border-radius: 2rem;
+                border: none;
+                font-size: 1.4rem;
+                margin-top: 2rem;
+                margin-bottom: 0;
+            }
+            .inputbox::placeholder{
+                font-size: 1.2rem;
+                color: gray;
+                font-family: "Helvetica Neue", sans-serif;
+            }
+            .inputGroup{
+                width:57%;
+                height:3.5rem;
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                border: 0.1rem none black;
+                border-radius: 35px;
+                margin-top: 1.5rem;
+                background-color: white;
+
+            }
+            .icon{
+                margin-left: 1rem;
+                margin-right: 0rem;
+            }
+            .signUpButton{
+                height: 2rem;
+                width: 15%;   
+                background-color: #C7E2C3;
+                border-radius: 2rem;
+                border: none;
+                font-size: 1.1rem;
+                margin-bottom: 0;
+                
+            }
+            .signUpText{
+                font-size: 1.2rem;
+                text-decoration: underline;
+            }
+            /* --------------------right-col--------------------------------- */
+            .rightCol{
+                display:flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 93vh;
+            }
+            .green_line_img_div{
+                height:20%;
+                width:100%
+            }
+            .green_line_img{
+                height: 32%;
+                width: 100%;
+            }
+            .robo_div{
+                height:55%%;
+                width:100%;
+                display: flex;
+                justify-content: end;
+            }
+            .idiot_robot_img{
+                width:100%;
+                height: 96%;
+            }
+
         </style>
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     </head>
     <body>
-        <div class="head">機器人顧問</div>
-        <div class="content"></div>
-        <div class="signin">
-            <br/>
-            <br/>
-            <h1>會員登入</h1>
-            <br/>
-            <form action="/" method="POST">
-                <label for="user_name">帳號</label>
-                <input type="text" name="user_name" required pattern="[a-zA-Z0-9_@]+"><br/>
-                <label for="user_password">密碼</label>
-                <input type="password" name="user_password" required pattern="[a-zA-Z0-9_@]+"><br/>
-                <br/>
-                <button>登入</button>
-            </form>
-            {% set warning = warning | default('') %}
-            {% if warning %}
-            <p class="warning">{{ warning }}</p>
-            {% endif %}
+        <div class="header">
+            機器人顧問
         </div>
-        <div class="signup">
-            <p>尚未註冊可由這裡註冊</p>
-            <form action="/signup" method="GET">
-                <button>註冊</button>
-            </form>
-        </div>
-        <div class="img1">
-            <!-- <img src="/messageImage_1681269807392.jpg" /> -->
-        </div>
-        <div class="font01">
-            <p>智能商業洞察  讓數據為您服務</p>
-        </div>
-        <div class="img2">
-            <img src="../static/img3.png" />
-        </div>
-        <div class="img3">
-            <img src="../static/img9.png" />
-        </div>
-        <div class="img4">
-            <img src="../static/img10.png" />
+        <div class="row content">
+            <div class="col-4 leftCol">
+                <div class="leftSpace">
+
+                </div>
+                <img class="yellow_line_img" src="../static/img9.png">
+            </div>
+            <div class="col-4 centerCol">
+                <div class="centerSpace">
+                    
+                </div>
+                <div class="signin">
+                    <h1>會員登入</h1>
+                    <form action="/" method="POST" class="signin_form">
+                        <div class="inputGroup">
+                            <label for="user_name"></label>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person icon" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                            </svg>
+                            <input type="text" name="user_name" required pattern="[a-zA-Z0-9_@]+" placeholder=" 帳號" class="inputbox">
+                        </div>
+                        <div class="inputGroup">
+                            <label for="user_password"></label>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" fill="currentColor" class="bi bi-lock icon" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                            </svg>
+                            <input type="password" name="user_password" required pattern="[a-zA-Z0-9_@]+" placeholder=" 密碼" class="inputbox">
+                        </div>
+                        <button class="signInButton">登入</button>
+                    </form>
+                    {% set warning = warning | default('') %}
+                    {% if warning %}
+                    <p class="warning">{{ warning }}</p>
+                    {% endif %}
+                    <div class="signup">
+                        <p class="signUpText">尚未註冊可由這裡註冊</p>
+                        <form action="/signup" method="GET">
+                            <button class="signUpButton">註冊</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="font01">
+                    <p class="slogan_text">© 2023 Key. All rights reserved | Design by samhuang95</p>
+                </div>
+
+            </div>
+            <div class="col-4 rightCol">
+                <div class="green_line_img_div">
+                    <img class="green_line_img" src="../static/img10.png">
+                </div>
+                <div class="robo_div">
+                    <img class="idiot_robot_img" src="../static/img3.png">                
+                </div>    
+            </div>
         </div>
     </body> 
 </html>
