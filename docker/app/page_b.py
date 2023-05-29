@@ -79,6 +79,8 @@ def merchandising():
             month = request.form['month']
         else:  # 如果是 GET 請求
             month = request.args.get('month')
+        if month is None:
+            month = str(datetime.now().year) + "年" + str(datetime.now().month) + "月"
         x1 = connect_mysql(month)
         y1 = plant_list
         dict1 = {key: value for key, value in zip(y1, x1)}
