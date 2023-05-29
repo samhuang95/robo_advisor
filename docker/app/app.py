@@ -52,7 +52,7 @@ def signin():
     user_name = request.form['user_name']
     # session['username'] = username
     user_password = request.form['user_password']
-
+    today = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
     data = SQLcommand().get(f'SELECT * FROM user_data WHERE account = "{user_name}"')
     if not data:
         return render_template("signin.html", warning='請註冊帳號')
@@ -60,13 +60,21 @@ def signin():
         return render_template("signin.html", warning='密碼錯誤')
     elif data[0][1] == user_name and data[0][2] == user_password:
         session['username'] = user_name
-        return render_template("a.html")
+        line_chart  = line_stack_area(today)
+        chart_html = line_chart.render_embed()
+        da = daily_data(today) #賣場數據總攬
+        di = daily_insight(today) # 賣場警告
+        ds = daily_score(today) # 賣場分數
+        # 回傳 a頁面                         # 這個是圖像介面
+        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, today=today, start_date_str = today) 
+        # return render_template("a.html")
 
 
     
 # 點擊載入a功能頁面
 @app.route("/effectiveness", methods=["GET", "POST"])
 def effectivenessa():
+    today = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
         line_chart  = line_stack_area(start_date_str)
@@ -78,7 +86,13 @@ def effectivenessa():
         return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, today=today, start_date_str=start_date_str) 
      # 如果是 GET 請求
     else:
-        return render_template("a.html", today=today)
+        line_chart  = line_stack_area(today)
+        chart_html = line_chart.render_embed()
+        da = daily_data(today) #賣場數據總攬
+        di = daily_insight(today) # 賣場警告
+        ds = daily_score(today) # 賣場分數
+        # 回傳 a頁面                         # 這個是圖像介面
+        return render_template ("a.html" , da = da, di=di,ds=ds,chart_html = chart_html, today=today, start_date_str = today) 
        
 
 # 點擊載入b功能頁面
@@ -244,122 +258,122 @@ def datamonitoring():
 
 
 
-    # # ====================第一張圖:[點擊每月按鈕] 賣場資訊(柱狀圖)_START======================                         
-    # if request.form.get('button') == '5':
-    #     start = request.form.get('start')
-    #     end = request.form.get('end')
-    #     dataset = SQLcommand().get(f'SELECT shop_name AS name, SUM(fans_count) AS fans, SUM(rating_counts) AS rating FROM offical_data WHERE date>="{start}" AND date<="{end}" GROUP BY name ORDER BY fans DESC')
-    #     x, y, y2 = [element[0] for element in dataset], [element[1] for element in dataset], [element[2] for element in dataset]
-    #     chart_html = DrawChart().bar('競品總覽', '商店名稱', '粉絲數', '評價數', x, y, y2)
-    #     return render_template('index.html', chart_html=chart_html)
+    # ====================第一張圖:[點擊每月按鈕] 賣場資訊(柱狀圖)_START======================                         
+    if request.form.get('button') == '5':
+        start = request.form.get('start')
+        end = request.form.get('end')
+        dataset = SQLcommand().get(f'SELECT shop_name AS name, SUM(fans_count) AS fans, SUM(rating_counts) AS rating FROM offical_data WHERE date>="{start}" AND date<="{end}" GROUP BY name ORDER BY fans DESC')
+        x, y, y2 = [element[0] for element in dataset], [element[1] for element in dataset], [element[2] for element in dataset]
+        chart_html = DrawChart().bar('競品總覽', '商店名稱', '粉絲數', '評價數', x, y, y2)
+        return render_template('index.html', chart_html=chart_html)
 
-    # # ===========第二張圖:評價數(折線圖)_start================= 
+    # ===========第二張圖:評價數(折線圖)_start================= 
 
-    # if request.form.get('button') == '10':
-    #     start = request.form.get('start')
-    #     end = request.form.get('end')
-    #     dataset = SQLcommand().get(f'SELECT date, shop_name AS name, rating_counts AS rating FROM offical_data WHERE date >= "{start}" AND date <= "{end}"')
+    if request.form.get('button') == '10':
+        start = request.form.get('start')
+        end = request.form.get('end')
+        dataset = SQLcommand().get(f'SELECT date, shop_name AS name, rating_counts AS rating FROM offical_data WHERE date >= "{start}" AND date <= "{end}"')
         
-    #     # 整理數據
-    #     x_data = {}  # 用於存儲每個商家對應的時間數據
-    #     y_data = {}  # 用於存儲每個商家的銷售額數據
+        # 整理數據
+        x_data = {}  # 用於存儲每個商家對應的時間數據
+        y_data = {}  # 用於存儲每個商家的銷售額數據
 
-    # for row in dataset:
-    #     date = row[0]
-    #     shop_name = row[1]
-    #     rating = row[2]
-    #     if shop_name not in x_data:
-    #         x_data[shop_name] = []
-    #         x_data[shop_name].append(date)
-    #         # 添加銷售額數據到 y_data 字典
-    #     if shop_name not in y_data:
-    #         y_data[shop_name] = []  
-    #     y_data[shop_name].append(rating)
+    for row in dataset:
+        date = row[0]
+        shop_name = row[1]
+        rating = row[2]
+        if shop_name not in x_data:
+            x_data[shop_name] = []
+            x_data[shop_name].append(date)
+            # 添加銷售額數據到 y_data 字典
+        if shop_name not in y_data:
+            y_data[shop_name] = []  
+        y_data[shop_name].append(rating)
 
-    #     # 調用 lines_times 函式
-    #     chart_html = DrawChart().lines_times("評價數趨勢圖", "日期", "評價數", x_data, y_data)
-    #     return render_template("index.html", chart_html=chart_html)
+        # 調用 lines_times 函式
+        chart_html = DrawChart().lines_times("評價數趨勢圖", "日期", "評價數", x_data, y_data)
+        return render_template("index.html", chart_html=chart_html)
 
-    # # ===========評價數_end================= 
+    # ===========評價數_end================= 
 
-    # # ===========第三張圖:粉絲數(折線圖)_start=================
-    # if request.form.get('button') == 'line':
-    #     start = request.form.get('start')
-    #     end = request.form.get('end')
-    #     dataset = SQLcommand().get(f'SELECT date, shop_name AS name, fans_count AS fans FROM offical_data WHERE date>="{start}" AND date<="{end}" ORDER BY fans DESC')
+    # ===========第三張圖:粉絲數(折線圖)_start=================
+    if request.form.get('button') == 'line':
+        start = request.form.get('start')
+        end = request.form.get('end')
+        dataset = SQLcommand().get(f'SELECT date, shop_name AS name, fans_count AS fans FROM offical_data WHERE date>="{start}" AND date<="{end}" ORDER BY fans DESC')
 
-    # # 整理數據
-    # x_data = {}  # 用於存儲每個商家對應的時間數據
-    # y_data = {}  # 用於存儲每個商家的銷售額數據
+    # 整理數據
+    x_data = {}  # 用於存儲每個商家對應的時間數據
+    y_data = {}  # 用於存儲每個商家的銷售額數據
 
-    # for row in dataset:
-    #     date = row[0]
-    #     shop_name = row[1]
-    #     fans = row[2]
-    #     if shop_name not in x_data:
-    #         x_data[shop_name] = []
-    #     x_data[shop_name].append(date)
-    #     # 添加銷售額數據到 y_data 字典
-    #     if shop_name not in y_data:
-    #         y_data[shop_name] = []
-    #     y_data[shop_name].append(fans)
+    for row in dataset:
+        date = row[0]
+        shop_name = row[1]
+        fans = row[2]
+        if shop_name not in x_data:
+            x_data[shop_name] = []
+        x_data[shop_name].append(date)
+        # 添加銷售額數據到 y_data 字典
+        if shop_name not in y_data:
+            y_data[shop_name] = []
+        y_data[shop_name].append(fans)
 
-    # # 調用 lines_times 函式
-    #     chart_html = DrawChart().lines_times("粉絲數趨勢圖", "日期", "粉絲數", x_data, y_data)
-    #     return render_template("index.html", chart_html=chart_html)
+    # 調用 lines_times 函式
+        chart_html = DrawChart().lines_times("粉絲數趨勢圖", "日期", "粉絲數", x_data, y_data)
+        return render_template("index.html", chart_html=chart_html)
 
-    # # ===========粉絲數_end=================
+    # ===========粉絲數_end=================
 
-    # # =====================第四張圖:日銷售額(折線圖)_START======================
+    # =====================第四張圖:日銷售額(折線圖)_START======================
 
-    # if request.form.get('button') == 'bar':
-    #     start = request.form.get('start')
-    #     end = request.form.get('end') 
+    if request.form.get('button') == 'bar':
+        start = request.form.get('start')
+        end = request.form.get('end') 
 
-    #     dataset = SQLcommand().get(f'SELECT shop_name AS name, DATE_FORMAT(date, "%Y-%m-%d") AS sales_day, SUM(monthly_sales * price) AS daily_sales FROM products_info WHERE date>="{start}" AND date<="{end}" GROUP BY name, sales_day')
-    #     my_dataset = SQLcommand().get(f'SELECT shop_name AS name, DATE_FORMAT(date, "%Y-%m-%d") AS sales_day, daily_sales AS daily_sales FROM my_products_info WHERE date>="{start}" AND date<="{end}"')
+        dataset = SQLcommand().get(f'SELECT shop_name AS name, DATE_FORMAT(date, "%Y-%m-%d") AS sales_day, SUM(monthly_sales * price) AS daily_sales FROM products_info WHERE date>="{start}" AND date<="{end}" GROUP BY name, sales_day')
+        my_dataset = SQLcommand().get(f'SELECT shop_name AS name, DATE_FORMAT(date, "%Y-%m-%d") AS sales_day, daily_sales AS daily_sales FROM my_products_info WHERE date>="{start}" AND date<="{end}"')
 
 
-    #     line_data = {}
+        line_data = {}
 
-    #     for element in dataset:
-    #         date = datetime.strptime(element[1], "%Y-%m-%d")
-    #         shop_name = element[0]
-    #         sales = element[2]
-    #         if shop_name not in line_data:
-    #             line_data[shop_name] = {}
-    #         line_data[shop_name][date] = {"sales": sales, "source": "dataset"}
+        for element in dataset:
+            date = datetime.strptime(element[1], "%Y-%m-%d")
+            shop_name = element[0]
+            sales = element[2]
+            if shop_name not in line_data:
+                line_data[shop_name] = {}
+            line_data[shop_name][date] = {"sales": sales, "source": "dataset"}
 
-    #     for my_elements in my_dataset:
-    #         date = datetime.strptime(my_elements[1], "%Y-%m-%d")
-    #         my_shop_name=my_elements[0]
-    #         my_sales=my_elements[2]
-    #         if my_shop_name not in line_data:
-    #             line_data[my_shop_name] = {}
-    #         line_data[my_shop_name][date] = {"sales": my_sales, "source": "my_dataset"}
+        for my_elements in my_dataset:
+            date = datetime.strptime(my_elements[1], "%Y-%m-%d")
+            my_shop_name=my_elements[0]
+            my_sales=my_elements[2]
+            if my_shop_name not in line_data:
+                line_data[my_shop_name] = {}
+            line_data[my_shop_name][date] = {"sales": my_sales, "source": "my_dataset"}
 
-    #     # Set the date range based on the user input
-    #     date_range = pd.date_range(start=start, end=end)
-    #     x = [date.strftime('%Y-%m-%d') for date in date_range]
+        # Set the date range based on the user input
+        date_range = pd.date_range(start=start, end=end)
+        x = [date.strftime('%Y-%m-%d') for date in date_range]
 
-    #     y_data = {}
+        y_data = {}
 
-    #     for shop_name, data in line_data.items():
-    #         y_data[shop_name] = []
-    #         if shop_name == '宅栽工作室':
-    #             for date in date_range:
-    #                 current_sales = data.get(date, {"sales": 0})["sales"]
-    #                 y_data[shop_name].append(current_sales)
-    #         else:
-    #             previous_sales = 0
-    #             for date in date_range:
-    #                 current_sales = data.get(date, {"sales": 0})["sales"]
-    #                 sales_diff = current_sales - previous_sales
-    #                 previous_sales = current_sales
-    #                 y_data[shop_name].append(sales_diff)
+        for shop_name, data in line_data.items():
+            y_data[shop_name] = []
+            if shop_name == '宅栽工作室':
+                for date in date_range:
+                    current_sales = data.get(date, {"sales": 0})["sales"]
+                    y_data[shop_name].append(current_sales)
+            else:
+                previous_sales = 0
+                for date in date_range:
+                    current_sales = data.get(date, {"sales": 0})["sales"]
+                    sales_diff = current_sales - previous_sales
+                    previous_sales = current_sales
+                    y_data[shop_name].append(sales_diff)
 
-    #     chart_html = DrawChart().lines7('月銷售額','年月份','銷售變動', x, y_data)
-    #     return render_template('index.html', chart_html=chart_html)
+        chart_html = DrawChart().lines7('月銷售額','年月份','銷售變動', x, y_data)
+        return render_template('index.html', chart_html=chart_html)
     
 
 # 點擊載入e功能頁面
