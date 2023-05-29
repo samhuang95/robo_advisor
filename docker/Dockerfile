@@ -4,13 +4,17 @@ COPY ./requirements.txt /
 COPY . /app
 WORKDIR /app
 
-# RUN apt-get update \
-#     && apt-get install -y default-libmysqlclient-dev \
-#     && apt-get install -y build-essential \
-#     && apt-get install -y wget
-# RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-# RUN apt-get install -y ./google-chrome-stable_current_amd64.deb --fix-missing
-RUN pip install --upgrade pip
+# 安裝chrome
+RUN apt-get update && apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+# 安裝Chrome驅動程式
+RUN apt-get update && apt-get install -y unzip
+RUN wget -q https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_linux64.zip -O /tmp/chromedriver.zip
+RUN unzip /tmp/chromedriver.zip -d /usr/local/bin
+RUN rm /tmp/chromedriver.zip
+
 RUN pip install -r /requirements.txt
 
 EXPOSE 5000

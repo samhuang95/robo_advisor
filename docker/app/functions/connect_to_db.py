@@ -20,5 +20,10 @@ class SQLcommand:
       cursor.execute(sql)
     self.conn.commit()
 
+  def modify_tuple(self, sql: str, values: tuple) -> None:
+    with self.conn.cursor() as cursor:
+      cursor.execute(sql, values)
+    self.conn.commit()
+
 if __name__ == '__main__':
   pass
