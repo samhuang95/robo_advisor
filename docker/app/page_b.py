@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 import datetime
-from datetime import datetime, timedelta
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import plotly.graph_objs as go
 import plotly.offline as pyo
 from functions.connect_to_db import SQLcommand
@@ -103,7 +104,7 @@ def merchandising():
             for key in dict1:
                 if key in dict2:
                     if dict1[key] < dict2[key]:
-                        kpi.append(f"""{key}：{dict2[key] - dict1[key]}""")
+                        kpi.append(f"{key}：{dict2[key] - dict1[key]}")
             fig.add_trace(trace1)
        
         # 表二為預測kpi
