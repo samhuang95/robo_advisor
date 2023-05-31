@@ -14,6 +14,7 @@ from BCG_funtions import *
 # ==============德瑈功能
 from competitor_draw_chart import DrawChart
 from datetime import timedelta, datetime, date as dt_date
+from datetime import datetime, timedelta
 
 
 
@@ -52,7 +53,7 @@ def signin():
     user_name = request.form['user_name']
     # session['username'] = username
     user_password = request.form['user_password']
-    today = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+    today = (datetime.today() - timedelta(days=3)).strftime('%Y-%m-%d')
     data = SQLcommand().get(f'SELECT * FROM user_data WHERE account = "{user_name}"')
     if not data:
         return render_template("signin.html", warning='請註冊帳號')
@@ -74,7 +75,7 @@ def signin():
 # 點擊載入a功能頁面
 @app.route("/effectiveness", methods=["GET", "POST"])
 def effectivenessa():
-    today = (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')
+    today = (datetime.today() - timedelta(days=3)).strftime('%Y-%m-%d')
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
         line_chart  = line_stack_area(start_date_str)
@@ -119,19 +120,104 @@ def execution():
 @app.route("/datamonitoring", methods=["GET","POST"])
 def datamonitoring():
     if request.method == 'GET':
-        today = dt_date.today()
-        dataset = SQLcommand().get(f'''SELECT shop_name AS name, SUM(fans_count) AS fans, SUM(rating_counts) AS rating
-                                    FROM offical_data
-                                    WHERE date = (
-                                        SELECT MAX(date)
-                                        FROM offical_data
-                                        WHERE date <= "{today - timedelta(days=1)}")
-                                    GROUP BY name
-                                    ORDER BY CASE WHEN name = "宅栽工作室" THEN 0 ELSE 1 END, name != "宅栽工作室", fans DESC
-                                    ''')
-        x, y, y2 = [element[0] for element in dataset], [element[1] for element in dataset], [element[2] for element in dataset]
-        chart_html = DrawChart().bar('競品總覽', '商店名稱', '粉絲數', '評價數', x, y, y2)
-        return render_template('index.html', chart_html=chart_html)
+        today = datetime.today().date()
+        start_date = today - timedelta(days=20)  # 從今天起回溯10天
+
+        # 使用 SQL 查詢獲取最近一次有資料的日期
+        last_data_date = SQLcommand().get(f"""
+            SELECT MAX(DATE(date_time)) AS last_date
+            FROM product_detail;
+        """)[0][0]
+
+        if last_data_date:
+            end_date = min(today - timedelta(days=1), last_data_date)
+        else:
+            end_date = today - timedelta(days=1)  # 不包含今天
+
+        start_date_str = start_date.strftime("%Y-%m-%d")
+        end_date_str = end_date.strftime("%Y-%m-%d")
+
+        my_dataset = SQLcommand().get(f"""
+            SELECT MAX(DATE_FORMAT(date_time, "%Y-%m-%d")) AS sales_day, SUM(total_sales) AS daily_sales
+            FROM product_detail
+            WHERE date_time >= "{start_date_str}" AND date_time <= "{end_date_str}"
+            GROUP BY DATE_FORMAT(date_time, "%Y-%m-%d");
+        """)
+
+        dataset = SQLcommand().get(f"""
+            SELECT
+                sub.name,
+                sub.sales_day,
+                sub.daily_sales
+            FROM (
+                SELECT
+                    p1.shop_name AS name,
+                    MAX(DATE_FORMAT(p1.date, "%Y-%m-%d")) AS sales_day,
+                    SUM(
+                        CASE
+                            WHEN (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) >= 0 THEN (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales)
+                            ELSE 0
+                        END
+                    ) AS daily_sales
+                FROM
+                    products_info p1
+                LEFT JOIN products_info p2 ON p1.product_id = p2.product_id
+                    AND DATE_FORMAT(p1.date, "%Y-%m-%d") = DATE_FORMAT(DATE_ADD(p2.date, INTERVAL 1 DAY), "%Y-%m-%d")
+                WHERE 
+                    p1.date >= "{start_date_str}" AND p1.date <= "{end_date_str}"
+                    AND p1.historical_sales >= p2.historical_sales
+                    AND (p1.historical_sales - p2.historical_sales) < 10
+                    AND (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) <= 5000
+                    AND (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) >= 0 
+                GROUP BY
+                    p1.shop_name,
+                    DATE_FORMAT(p1.date, "%Y-%m-%d")
+                HAVING
+                    MIN((p1.price * p1.historical_sales) - (p1.price * p2.historical_sales)) >= 0 
+            ) AS sub;
+        """)
+
+        line_data = {}
+
+        for element in dataset:
+            date = datetime.strptime(element[1], "%Y-%m-%d")
+            shop_name = element[0]
+            sales = max(element[2], 0)
+            if shop_name not in line_data:
+                line_data[shop_name] = {}
+            line_data[shop_name][date] = {"sales": sales, "source": "dataset"}
+
+        for my_elements in my_dataset:
+            date = datetime.strptime(my_elements[0], "%Y-%m-%d")
+            my_shop_name = "宅栽工作室"
+            my_sales = my_elements[1]
+            if my_shop_name not in line_data:
+                line_data[my_shop_name] = {}
+            line_data[my_shop_name][date] = {"sales": my_sales, "source": "my_dataset"}
+
+        # 設定日期範圍
+        date_range = pd.date_range(start=start_date, end=end_date)
+        x = [date.strftime('%Y-%m-%d') for date in date_range]
+
+        y_data = {
+            "宅栽工作室": [],
+            "麗都花園": [],
+            "珍奇植物": [],
+            "開心農元": [],
+            "糀町植葉": [],
+            "沐時園藝": [],
+            "小李植栽": [],
+            "南犬植栽": []
+        }
+
+        for shop_name, data in line_data.items():
+            y_data[shop_name] = []
+            for date in date_range:
+                current_sales = data.get(date, {"sales": 0})["sales"]
+                y_data[shop_name].append(current_sales)
+
+        chart_html = DrawChart().lines7('日銷售額', '年月份', '銷售金額', x, y_data)
+        return render_template("index.html", chart_html=chart_html)
 
     if request.method == 'POST':
         start = request.form.get('start')
@@ -193,7 +279,8 @@ def datamonitoring():
             return render_template("index.html", chart_title=chart_title, chart_html=chart_html)
 
         elif button_value == 'bar':
-            my_dataset = SQLcommand().get(f'SELECT shop_name AS name, DATE_FORMAT(date, "%Y-%m-%d") AS sales_day, daily_sales AS daily_sales FROM my_products_info WHERE date>="{start}" AND date<="{end}"')
+            my_dataset = SQLcommand().get(f"""SELECT DATE_FORMAT(date_time, "%Y-%m-%d") AS sales_day, SUM(total_sales) AS daily_sales FROM product_detail WHERE date_time >="{start}" AND date_time<="{end}"
+                                        GROUP BY DATE_FORMAT(date_time, "%Y-%m-%d");""")
             dataset = SQLcommand().get(f"""
             SELECT
                 sub.name,
@@ -214,9 +301,11 @@ def datamonitoring():
                 LEFT JOIN products_info p2 ON p1.product_id = p2.product_id
                     AND DATE_FORMAT(p1.date, "%Y-%m-%d") = DATE_FORMAT(DATE_ADD(p2.date, INTERVAL 1 DAY), "%Y-%m-%d")
                 WHERE
-                    DATE_FORMAT(p1.date, "%Y-%m-%d") BETWEEN '{start}' AND '{end}'
+                    DATE_FORMAT(p1.date, "%Y-%m-%d") BETWEEN "{start}" AND "{end}"
+                    AND p1.historical_sales >= p2.historical_sales
                     AND (p1.historical_sales - p2.historical_sales) < 10
-                    AND (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) <= 29998
+                    AND (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) <= 5000
+                    AND (p1.price * p1.historical_sales) - (p1.price * p2.historical_sales) >= 0 
                 GROUP BY
                     p1.shop_name,
                     DATE_FORMAT(p1.date, "%Y-%m-%d")
@@ -237,10 +326,10 @@ def datamonitoring():
                 line_data[shop_name][date] = {"sales": sales, "source": "dataset"}
             print(my_dataset)
             for my_elements in my_dataset:
-                date = datetime.strptime(my_elements[1], "%Y-%m-%d")
-                my_shop_name=my_elements[0]
+                date = datetime.strptime(my_elements[0], "%Y-%m-%d")
+                my_shop_name="宅栽工作室"
                 print(my_shop_name)
-                my_sales=my_elements[2]
+                my_sales=my_elements[1]
                 if my_shop_name not in line_data:
                     line_data[my_shop_name] = {}
                 line_data[my_shop_name][date] = {"sales": my_sales, "source": "my_dataset"}
@@ -248,14 +337,14 @@ def datamonitoring():
             date_range = pd.date_range(start=start, end=end)
             x = [date.strftime('%Y-%m-%d') for date in date_range]
 
-            y_data = {"麗都花園":[],"珍奇植物":[],"開心農元":[],"糀町植葉":[],"沐時園藝":[],"小李植栽":[],"南犬植栽":[],"宅栽工作室":[]}
+            y_data = {"宅栽工作室":[],"麗都花園":[],"珍奇植物":[],"開心農元":[],"糀町植葉":[],"沐時園藝":[],"小李植栽":[],"南犬植栽":[]}
 
             for shop_name, data in line_data.items():
                 y_data[shop_name] = []
                 for date in date_range:
                     current_sales = data.get(date, {"sales": 0})["sales"]
                     y_data[shop_name].append(current_sales)
-            # chart_title = "粉絲趨勢"
+
             chart_html = DrawChart().lines7('日銷售額','年月份','銷售金額', x, y_data)
             return render_template("index.html", chart_html=chart_html)
             

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B預測功能</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+
+      <style>
+        .button1{
+            display: inline-block;
+            background-color: #C7E2C3;
+            border-color: #B1E1C7;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+        }
+        .button1:hover {
+            background-color: #b2cfae; /* 鼠标移上去时的背景颜色 */
+            border-color: #73af8f; /* 鼠标移上去时的边框颜色 */
+            color: white; /* 鼠标移上去时的字体颜色 */
+        }
+
+
+        .menu{
+            background-color: #C7E2C3;
+        }
+        .main-row{
+            min-height: 100vh;
+        }
+
+        .menu-button{
+            margin-top:5vh;
+        }
+
+        .menu-logo-text{
+            font-size: 40px;
+            letter-spacing: 15px;
+            font-weight: 550;
+            text-decoration: none;
+        }
+        hr{
+            border-top: 3px solid #395d39;
+        }
+        .score-text{
+            font-size: 40px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-decoration: none; /* 文字无下划线 */
+        }
+        .image{
+            min-height: 100vh;
+        }
+        /*  */
+
+
+        .row-card{
+            height: 70%;
+            margin-top: 7%;
+        }
+
+        .date {
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.18rem;
+            margin-left: 1rem;
+            text-align: center;
+            padding: 0.4rem;
+            height: 4.8rem;
+            /* width :  */
+        }
+        .row-date{
+            margin-top: 10%;
+            height:20%;
+        }
+        .flow-col{
+            margin-top: 5%;
+            margin-left: 1rem;
+            height: 30%;
+        }
+        .menu-logo-text{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 1.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+            margin-top: 60px;
+        }
+        .menu-logo2{
+            font-size: 20px;
+            letter-spacing: 7px;
+            font-weight: 550;
+            text-decoration: none;
+            margin-top: -15px;
+        }
+        .alert-card{
+            display: inline-block;
+            border-radius: 0.5rem;
+            color: #303030; /* 美化的字体颜色 */
+            font-family: "Helvetica Neue", sans-serif; /* 字体 */
+            font-size: 22px; /* 字号 */
+            font-weight: 550; /* 字体粗细 */
+            letter-spacing: 0.5px; /* 字间距 */
+            text-transform: uppercase; /* 文字大写 */
+            text-decoration: none; /* 文字无下划线 */
+            padding: 8px 15px; /* 按钮内边距 */
+            transition: all 0.3s ease-in-out; /* 过渡效果 */
+            width: 100%;
+            border:3px ;
+            line-height: 0.8;
+            margin-bottom: 5px;
+        }
+        .btn3 {
+          background-color: #FF9833; /* 鼠标移上去时的背景颜色 */
+          border-color: #FF9833; /* 鼠标移上去时的边框颜色 */
+          color: #303030; /* 鼠标移上去时的字体颜色 */
+          font-family: "Helvetica Neue", sans-serif; /* 字体 */
+          font-size: 15px; /* 字号 */
+          font-weight: 550; /* 字体粗细 */
+          letter-spacing: 1.5px; /* 字间距 */
+          text-decoration: none; /* 文字无下划线 */
+          padding: 3px 8px; /* 按钮内边距 */
+          transition: all 0.3s ease-in-out; /* 过渡效果 */
+          border-radius: 10px; /* 圆角边缘 */
+        }
+        .reminder{
+            overflow-y:scroll;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: row;
+            height: 70vh;
+            justify-content: center;
+        }
+        .reminder2{
+            margin-top: 1rem;
+            overflow-y:scroll;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: row;
+            height: 90vh;
+            justify-content: center;
+        }
+        .photo{
+            position: absolute;
+            top: -10px;
+            left: 50px;
+            max-width: 10px;
+            max-height: 10px;
+            transform: scale(0.20);
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row main-row">
+            <div class="col-2 menu text-center">
+                <div class="menu-button">
+                    <div class="menu-logo-text"><p>
+                        {% if 'username' in session %}
+                            <p>{{ session['username'] }}</p>
+                            <p class="menu-logo2">Welcome</p>
+                        {% else %}
+                            <p>Please log in to view this page.</p>
+                        {% endif %} </p></div>
+                        <div class="photo">
+                            <img src="../static/photo.png" />
+                        </div>
+                        <hr class="h-color">
+                        <div class="left-button">
+                            <form action="/effectiveness" method="GET" >
+                                    <button class="button1">
+                                        賣場成效總覽
+                                    </button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="left-button">
+                            <form action="/merchandising" method="GET" >
+                                    <button class="button1">
+                                        重點監測商品
+                                    </button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="left-button">
+                            <form action="/execution" method="GET">
+                                <button class="button1">
+                                    BCG 營銷策略
+                                </button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="left-button">
+                            <form action="/datamonitoring" method="GET">
+                                <button class="button1">
+                                    競品數據監測
+                                </button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="left-button">
+                            <form action="/FBdata" method="GET">
+                                <button class="button1">
+                                    Facebook 圖素檢測
+                                </button>
+                            </form>
+                        </div>
+                </div>
+
+            </div>
+
+            <div class="col-2">
+
+
+                <div class="row row-date align-items-center">
+                    <h5 style="margin-top: 30px; font-weight: bold;">請選擇月份：</h5>
+                    <div class="date border border-3 rounded">
+                        <form action="/merchandising/sales" method="get">
+                            <select id="plant" name="plant">
+                                {% for plant in plant_list %}
+                                    <option value="{{ plant }}" {% if plant == selected_plant %}selected{% endif %}>{{ plant }}</option>
+                                {% endfor %}
+                            </select>
+                            <div style="float:right">
+                                <input class=btn3 type="submit" value="搜尋" class="btn-outline-success">
+                            </div>
+                        </form>
+                    </div>
+                    <form action="/merchandising" method="GET" style="margin-top: 1rem;" >
+                            <button class="btn3">
+                                回到全商品月銷量
+                            </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="plotly reminder2">{{ div_placeholder2|safe }}</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
