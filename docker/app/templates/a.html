@@ -118,6 +118,7 @@
             background-color: #FFD8B1;
         }
         .photo{
+            display: inline-block;
             position: absolute;
             top: -10px;
             left: 50px;
@@ -141,6 +142,15 @@
             overflow-y: scroll; /* 当内容超过容器高度时，显示垂直滚动条 */
             overflow-x: hidden;
         }
+        .warning-reminder{
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
     
         
     </style>
@@ -151,6 +161,9 @@
         <div class="row main-row">
             <div class="col-2 menu text-center">
                 <div class="menu-button">
+                    <div class="photo">
+                        <img src="../static/photo.png" />
+                    </div>
                     <div class="menu-logo"><p>
                         {% if 'username' in session %}
                             <p>{{ session['username'] }}</p>
@@ -158,9 +171,7 @@
                         {% else %}
                             <p>Please log in to view this page.</p>
                         {% endif %} </p>
-                        <div class="photo">
-                            <img src="../static/photo.png" />
-                        </div>
+                        
                     </div>
                         <hr class="h-color">
                         <div class="left-button">
@@ -198,7 +209,9 @@
                         <div class="left-button">
                             <form action="/FBdata" method="GET">
                                 <button class="button1">
-                                    Facebook 圖素檢測
+                                    Facebook 
+                                    <br>
+                                    圖素檢測
                                 </button>
                             </form>
                         </div>
@@ -234,7 +247,7 @@
                                             <div class="card-header">銷售額
                                             </div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("total_sales")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("total_sales")|int)}}台幣</p>
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +256,7 @@
                                         <div class="card-header">成銷量
                                         </div>
                                         <div class="card-body">
-                                        <p class="card-text">{{ da.get("sale_products")|int}}</p>
+                                        <p class="card-text">{{ "{:,}".format(da.get("sale_products")|int)}}個</p>
                                         </div>
                                     </div>
                                 </div>
@@ -251,7 +264,7 @@
                                     <div class="card text-bg-light mb-3" style="width: 8rem;">
                                         <div class="card-header">商品瀏覽數</div>
                                         <div class="card-body">
-                                        <p class="card-text">{{ da.get("product_page_views")|int}}</p>
+                                        <p class="card-text">{{ "{:,}".format(da.get("product_page_views")|int)}}次</p>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +272,7 @@
                                     <div class="card text-bg-light mb-3" style="width: 8rem;">
                                         <div class="card-header">訪客數</div>
                                         <div class="card-body">
-                                        <p class="card-text">{{ da.get("unique_visitors")|int}}</p>
+                                        <p class="card-text">{{ "{:,}".format(da.get("unique_visitors")|int)}}位</p>
                                         </div>
                                         </div>
                                     </div>
@@ -267,7 +280,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">新訪客</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("new_visitors")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("new_visitors")|int)}}位</p>
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +288,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">喜歡產品</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("product_likes")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("product_likes")|int)}}項</p>
                                             </div>
                                         </div>
                                     </div>
@@ -283,7 +296,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">點擊次數</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("search_clicks")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("search_clicks")|int)}}次</p>
                                             </div>
                                         </div>
                                     </div>
@@ -291,7 +304,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">新粉絲</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("new_fans")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("new_fans")|int)}}位</p>
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +312,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">回頭客</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("return_visitors")|int }}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("return_visitors")|int) }}位</p>
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +320,7 @@
                                         <div class="card text-bg-light mb-3" style="width: 8rem;">
                                             <div class="card-header">停留時間</div>
                                             <div class="card-body">
-                                            <p class="card-text">{{ da.get("step_times")|int}}</p>
+                                            <p class="card-text">{{ "{:,}".format(da.get("step_times")|int)}}秒</p>
                                             </div>
                                         </div>
                                     </div>
@@ -318,7 +331,7 @@
                 </div>  
             </div>
             <div class="col-2 score-col">
-                <div class="score-text">
+                <div class="score-text" style="text-align: center;">
                     <h3 class="score-text">{{ ds|safe }}分</h3>
                 </div>
                 <div class="scrollable-container"> 
