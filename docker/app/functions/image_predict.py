@@ -6,6 +6,7 @@ model = load_model('/app/model/image_predict.h5')
 
 def predict_image(path):
   img = Image.open(path)
+  img = img.convert('RGB')
   img = img.resize((224, 224))
   img = np.array(img)/255.
   img = np.expand_dims(img, axis=0)

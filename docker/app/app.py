@@ -53,7 +53,8 @@ def signin():
     user_name = request.form['user_name']
     # session['username'] = username
     user_password = request.form['user_password']
-    today = (datetime.today() - timedelta(days=3)).strftime('%Y-%m-%d')
+    today = "2023-05-31"
+    # today = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     data = SQLcommand().get(f'SELECT * FROM user_data WHERE account = "{user_name}"')
     if not data:
         return render_template("signin.html", warning='請註冊帳號')
@@ -75,7 +76,8 @@ def signin():
 # 點擊載入a功能頁面
 @app.route("/effectiveness", methods=["GET", "POST"])
 def effectivenessa():
-    today = (datetime.today() - timedelta(days=3)).strftime('%Y-%m-%d')
+    today = "2023-05-31"
+    # today = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
         line_chart  = line_stack_area(start_date_str)
