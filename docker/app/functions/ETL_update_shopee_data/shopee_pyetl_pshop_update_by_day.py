@@ -11,8 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-username = 'flychenjack01'
-password = 'Qqaz0911'
+username = 'userID'
+password = 'user_password'
 # 商品表現網頁
 url = 'https://shopee.tw/seller/login?next=https%3A%2F%2Fseller.shopee.tw%2Fdatacenter%2Fproducts%2Fanalysis%2Fperformance'
 
