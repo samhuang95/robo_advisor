@@ -53,7 +53,7 @@ def signin():
     user_name = request.form['user_name']
     # session['username'] = username
     user_password = request.form['user_password']
-    today = "2023-05-31"
+    today = "2023-05-29"
     # today = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     data = SQLcommand().get(f'SELECT * FROM user_data WHERE account = "{user_name}"')
     if not data:
@@ -76,7 +76,7 @@ def signin():
 # 點擊載入a功能頁面
 @app.route("/effectiveness", methods=["GET", "POST"])
 def effectivenessa():
-    today = "2023-05-31"
+    today = "2023-05-29"
     # today = (datetime.today() - timedelta(days=7)).strftime('%Y-%m-%d')
     if request.method == 'POST':   # 如果是 POST 請求
         start_date_str = request.form['start_date'] # 2023-05-05  # 從 request.form 取得 start_date 參數
@@ -122,23 +122,28 @@ def execution():
 @app.route("/datamonitoring", methods=["GET","POST"])
 def datamonitoring():
     if request.method == 'GET':
-        today = datetime.today().date()
-        start_date = today - timedelta(days=20)  # 從今天起回溯10天
+        # today = datetime.today().date()
+        # start_date = today - timedelta(days=20)  # 從今天起回溯10天
 
-        # 使用 SQL 查詢獲取最近一次有資料的日期
-        last_data_date = SQLcommand().get(f"""
-            SELECT MAX(DATE(date_time)) AS last_date
-            FROM product_detail;
-        """)[0][0]
+        # # 使用 SQL 查詢獲取最近一次有資料的日期
+        # last_data_date = SQLcommand().get(f"""
+        #     SELECT MAX(DATE(date_time)) AS last_date
+        #     FROM product_detail;
+        # """)[0][0]
 
-        if last_data_date:
-            end_date = min(today - timedelta(days=1), last_data_date)
-        else:
-            end_date = today - timedelta(days=1)  # 不包含今天
+        # if last_data_date:
+        #     end_date = min(today - timedelta(days=1), last_data_date)
+        # else:
+        #     end_date = today - timedelta(days=1)  # 不包含今天
 
-        start_date_str = start_date.strftime("%Y-%m-%d")
-        end_date_str = end_date.strftime("%Y-%m-%d")
+        # start_date_str = start_date.strftime("%Y-%m-%d")
+        # end_date_str = end_date.strftime("%Y-%m-%d")
 
+        start_date="2023-05-01"
+        end_date = "2023-05-31"
+        start_date_str = "2023-05-01"
+        end_date_str = "2023-05-31"
+        
         my_dataset = SQLcommand().get(f"""
             SELECT MAX(DATE_FORMAT(date_time, "%Y-%m-%d")) AS sales_day, SUM(total_sales) AS daily_sales
             FROM product_detail
