@@ -2,10 +2,10 @@ import pymysql
 
 class SQLcommand:
   conn = pymysql.connect(
-    host = 'db',
-    database = 'chi101',
-    user = 'chi101',
-    password = 'chi101',
+    host = 'docker db name',
+    database = 'database name',
+    user = 'user name',
+    password = 'user password',
     charset = 'utf8mb4'
   )
 
